@@ -5,6 +5,10 @@
 
 /*APP STYLING*/
 
+* {
+	box-sizing: border-box;
+}
+
 .navbar {
 	margin-bottom: 0px;
 }
@@ -26,6 +30,65 @@
 }
 
 
-.modal-body{
+
+/* MODAL ////////////////////////////////////////////////////////////////////////////////*/
+.modal-dialog {
 	height: 100%;
 }
+
+.modal-lg {
+	margin-right: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	width: 50%;
+	max-width: 700px;
+	min-height: 100%;
+}
+
+.modal-content {
+	border-radius: 0;
+	border: red;
+	min-height: 100%;
+	background: #eee;
+}
+
+.modal-header {
+	background: white;
+}
+
+.modal-body {
+	padding: 15px 50px;
+	background: white;
+}
+
+.modal p {
+	font-size: 18px;
+	line-height: 1.5;
+	font-family: sans-serif;
+	right: 0px;
+}
+
+.modal-footer {
+	text-align: left;
+	background: #eee; 
+}
+
+
+
+
+
+/*DEPRECATED CUSTOM MODAL (JMODAL) CODE*/
+/*.jmodal {
+	width: 50%;
+	height: 100vh;
+	padding: 25px;
+	right: 0;
+	background: teal;
+	z-index: 10000;
+	position: absolute;
+}
+
+.jmodal p {
+	font-size: 20px;
+	line-height: 1.5;
+}*/
