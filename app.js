@@ -2,9 +2,12 @@ var pelicanApp = angular.module('pelicanApp',[]);
 
 pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 
+	// INITIATING APP
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
+	var allLists = firebase.child("list");
 
-	$scope.allData = [];
+	$scope.posts = [];
+	$scope.lists = [];
 
 
 	// GET ALL DATA
@@ -13,11 +16,15 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 			var rawData = data.val();
 
 			//parsing data and pushing to array
-			for (key in rawData) {
-				$scope.allData.push(rawData[key]);
+			for (firstKey in rawData) {
+				for (secondKey in rawData[firstKey]) {
+					$scope.posts.push(rawData[firstKey][secondKey]);
+					$scope.lists.push(secondKey);
+				}
 			}
 
-			console.log($scope.allData);
+			console.log($scope.posts);
+
 			$scope.$apply();
 		})
 	}
@@ -25,7 +32,7 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 
 	// PUSH A NEW POST
 	$scope.createPost = function (title, link, description) {
-		firebase.child('daniel').push({
+		firebase.child('list/test item').push({
 			title: title,
 			link: link,
 			description: description,
@@ -33,9 +40,9 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 		})
 	}
 
-	// CREATE NEW LIST
-	$scope.createList = function (listName) {
-		firebase.set(listName);
+	// SET KEY VALUE IN FIREBASE
+	$scope.createList = function(listName) {
+		firebase.child('list/' + listName).set(listName);
 	}
 
 
