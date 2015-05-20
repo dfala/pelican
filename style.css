@@ -1,0 +1,20 @@
+.jumbotron{
+	background-size: cover;
+}
+
+
+.btn-primary{
+	background: #0093FF;
+	border-color: #0093FF;
+}
+
+
+.btn-primary:hover{
+	background: black;
+	border-color: black;
+}
+
+
+.modal-body{
+	height: 100%;
+}
