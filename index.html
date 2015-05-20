@@ -42,11 +42,15 @@
   			<p>We have penguins. Subscribe!</p>
 
   				<form>
-  					<input ng-model="postList" placeholder="List">
 					<input ng-model="postTitle" placeholder="Title">
 					<input ng-model="postLink" placeholder="Link">
 					<input ng-model="postDescription" placeholder="Say something">
 					<button ng-click="createPost(postTitle, postLink, postDescription)">Add new thing</button>
+				</form>
+
+				<form>
+					<input ng-model="postList" placeholder="List">
+					<button ng-click="createList(postList)">Add new thing</button>
 				</form>
 
 		</div>
@@ -75,7 +79,7 @@
 				</ul>
 			</div>
 
-			
+
 
 	<!--
 

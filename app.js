@@ -6,6 +6,8 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 
 	$scope.allData = [];
 
+
+	// GET ALL DATA
 	var getAllData = function () {
 		firebase.on('value', function (data) {
 			var rawData = data.val();
@@ -21,6 +23,7 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	}
 	getAllData();
 
+	// PUSH A NEW POST
 	$scope.createPost = function (title, link, description) {
 		firebase.child('daniel').push({
 			title: title,
@@ -28,6 +31,11 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 			description: description,
 			timestamp: Date()
 		})
+	}
+
+	// CREATE NEW LIST
+	$scope.createList = function (listName) {
+		firebase.set(listName);
 	}
 
 
