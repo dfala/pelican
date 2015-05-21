@@ -18,12 +18,10 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 			//parsing data and pushing to array
 			for (firstKey in rawData) {
 				for (secondKey in rawData[firstKey]) {
-					$scope.posts.push(rawData[firstKey][secondKey]);
 					$scope.lists.push(secondKey);
+					$scope.posts.push(rawData[firstKey][secondKey]);
 				}
 			}
-
-			console.log($scope.posts);
 
 			$scope.$apply();
 		})
@@ -32,12 +30,12 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 
 	// PUSH A NEW POST
 	$scope.createPost = function (title, link, description) {
-		firebase.child('list/test item').push({
+		firebase.child('list/daniel').push({
 			title: title,
 			link: link,
 			description: description,
 			timestamp: Date()
-		})
+		})	
 	}
 
 	// SET KEY VALUE IN FIREBASE

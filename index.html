@@ -34,7 +34,7 @@
         		<div class="form-group">
          			<input type="email" class="form-control" placeholder="Email">
         		</div>
-        		<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span> Subscribe</button>
+        		<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span>Subscribe</button>
       		</form>
 		</div>
 	</nav>
@@ -76,16 +76,17 @@
 	<div class="container" ng-cloak>
 		<div class="col-xs-6">
 
-			<div ng-repeat="post in allData">
+			<div ng-repeat="(key,data) in posts track by $index">
 				<div class="page-header">
-	  				<h3>{{post.title}}</h3>
+	  				<h3>{{lists[key]}}</h3>
 				</div>
+
 				<ul class="nav nav-pills nav-stacked">
-
-					<li data-url="{{post.link}}">
-						<a href="#" data-toggle="modal" data-target="#myModal">{{post.description}}</a>
+					<li ng-repeat="(key, post) in data track by $index">
+						<p>{{data[key].title}}</p>
+						<a ng-href="{{data[key].link}}" target="_blank">{{data[key].link}}</a>
+						<a href="#" data-toggle="modal" data-target="#postModal">{{data[key].description}}</a>
 					</li>
-
 				</ul>
 			</div>
 
@@ -100,11 +101,11 @@
 				<ul class="nav nav-pills nav-stacked">
 
 					<li data-url="http://prefundia.com/blog/communicate-selling-points-through-design/">
-						<a href="#" data-toggle="modal" data-target="#myModal">Communicate selling points through design</a>
+						<a href="#" data-toggle="modal" data-target="#postModal">Communicate selling points through design</a>
 					</li>
 
 					<li data-url="http://prefundia.com/blog/how-springsled-achieved-a-42-5-conversion-rate/">
-						<a href="#" data-toggle="modal" data-target="#myModal">How SpringSled achieved a 42.5% conversion rate</a>
+						<a href="#" data-toggle="modal" data-target="#postModal">How SpringSled achieved a 42.5% conversion rate</a>
 					</li>
 
 				</ul>
@@ -125,15 +126,7 @@
 
 
 	<!-- FOOTER -->
-	<br>
-	<br>
-	<br>
-	<br>
-
-	<div class="jumbotron" style="background: #222222">
-		
-	</div>
-	<!-- END FOOTER -->
+	<div class="jumbotron" style="background: #222222"></div>
 
 
 
@@ -141,7 +134,7 @@
 </div>
 
 	<!-- MODAL -->
-	<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal" id="postModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 
@@ -163,25 +156,6 @@
 		</div>
 	</div>
 	<!-- END MODAL -->
-
-
-	<script type="text/javascript">
-	var newUrl = '';
-		$('li').click(function() {
-			newUrl = $(this).attr('data-url');
-			$('#iframe').attr('src', newUrl);
-		});
-
-	</script>
-
-
-<!-- OPEN MODAL ON PAGELOAD (FOR TESTING) -->
-<script type="text/javascript">
-    $(window).load(function(){
-        $('#myModal').modal('show');
-    });
-</script>
-
 
 
 
