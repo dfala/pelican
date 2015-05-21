@@ -13,6 +13,10 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	$scope.activeLink = "No link :(";
 	$scope.activeDescription = "No description :(";
 
+	$scope.openedBigModal = false;
+	var listToAdd;
+
+	
 
 	// GET ALL DATA
 	var getAllData = function () {
@@ -30,28 +34,66 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 			$scope.$apply();
 		})
 	}
+	
 	getAllData();
 
-	// PUSH A NEW POST
-	$scope.createPost = function (title, link, description) {
-		firebase.child('list/daniel').push({
-			title: title,
-			link: link,
-			description: description,
-			timestamp: Date()
-		})	
-	}
 
-	// SET KEY VALUE IN FIREBASE
-	$scope.createList = function(listName) {
-		firebase.child('list/' + listName).set(listName);
-	}
 
 	// SET CONTENT ON MODAL
 	$scope.changeModal = function (title, link, description) {
 		$scope.activeTitle = title;
 		$scope.activeLink = link;
 		$scope.activeDescription = description;
+	}
+
+
+
+	// BIG MODAL
+	$scope.openBigModal = function () {
+		$scope.openedBigModal = true;
+		$scope.chooseList = true;
+		$('body').css('overflow', 'hidden');
+	}
+
+	$scope.closeBigModal = function () {
+		$scope.openedBigModal = false;
+		$('body').css('overflow', 'auto');
+
+		//set adding steps back to 1
+		listToAdd = '';
+		$scope.addPost = false;
+	}
+
+	$scope.selectList = function (list) {
+		listToAdd = list;
+		console.log(listToAdd);
+		$scope.chooseList = false;
+		$scope.addPost = true;
+	}
+
+
+
+	// PUSH A NEW POST
+	$scope.createPost = function (title, link, description) {
+		if (!listToAdd) return;
+
+		firebase.child('list/' + listToAdd).push({
+			title: title,
+			link: link,
+			description: description,
+			timestamp: Date()
+		})
+
+		listToAdd = '';
+		$scope.closeBigModal();
+	}
+
+
+
+	// SET KEY VALUE IN FIREBASE
+	$scope.createList = function(listName) {
+		firebase.child('list/' + listName).set(listName);
+		$scope.selectList(listName);
 	}
 
 

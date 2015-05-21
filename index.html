@@ -31,11 +31,12 @@
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container">
     		<a class="navbar-brand" href="#">Pelican</a>
-    		<form class="navbar-form navbar-left" role="search">
+    		<form class="navbar-form search-bar" role="search">
         		<div class="form-group">
-         			<input type="email" class="form-control" placeholder="Email">
+         			<input class="form-control" placeholder="Search">
         		</div>
-        		<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span>Subscribe</button>
+        		<button class="hidden">Search</button>
+        		<span class="glyphicon glyphicon-search"></span>
       		</form>
 		</div>
 	</nav>
@@ -43,83 +44,70 @@
 	<!-- END NAVBAR -->
 
 
-<div style="padding-top: 50px;">
+	<div style="padding-top: 50px;">
 
-	<!-- JUMBOTRON -->
-	
-	<div class="jumbotron" style="background-image: url(https://www2.ucar.edu/sites/default/files/news/2012/Six_Emperor_Penguins.jpg)">
-		<div class="container">
-			<h1>The Plinc Blog</h1>
-  			<p>We have penguins. Subscribe!</p>
+		<!-- JUMBOTRON -->
+		
+		<div class="jumbotron pelican-banner">
+			<div class="container">
+				<h1>The Pelican Blog</h1>
 
-  				<form>
-					<input ng-model="postTitle" placeholder="Title">
-					<input ng-model="postLink" placeholder="Link">
-					<input ng-model="postDescription" placeholder="Say something">
-					<button ng-click="createPost(postTitle, postLink, postDescription)">Add new thing</button>
-				</form>
+	  			<button ng-click="openBigModal()">Open Modal</button>
 
-				<form>
-					<input ng-model="postList" placeholder="List">
-					<button ng-click="createList(postList)">Add new thing</button>
-				</form>
-
+			</div>
 		</div>
-	</div>
 
-	<!-- END JUMBOTRON -->
-
+		<!-- END JUMBOTRON -->
 
 
 
-	<!-- LISTS -->
 
-	<div class="container" ng-cloak>
-		<div class="col-xs-6">
+		<!-- LISTS -->
 
-			<div class="list" ng-repeat="(key,data) in posts track by $index">
-				<div class="page-header">
-	  				<h3>{{lists[key]}}</h3>
+		<div class="container" ng-cloak>
+			<div class="col-xs-6">
+
+				<div class="list" ng-repeat="(key,data) in posts track by $index">
+					<div class="page-header">
+		  				<h3 class="uppercase">{{lists[key]}}</h3>
+					</div>
+
+					<ul class="post-data">
+						<li ng-repeat="(key, post) in data track by $index" data-toggle="modal" data-target="#postModal" ng-click="changeModal(data[key].title, data[key].link, data[key].description)">
+							<p class="post-title uppercase">{{data[key].title}}</p>
+							<a class="post-link" ng-href="{{data[key].link}}" target="_blank" ng-modal="selectedLink">{{data[key].link}}</a>
+							<p class="post-description">{{data[key].description}}</p>
+						</li>
+					</ul>
 				</div>
 
-				<ul class="post-data">
-					<li ng-repeat="(key, post) in data track by $index" data-toggle="modal" data-target="#postModal" ng-click="changeModal(data[key].title, data[key].link, data[key].description)">
-						<p class="post-title">{{data[key].title}}</p>
-						<a class="post-link" ng-href="{{data[key].link}}" target="_blank" ng-modal="selectedLink">{{data[key].link}}</a>
-						<p class="post-description">{{data[key].description}}</p>
-					</li>
-				</ul>
 			</div>
-
 		</div>
+
+		<!-- END LISTS -->
+
+
+
+
+
+
+
+
+
+		<!-- FOOTER -->
+		<div class="jumbotron" style="background: #222222"></div>
+
+
 	</div>
 
-	<!-- END LISTS -->
-
-
-
-
-
-
-
-
-
-	<!-- FOOTER -->
-	<div class="jumbotron" style="background: #222222"></div>
-
-
-
-
-</div>
-
-	<!-- MODAL -->
+	<!-- POST MODAL -->
 	<div class="modal" id="postModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h2 class="modal-title" id="myModalLabel">{{activeTitle}}</h2>
+					<h2 class="modal-title uppercase" id="myModalLabel">{{activeTitle}}</h2>
 					<a href="link" target="_blank" ng-href="{{activeLink}}">{{activeLink}}</a>
 				</div>
 
@@ -134,7 +122,42 @@
 			</div>
 		</div>
 	</div>
-	<!-- END MODAL -->
+	<!-- END POST MODAL -->
+
+
+	<!-- ADD POST MODAL -->
+	<div class="curtain" ng-if="openedBigModal" ng-click="closeBigModal()" ng-cloak></div>
+
+	<div class="big-modal" ng-if="openedBigModal" ng-cloak>
+		<span class="close-modal" ng-click="closeBigModal()">&times;</span>
+
+		<div class="list-wrapper" ng-show="openedBigModal && chooseList">
+			<div>
+				<div ng-repeat="list in lists">
+					<p class="available-list" ng-click="selectList(list)">{{list}}</p>
+				</div>
+
+				<form>
+					<input ng-model="postList" placeholder="List">
+					<button ng-click="createList(postList)">Add new list</button>
+				</form>
+			</div>
+		</div>
+
+		<div ng-show="openedBigModal && addPost">
+			<form>
+				<input ng-model="postTitle" placeholder="Title">
+				<input ng-model="postLink" placeholder="Link">
+				<input ng-model="postDescription" placeholder="Say something">
+				<button ng-click="createPost(postTitle, postLink, postDescription)">Add new post</button>
+			</form>
+		</div>
+
+
+	</div>
+
+	<!-- END ADD POST MODAL -->
+
 
 
 

@@ -5,29 +5,31 @@
 
 /*APP STYLING*/
 
+* {
+	box-sizing: border-box;
+}
+
+/*HIGHLIGHT COLOR*/
+::-moz-selection {
+	// background-color: #2e2f33;
+	background-color: #1481e3;
+	color: #fff;
+}
+
+::selection {
+	// background-color: #2e2f33;
+	background-color: #1481e3;
+	color: #fff;
+}
+
+/*ALL STYLING*/
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 }
 
-h3 {
+.uppercase {
 	text-transform: uppercase;
-}
-
-.post-title {
-	text-transform: uppercase;
-}
-
-.post-description {
-	display: block;
-}
-
-.page-header {
-	margin: 40px 0 0;
-}
-
-* {
-	box-sizing: border-box;
 }
 
 ul {
@@ -44,6 +46,35 @@ li:hover {
 	background-color: #F4F4F4;
 }
 
+
+.search-bar {
+	float: right;
+}
+
+.search-bar input {
+	min-width: 400px;
+}
+
+.hidden {
+	visibility: none;
+}
+
+.glyphicon-search {
+	top: 5px;
+	right: 30px;
+	color: #1a75ff;
+}
+
+.post-description {
+	display: block;
+}
+
+.page-header {
+	margin: 40px 0 0;
+}
+
+
+
 .navbar {
 	margin-bottom: 0px;
 }
@@ -58,6 +89,11 @@ li:hover {
 
 .jumbotron{
 	background-size: cover;
+	margin: 0;
+}
+
+.pelican-banner {
+	background-image: url(images/pelican.png);
 }
 
 
@@ -74,7 +110,9 @@ li:hover {
 
 
 
-/* MODAL */
+/* MODALS */
+/*POST MODAL*/
+
 .modal-dialog {
 	height: 100%;
 }
@@ -105,7 +143,6 @@ li:hover {
 }
 
 .modal p {
-	font-size: 18px;
 	line-height: 1.5;
 	right: 0px;
 }
@@ -116,21 +153,60 @@ li:hover {
 }
 
 
-
-
-
-/*DEPRECATED CUSTOM MODAL (JMODAL) CODE*/
-/*.jmodal {
-	width: 50%;
+/*ADD POST MODAL*/
+.curtain {
+	position: fixed;
+	z-index: 9998;
+	background-color: rgba(0, 0, 0, 0.52);
+	width: 100%;
 	height: 100vh;
-	padding: 25px;
-	right: 0;
-	background: teal;
-	z-index: 10000;
-	position: absolute;
+	top: 0;
 }
 
-.jmodal p {
+.big-modal {
+	width: 90%;
+	height: 90vh;
+	margin: auto;
+	background-color: #fff;
+	position: fixed;
+	top: 5vh;
+	left: 5%;
+	z-index: 9999;
+}
+
+.close-modal {
+	font-size: 60px;
+	float: right;
+	padding: 0px 20px;
+	color: #E1E1E1;
+	cursor: pointer;
+}
+
+.close-modal:hover {
+	color: #B4B3B3;
+}
+
+.list-wrapper {
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.available-list {
+	cursor: pointer;
 	font-size: 20px;
-	line-height: 1.5;
-}*/
+	display: inline-block;
+	padding: 5px 10px;
+	border-radius: 2px;
+	margin: 0;
+}
+
+.available-list:hover {
+	color: #1a75ff;
+	background-color: #E8E8E8;
+}
+
+
+
