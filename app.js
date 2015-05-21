@@ -13,7 +13,6 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	$scope.activeLink = "No link :(";
 	$scope.activeDescription = "No description :(";
 
-	$scope.openedBigModal = false;
 	var listToAdd;
 
 	
@@ -50,19 +49,22 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 
 	// BIG MODAL
 	$scope.openBigModal = function () {
-		$scope.openedBigModal = true;
 		$scope.chooseList = true;
 		$('body').css('overflow', 'hidden');
 	}
 
 	$scope.closeBigModal = function () {
-		$scope.openedBigModal = false;
 		$('body').css('overflow', 'auto');
 
 		//set adding steps back to 1
 		listToAdd = '';
 		$scope.addPost = false;
+		$scope.alertMessage = '';
 	}
+
+	$('#addPostModal').on('hidden.bs.modal', function () {
+    	$scope.closeBigModal();
+	})
 
 	$scope.selectList = function (list) {
 		listToAdd = list;

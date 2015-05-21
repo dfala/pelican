@@ -52,8 +52,7 @@
 			<div class="container">
 				<h1>The Pelican Blog</h1>
 
-	  			<button ng-click="openBigModal()">Open Modal</button>
-
+	  			<button  ng-click="openBigModal()" data-toggle="modal" data-target="#addPostModal">Open Modal</button>
 			</div>
 		</div>
 
@@ -125,33 +124,48 @@
 	<!-- END POST MODAL -->
 
 
-	<!-- ADD POST MODAL -->
-	<div class="curtain" ng-if="openedBigModal" ng-click="closeBigModal()" ng-cloak></div>
+	<!-- NEW ADD POST MODAL -->
+	<div class="modal" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
 
-	<div class="big-modal" ng-if="openedBigModal" ng-cloak>
-		<span class="close-modal" ng-click="closeBigModal()">&times;</span>
-
-		<div class="list-wrapper" ng-show="openedBigModal && chooseList">
-			<div>
-				<div ng-repeat="list in lists">
-					<p class="available-list" ng-click="selectList(list)">{{list}}</p>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h2>New Post</h2>
 				</div>
 
-				<form>
-					<input ng-model="postList" placeholder="List">
-					<button ng-click="createList(postList)">Add new list</button>
-				</form>
+
+				<div class="modal-body">
+						{{alertMessage}}
+						<div class="list-wrapper" ng-show="chooseList">
+							<div>
+								<div ng-repeat="list in lists">
+									<p class="available-list" ng-click="selectList(list)">{{list}}</p>
+								</div>
+
+								<form>
+									<input ng-model="postList" placeholder="List">
+									<button ng-click="createList(postList)">Add new list</button>
+								</form>
+							</div>
+						</div>
+
+						<div ng-show="addPost">
+							<form>
+								<input ng-model="postTitle" placeholder="Title">
+								<input ng-model="postLink" placeholder="Link">
+								<input ng-model="postDescription" placeholder="Say something">
+								<button ng-click="createPost(postTitle, postLink, postDescription)">Add new post</button>
+							</form>
+						</div>
+
+				</div>
+
 			</div>
 		</div>
+	</div>
+	<!-- END NEW ADD POST MODAL -->
 
-		<div ng-show="openedBigModal && addPost">
-			<form>
-				<input ng-model="postTitle" placeholder="Title">
-				<input ng-model="postLink" placeholder="Link">
-				<input ng-model="postDescription" placeholder="Say something">
-				<button ng-click="createPost(postTitle, postLink, postDescription)">Add new post</button>
-			</form>
-		</div>
 
 
 	</div>
