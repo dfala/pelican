@@ -11,11 +11,15 @@ body {
 }
 
 h3 {
-	text-transform: capitalize;
+	text-transform: uppercase;
 }
 
 .post-title {
 	text-transform: uppercase;
+}
+
+.page-header {
+	margin: 40px 0 0;
 }
 
 * {
