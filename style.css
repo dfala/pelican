@@ -29,7 +29,8 @@ body {
 }
 
 .uppercase {
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
+	font-weight: bold;
 }
 
 ul {
@@ -38,7 +39,7 @@ ul {
 
 li {
 	list-style-type: none;
-	padding: 20px;
+	padding: 10px;
 	cursor: pointer;
 }
 
@@ -62,7 +63,7 @@ li:hover {
 .glyphicon-search {
 	top: 5px;
 	right: 30px;
-	color: #1a75ff;
+	color: #0093FF;
 }
 
 .post-description {
@@ -93,20 +94,26 @@ li:hover {
 }
 
 .pelican-banner {
-	background-image: url(images/pelican.png);
+	background-image: url(images/clouds.jpg);
 }
 
 
-.btn-primary{
+.btn-primary {
 	background: #0093FF;
 	border-color: #0093FF;
 }
 
 
-.btn-primary:hover{
+.btn-primary:hover {
 	background: black;
 	border-color: black;
 }
+
+.btn-primary:focus {
+	background: black;
+	border-color: black;
+}
+
 
 
 
@@ -119,7 +126,7 @@ li:hover {
 /*/////////////////////////////////////////////////////////////////////////////////////*/
 /*POST MODAL*/
 /*/////////////////////////////////////////////////////////////////////////////////////*/
-.modal-dialog {
+#postModal .modal-dialog {
 	height: 100%;
 }
 
@@ -161,13 +168,25 @@ li:hover {
 /*/////////////////////////////////////////////////////////////////////////////////////*/
 /*NEW ADD POST MODAL*/
 /*/////////////////////////////////////////////////////////////////////////////////////*/
+#addPostModal .modal-lg {
+	max-width: 600px;
+}
+
+textarea.form-control {
+	height: 150px;
+}
+
+
+
+
+
 
 
 
 /*/////////////////////////////////////////////////////////////////////////////////////*/
-/*ADD POST MODAL*/
+/*DEPRECATE ALL ADD POST MODAL*/
 /*/////////////////////////////////////////////////////////////////////////////////////*/
-.curtain {
+/*.curtain {
 	position: fixed;
 	z-index: 9998;
 	background-color: rgba(0, 0, 0, 0.52);
@@ -205,9 +224,9 @@ li:hover {
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
-}
+}*/
 
-.available-list {
+/*.available-list {
 	cursor: pointer;
 	font-size: 20px;
 	display: inline-block;
@@ -219,4 +238,4 @@ li:hover {
 .available-list:hover {
 	color: #1a75ff;
 	background-color: #E8E8E8;
-}
+}*/
