@@ -30,8 +30,6 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 
 			$scope.allData = $scope.allData[0];
 
-			console.log($scope.allData);
-
 			$scope.$apply();
 		})
 	}
@@ -70,8 +68,7 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	})
 
 	$scope.selectList = function (list) {
-		listToAdd = list;
-		console.log(listToAdd);
+		listToAdd = list.title;
 		$scope.chooseList = false;
 		$scope.addPost = true;
 		$scope.modalTitle = "Add details";
