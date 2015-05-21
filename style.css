@@ -28,9 +28,8 @@ body {
 	font-size: 16px;
 }
 
-.uppercase {
-	text-transform: uppercase;
-	font-weight: bold;
+#main-body {
+	margin-bottom: 150px;
 }
 
 .container h1 {
@@ -38,6 +37,7 @@ body {
 	padding: 10px;
 	display: inline-block;
 	background-color: #000000;
+	border-radius: 2px;
 }
 
 h2 {
@@ -54,8 +54,13 @@ li {
 	cursor: pointer;
 }
 
+.available-list {
+	border-bottom: 1px solid #F5F5F5;
+}
+
 a {
 	color: #0093FF;
+	text-decoration: none !important;
 }
 
 a:hover {
@@ -127,6 +132,8 @@ li:hover {
 .btn-primary {
 	background: #0093FF;
 	border-color: #0093FF;
+	padding: 10px 16px;
+	border-radius: 2px;
 }
 
 
@@ -178,7 +185,7 @@ li:hover {
 }
 
 #postModal .modal-body {
-	padding: 15px 50px;
+	padding: 50px;
 	background: white;
 }
 
@@ -222,6 +229,9 @@ li:hover {
 	padding: 10px;
 	background-color: #F4F4F4;
 	border-radius: 2px;
+	display: block;
+	max-width: 100%;
+	word-wrap: break-word;
 }
 
 textarea.form-control {

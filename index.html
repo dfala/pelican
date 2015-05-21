@@ -52,19 +52,19 @@
 
 		<!-- LISTS -->
 
-		<div class="container" ng-cloak>
+		<div class="container" id="main-body" ng-cloak>
 			<div class="col-xs-6">
 
 				<div class="list" ng-repeat="list in allData">
 					<div class="page-header">
-		  				<h2 class="uppercase">{{list.title}}</h2>
+		  				<h2>{{list.title}}</h2>
 					</div>
 
 					<ul class="post-data">
-						<li ng-repeat="post in list.listPosts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(list.title, post.link, post.description)">
-							<p class="post-title uppercase">{{post.title}}</p>
-							<a class="post-link" ng-href="{{post.link}}" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
-							<p class="post-description">{{post.description}}</p>
+						<li ng-repeat="post in list.listPosts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description)">
+							<p class="post-title">{{post.title}}</p>
+							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
+							<p class="post-description" ng-if="post.description">{{post.description}}</p>
 						</li>
 					</ul>
 				</div>
@@ -81,10 +81,6 @@
 
 
 
-		<!-- FOOTER -->
-		<div class="jumbotron" style="background: #222222"></div>
-
-
 	</div>
 
 	<!-- POST MODAL -->
@@ -94,11 +90,11 @@
 
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h2 class="modal-title uppercase" id="myModalLabel">{{activeTitle}}</h2>
-					<a class="modal-link" href="link" target="_blank" ng-href="{{activeLink}}">{{activeLink}}</a>
+					<h2 class="modal-title" id="myModalLabel">{{activeTitle}}</h2>
+					<a class="modal-link" href="link" target="_blank" ng-href="{{activeLink}}" ng-if="activeLink">{{activeLink}}</a>
 				</div>
 
-				<div class="modal-body">
+				<div class="modal-body" ng-if="activeDescription">
 					<p>{{activeDescription}}</p>
 				</div>
 
@@ -128,7 +124,7 @@
 						<div class="list-wrapper" ng-show="chooseList">
 							<div>
 								<ul ng-repeat="list in allData">
-									<li class="available-list uppercase" ng-click="selectList(list)">{{list.title}}</li>
+									<li class="available-list" ng-click="selectList(list)">{{list.title}}</li>
 								</ul>
 							<div class="form-inline">
 								<form>
@@ -142,7 +138,7 @@
 						<div ng-show="addPost">
 							<form>
 								<div class="form-group">
-									<input class="form-control" ng-model="postTitle" placeholder="Title">
+									<input class="form-control" ng-model="postTitle" placeholder="Title" id="add-title">
 								</div>
 								<div class="form-group">
 									<input class="form-control" ng-model="postLink" placeholder="Link">

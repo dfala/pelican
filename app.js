@@ -1,6 +1,6 @@
 var pelicanApp = angular.module('pelicanApp',[]);
 
-pelicanApp.controller('PelicanController', ['$scope', function($scope) {
+pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scope, $timeout) {
 
 	// INITIATING APP
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
@@ -68,10 +68,14 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	})
 
 	$scope.selectList = function (list) {
-		listToAdd = list.title;
+		if (list.title) { listToAdd = list.title; } else { listToAdd = list }
 		$scope.chooseList = false;
 		$scope.addPost = true;
 		$scope.modalTitle = "Add details";
+		
+		$timeout(function () {
+			$('#add-title').focus();
+		})
 	}
 
 
@@ -81,43 +85,34 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 		if (!listToAdd) return;
 
 		// validation
-		if (!title) {
-			return $scope.displayAlert('Please add a title');
+		if (!title) { return $scope.displayAlert('Please add a title') }
+		if (!link && !description) { return $scope.displayAlert('Please add a link OR description') }
+
+		if (link) {
+			// valid link?
+			if (link.indexOf('.') < 0) {
+				return $scope.displayAlert('Please add a valid link');
+			}
+
+			// add http to link (if none)
+			if (link && link.indexOf('http') < 0) {
+				link = 'http://' + link;
+			}
 		}
 
-		if (!link) {
-			return $scope.displayAlert('Please add a link');
+		var newPost = {
+			title: title,
+			timestamp: Date()
 		}
 
-		if (link && link.indexOf('.') < 0) {
-			return $scope.displayAlert('Please add a valid link');
-		}
+		if (link) { newPost.link = link }
+		if (description) { newPost.description = description }
 
-		// add http to link (if none)
-		if (link.indexOf('http') < 0) {
-			link = 'http://' + link;
-		}
+		console.log(newPost);
 
-		// push to database
-		if (description) {
-			firebase.child('list/' + listToAdd + '/listPosts').push(
-				object = {
-					title: title,
-					link: link,
-					description: description,
-					timestamp: Date()
-				}
-			)
-		} else {
-			firebase.child('list/' + listToAdd + '/listPosts').push(
-				object = {
-					title: title,
-					link: link,
-					timestamp: Date()
-				}
-			)
-		}
+		postToFirebase(newPost);
 
+		// not necessary due to reload location temp hack
 		listToAdd = '';
 		$scope.closeBigModal();
 
@@ -125,11 +120,15 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 		location.reload();
 	}
 
+	// add post to database
+	var postToFirebase = function (newPost) {
+		firebase.child('list/' + listToAdd + '/listPosts').push(newPost);
+	}
+
 
 
 	// SET KEY VALUE IN FIREBASE
 	$scope.createList = function(listName) {
-		// firebase.child('list/' + listName).set(listName);
 		firebase.child('list/' + listName + '/title').set(listName);
 		$scope.selectList(listName);
 	}
