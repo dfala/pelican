@@ -9,6 +9,10 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	$scope.posts = [];
 	$scope.lists = [];
 
+	$scope.activeTitle = "No title :(";
+	$scope.activeLink = "No link :(";
+	$scope.activeDescription = "No description :(";
+
 
 	// GET ALL DATA
 	var getAllData = function () {
@@ -41,6 +45,13 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	// SET KEY VALUE IN FIREBASE
 	$scope.createList = function(listName) {
 		firebase.child('list/' + listName).set(listName);
+	}
+
+	// SET CONTENT ON MODAL
+	$scope.changeModal = function (title, link, description) {
+		$scope.activeTitle = title;
+		$scope.activeLink = link;
+		$scope.activeDescription = description;
 	}
 
 

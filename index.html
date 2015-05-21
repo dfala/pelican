@@ -83,35 +83,13 @@
 				</div>
 
 				<ul class="post-data">
-					<li ng-repeat="(key, post) in data track by $index">
+					<li ng-repeat="(key, post) in data track by $index" data-toggle="modal" data-target="#postModal" ng-click="changeModal(data[key].title, data[key].link, data[key].description)">
 						<p class="post-title">{{data[key].title}}</p>
-						<a class="post-link" ng-href="{{data[key].link}}" target="_blank">{{data[key].link}}</a>
-						<a href="#" data-toggle="modal" data-target="#postModal">{{data[key].description}}</a>
+						<a class="post-link" ng-href="{{data[key].link}}" target="_blank" ng-modal="selectedLink">{{data[key].link}}</a>
+						<p class="post-description">{{data[key].description}}</p>
 					</li>
 				</ul>
 			</div>
-
-
-
-	<!--
-
-			<div>
-				<div class="page-header">
-	  				<h3><span class ="glyphicon glyphicon-certificate"></span> Newest additions</h3>
-				</div>
-				<ul class="nav nav-pills nav-stacked">
-
-					<li data-url="http://prefundia.com/blog/communicate-selling-points-through-design/">
-						<a href="#" data-toggle="modal" data-target="#postModal">Communicate selling points through design</a>
-					</li>
-
-					<li data-url="http://prefundia.com/blog/how-springsled-achieved-a-42-5-conversion-rate/">
-						<a href="#" data-toggle="modal" data-target="#postModal">How SpringSled achieved a 42.5% conversion rate</a>
-					</li>
-
-				</ul>
-			</div>
-	-->
 
 		</div>
 	</div>
@@ -141,12 +119,12 @@
 
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h2 class="modal-title" id="myModalLabel">Title</h2>
-					<a href="link" target="_blank">link</a>
+					<h2 class="modal-title" id="myModalLabel">{{activeTitle}}</h2>
+					<a href="link" target="_blank" ng-href="{{activeLink}}">{{activeLink}}</a>
 				</div>
 
 				<div class="modal-body">
-					<p>description</p>
+					<p>{{activeDescription}}</p>
 				</div>
 
 				<div class="modal-footer">
