@@ -77,15 +77,46 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	$scope.createPost = function (title, link, description) {
 		if (!listToAdd) return;
 
-		firebase.child('list/' + listToAdd).push({
-			title: title,
-			link: link,
-			description: description,
-			timestamp: Date()
-		})
+		// validation
+		if (!title) {
+			return $scope.displayAlert('Please add a title');
+		}
+
+		if (!link) {
+			return $scope.displayAlert('Please add a link');
+		}
+
+		if (link && link.indexOf('.') < 0) {
+			return $scope.displayAlert('Please add a valid link');
+		}
+
+		// add http to link (if none)
+		if (link.indexOf('http') < 0) {
+			link = 'http://' + link;
+		}
+
+		// push to database
+		if (description) {
+			firebase.child('list/' + listToAdd).push({
+				title: title,
+				link: link,
+				description: description,
+				timestamp: Date()
+			})
+		} else {
+			firebase.child('list/' + listToAdd).push({
+				title: title,
+				link: link,
+				timestamp: Date()
+			})
+		}
+
 
 		listToAdd = '';
 		$scope.closeBigModal();
+
+		//TODO: this is a hack to prevent bugs:
+		location.reload();
 	}
 
 
@@ -94,6 +125,10 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	$scope.createList = function(listName) {
 		firebase.child('list/' + listName).set(listName);
 		$scope.selectList(listName);
+	}
+
+	$scope.displayAlert = function(message) {
+		$scope.alertMessage = message;
 	}
 
 
