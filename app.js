@@ -6,8 +6,7 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
 	var allLists = firebase.child("list");
 
-	$scope.posts = [];
-	$scope.lists = [];
+	$scope.allData = [];
 
 	$scope.activeTitle = "No title :(";
 	$scope.activeLink = "No link :(";
@@ -24,13 +23,14 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 		firebase.on('value', function (data) {
 			var rawData = data.val();
 
-			//parsing data and pushing to array
-			for (firstKey in rawData) {
-				for (secondKey in rawData[firstKey]) {
-					$scope.lists.push(secondKey);
-					$scope.posts.push(rawData[firstKey][secondKey]);
-				}
+			// parsing data
+			for (key in rawData) {
+				$scope.allData.push(rawData[key]);
 			}
+
+			$scope.allData = $scope.allData[0];
+
+			console.log($scope.allData);
 
 			$scope.$apply();
 		})
@@ -103,20 +103,23 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 
 		// push to database
 		if (description) {
-			firebase.child('list/' + listToAdd).push({
-				title: title,
-				link: link,
-				description: description,
-				timestamp: Date()
-			})
+			firebase.child('list/' + listToAdd + '/listPosts').push(
+				object = {
+					title: title,
+					link: link,
+					description: description,
+					timestamp: Date()
+				}
+			)
 		} else {
-			firebase.child('list/' + listToAdd).push({
-				title: title,
-				link: link,
-				timestamp: Date()
-			})
+			firebase.child('list/' + listToAdd + '/listPosts').push(
+				object = {
+					title: title,
+					link: link,
+					timestamp: Date()
+				}
+			)
 		}
-
 
 		listToAdd = '';
 		$scope.closeBigModal();
@@ -129,7 +132,8 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 
 	// SET KEY VALUE IN FIREBASE
 	$scope.createList = function(listName) {
-		firebase.child('list/' + listName).set(listName);
+		// firebase.child('list/' + listName).set(listName);
+		firebase.child('list/' + listName + '/title').set(listName);
 		$scope.selectList(listName);
 	}
 

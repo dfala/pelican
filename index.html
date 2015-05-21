@@ -55,16 +55,16 @@
 		<div class="container" ng-cloak>
 			<div class="col-xs-6">
 
-				<div class="list" ng-repeat="(key,data) in posts track by $index">
+				<div class="list" ng-repeat="list in allData">
 					<div class="page-header">
-		  				<h2 class="uppercase">{{lists[key]}}</h2>
+		  				<h2 class="uppercase">{{list.title}}</h2>
 					</div>
 
 					<ul class="post-data">
-						<li ng-repeat="(key, post) in data track by $index" data-toggle="modal" data-target="#postModal" ng-click="changeModal(data[key].title, data[key].link, data[key].description)">
-							<p class="post-title uppercase">{{data[key].title}}</p>
-							<a class="post-link" ng-href="{{data[key].link}}" target="_blank" ng-modal="selectedLink">{{data[key].link}}</a>
-							<p class="post-description">{{data[key].description}}</p>
+						<li ng-repeat="post in list.listPosts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(list.title, post.link, post.description)">
+							<p class="post-title uppercase">{{post.title}}</p>
+							<a class="post-link" ng-href="{{post.link}}" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
+							<p class="post-description">{{post.description}}</p>
 						</li>
 					</ul>
 				</div>
@@ -127,8 +127,8 @@
 						{{alertMessage}}
 						<div class="list-wrapper" ng-show="chooseList">
 							<div>
-								<ul ng-repeat="list in lists">
-									<li class="available-list uppercase" ng-click="selectList(list)">{{list}}</li>
+								<ul ng-repeat="list in allData">
+									<li class="available-list uppercase" ng-click="selectList(list)">{{list.title}}</li>
 								</ul>
 							<div class="form-inline">
 								<form>
