@@ -89,6 +89,11 @@ li:hover {
 	display: block;
 	max-height: 4.5rem;
   	overflow: hidden;
+  	color: #ADADAD;
+}
+
+.post-title {
+	margin-bottom: 5px;
 }
 
 .page-header {
