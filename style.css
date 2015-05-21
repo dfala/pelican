@@ -5,12 +5,46 @@
 
 /*APP STYLING*/
 
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+}
+
+h3 {
+	text-transform: capitalize;
+}
+
+.post-title {
+	text-transform: uppercase;
+}
+
 * {
 	box-sizing: border-box;
 }
 
+ul {
+	padding-left: 0;
+}
+
+li {
+	list-style-type: none;
+	margin-bottom: 20px;
+	padding: 20px;
+}
+
+li:hover {
+	background-color: #F4F4F4;
+}
+
 .navbar {
 	margin-bottom: 0px;
+}
+
+.post-data a {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .jumbotron{
