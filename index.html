@@ -15,17 +15,6 @@
 <body ng-controller="PelicanController">
 
 
-
-	<!-- NON-BOOTSTRAP MODAL -->
-<!-- 	<div class="jmodal">
-		<h1>Title</h1>
-		<a href="http://dictionary.reference.com/browse/pejorative" target="_blank">http://dictionary.reference.com/browse/pejorative</a>
-		<hr>
-		<p>having a disparaging, derogatory, or belittling effect or force:</p>
-	</div> -->
-	<!-- END NON-BOOTSTRAP MODAL -->
-
-
 	<!-- NAVBAR -->
 
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -51,13 +40,13 @@
 		<div class="jumbotron pelican-banner">
 			<div class="container">
 				<h1>The Pelican Blog</h1>
+				<br>
 
-	  			<button class="btn btn-primary" ng-click="openBigModal()" data-toggle="modal" data-target="#addPostModal">+ Add a new item</button>
+	  			<button class="btn btn-primary" ng-click="openBigModal()" data-toggle="modal" data-target="#addPostModal">+ Post some crap</button>
 			</div>
 		</div>
 
 		<!-- END JUMBOTRON -->
-
 
 
 
@@ -106,7 +95,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 					<h2 class="modal-title uppercase" id="myModalLabel">{{activeTitle}}</h2>
-					<a href="link" target="_blank" ng-href="{{activeLink}}">{{activeLink}}</a>
+					<a class="modal-link" href="link" target="_blank" ng-href="{{activeLink}}">{{activeLink}}</a>
 				</div>
 
 				<div class="modal-body">
@@ -130,7 +119,7 @@
 
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h2>Pick a list</h2>
+					<h2>{{modalTitle}}</h2>
 				</div>
 
 
@@ -139,7 +128,7 @@
 						<div class="list-wrapper" ng-show="chooseList">
 							<div>
 								<ul ng-repeat="list in lists">
-									<li class="available-list" ng-click="selectList(list)">{{list}}</li>
+									<li class="available-list uppercase" ng-click="selectList(list)">{{list}}</li>
 								</ul>
 							<div class="form-inline">
 								<form>

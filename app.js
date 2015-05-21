@@ -13,6 +13,8 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 	$scope.activeLink = "No link :(";
 	$scope.activeDescription = "No description :(";
 
+	$scope.modalTitle = "Pick a list";
+
 	var listToAdd;
 
 	
@@ -60,6 +62,7 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 		listToAdd = '';
 		$scope.addPost = false;
 		$scope.alertMessage = '';
+		$scope.modalTitle = "Pick a list";
 	}
 
 	$('#addPostModal').on('hidden.bs.modal', function () {
@@ -71,6 +74,7 @@ pelicanApp.controller('PelicanController', ['$scope', function($scope) {
 		console.log(listToAdd);
 		$scope.chooseList = false;
 		$scope.addPost = true;
+		$scope.modalTitle = "Add details";
 	}
 
 
