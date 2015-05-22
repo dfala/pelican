@@ -6,6 +6,28 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
 	var allLists = firebase.child("list");
 
+
+	////////////////////////////////
+	///////////////TESTING PURPOSES
+	////////////////////////////////
+
+
+	$scope.login = function () {
+		firebase.authWithOAuthPopup("twitter", function(error, authData) {
+		  if (error) {
+		    console.log("Login Failed!", error);
+		  } else {
+		    console.log("Authenticated successfully with payload:", authData);
+		  }
+		});
+	}
+
+
+
+	////////////////////////////////
+	///////////////TESTING PURPOSES
+	////////////////////////////////
+
 	$scope.allData = [];
 
 	$scope.activeTitle = "No title :(";
