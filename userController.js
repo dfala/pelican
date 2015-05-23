@@ -20,7 +20,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 	var usersRef = new Firebase('https://pelican.firebaseio.com/users');
 	var userRef; // complete once a login happens
-	var activeUser;
+	$scope.activeUser;
 	$scope.lists = [];
 
 	// initial facebook request
@@ -64,7 +64,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 		firebase.child('users/' + id).set(user);
 
 		// activeUser defined at global $scope
-		activeUser = {
+		$scope.activeUser = {
 			id: id,
 			name: data.facebook.displayName
 		}
@@ -80,13 +80,13 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 		userRef.once('value', function (data) {
 			var userData = data.val();
 
-			activeUser = {
+			$scope.activeUser = {
 				id: userData.id,
 				name: userData.name,
 				picUrl: userData.picUrl
 			}
 
-			if (userData.lists === 'lists') return console.log('no lists under this user');
+			if (userData.lists === 'lists') return userFirstLogin();
 			
 			for (key in userData.lists) {
 				var tempList = userData.lists[key];
@@ -99,6 +99,11 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 			// trigger an angular digest cycle
 			$scope.$digest();
 		});
+	}
+
+	var userFirstLogin = function () {
+		console.log('no lists under this user')
+		$scope.$digest();
 	}
 
 
@@ -126,14 +131,14 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 	// Creating a new list
 	$scope.createList = function(listName) {
-		if (!activeUser) return console.log('user not defined');
+		if (!$scope.activeUser) return console.log('user not defined');
 
 		var newList = {
 			listName: listName,
 			posts: 'coming soon'
 		}
 
-		var newPostRef = firebase.child('users/' + activeUser.id + '/lists').push(newList);
+		var newPostRef = firebase.child('users/' + $scope.activeUser.id + '/lists').push(newList);
 		
 		// get key of recent post
 		var postId = newPostRef.key();
@@ -177,7 +182,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 		// TODO: this is a hack -- only need to reload the lists (or posts in list)
 		$scope.lists = [];
-		getUserData(activeUser.id);
+		getUserData($scope.activeUser.id);
 	}
 
 

@@ -21,13 +21,14 @@
 		<div class="container">
 			<div class="navLeft">
 	    		<a class="navbar-brand" href="#">Pelican</a>
-	    		<button class="btn btn-primary btn-sm" ng-click="openBigModal()" data-toggle="modal" data-target="#addPostModal">+</button>
+	    		<button class="btn btn-primary btn-sm" ng-if="activeUser" ng-click="openBigModal()" data-toggle="modal" data-target="#addPostModal" ng-cloak>+</button>
     		</div>
 
-			<div class="profile">
+			<div class="navbar-brand profile">
 				<a href="#">
-      				<img src="https://scontent-dfw1-1.xx.fbcdn.net/hphotos-xtp1/v/t1.0-9/14318_10101757658495259_3732020704038530716_n.jpg?oh=3fae06fb1825012596a14dd5584cfe73&oe=55FD8D71" ng-click="login()">
+					<p ng-if="!activeUser.picUrl" ng-click="login()">Sign up / Log In</p>
       			</a>
+      				<img ng-if="activeUser.picUrl" src="{{activeUser.picUrl}}">
       		</div>
 
     		<form class="navbar-form search-bar" role="search">
@@ -48,12 +49,14 @@
 
 		<!-- JUMBOTRON -->
 		
-		<div class="jumbotron pelican-banner">
+		<div class="jumbotron pelican-banner" ng-cloak>
 			<div class="container">
 				<h1>The Pelican Blog</h1>
 				<br>
 
-	  			<button class="btn btn-primary btn-lg" ng-click="openBigModal()" data-toggle="modal" data-target="#addPostModal">+ Post some crap</button>
+				<button class="btn btn-primary btn-lg" ng-click="login()" ng-if="!activeUser">Sign up / Log in</button>
+
+	  			<button class="btn btn-primary btn-lg" ng-click="openBigModal()" ng-if="activeUser" data-toggle="modal" data-target="#addPostModal">+ Post some crap</button>
 			</div>
 		</div>
 

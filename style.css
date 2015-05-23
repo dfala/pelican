@@ -142,8 +142,18 @@ li:hover {
 }
 
 .btn-primary:focus {
-	background: black;
-	border-color: black;
+	background: #0093FF;
+	border-color: #0093FF;
+	outline: none;
+	border: none !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.btn-primary.active, .btn-primary:active {
+	background: #0093FF;
+	border-color: #0093FF;
 }
 
 .btn-sm {
@@ -151,14 +161,20 @@ li:hover {
 }
 
 .profile {
-	margin-top: 10px;
 	float: right;
+	display: flex;
+	align-items: center;
 }
 
 .profile img {
 	display: inline-block;
 	width: 30px;
 	height: 30px;
+}
+
+.profile p {
+	padding-top: 10px;
+	font-size: 16px;
 }
 
 
