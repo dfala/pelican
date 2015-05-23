@@ -233,3 +233,41 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 
 }]);
+
+
+// TODO: MOVED TO DIFFERENT FILE
+pelicanApp.filter('searchContent', function() {
+
+	return function(input, searchQuery, optional2) {
+
+		if (!searchQuery) return input;
+
+		var output = [];
+		searchQuery = searchQuery.toLowerCase();
+
+
+		input.forEach(function (list) {
+			var tempListName = list.listName.toLowerCase();
+
+			if (tempListName.indexOf(searchQuery) > -1) {
+				return output.push(list);
+			} 
+		})
+
+		return output;
+
+	}
+});
+
+
+
+
+
+
+
+
+
+
+
+
+

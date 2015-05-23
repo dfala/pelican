@@ -33,7 +33,7 @@
 
     		<form class="navbar-form search-bar" role="search">
         		<div class="form-group">
-         			<input class="form-control" placeholder="Search">
+         			<input class="form-control" placeholder="Search" ng-model="textSearch">
         		</div>
         		<button class="hidden">Search</button>
         		<span class="glyphicon glyphicon-search"></span>
@@ -69,7 +69,7 @@
 		<div class="container" id="main-body" ng-cloak>
 			<div class="col-xs-6">
 
-				<div class="list" ng-repeat="list in lists">
+				<div class="list" ng-repeat="list in lists | searchContent: textSearch">
 					<div class="page-header">
 		  				<h2>{{list.listName}}</h2>
 					</div>
