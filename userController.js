@@ -245,13 +245,31 @@ pelicanApp.filter('searchContent', function() {
 		var output = [];
 		searchQuery = searchQuery.toLowerCase();
 
-
 		input.forEach(function (list) {
 			var tempListName = list.listName.toLowerCase();
 
+			// Search functionality for list titles
 			if (tempListName.indexOf(searchQuery) > -1) {
 				return output.push(list);
-			} 
+
+
+			} else {
+
+				// TODO: THIS DOES NOT WORK YET
+				// This is saving posts with the searchQuery on title
+				// but not sure how to return it
+
+				var tempPost = [];
+				for (key in list.posts) {
+
+					var tempPostName = list.posts[key].title.toLowerCase();	
+					
+					if (tempPostName.indexOf(searchQuery) > -1) {
+						tempPost.push(list.posts[key]);
+					}
+
+				}
+			}
 		})
 
 		return output;
