@@ -13,6 +13,13 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	$scope.modalTitle = "Pick a list";
 	var listToAdd;
 
+
+
+
+
+
+
+
 	////////////////////////////////
 	///////////////LOGIN PURPOSES
 	////////////////////////////////
@@ -94,7 +101,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 				$scope.lists.push(tempList);
 			}
 
-			console.log('$scope.lists', $scope.lists);
+			// second argument defines number of days until cookie expires
+			setCookie($scope.activeUser.id, 1);
 
 			// trigger an angular digest cycle
 			$scope.$digest();
@@ -107,6 +115,44 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	}
 
 
+	///////////////////
+	// TESTING COOKIES
+	///////////////////
+
+	var getCookie = function () {
+	    var cookie = document.cookie;
+	    return cookie;
+	}
+
+	var checkCookie = function () {
+	    var userId = getCookie();
+	    userId = userId.substring(3);
+
+	    console.log(userId);
+
+	    if (userId) {
+	        getUserData(userId);
+	    }
+	}
+
+	checkCookie();
+
+	// second param defines number of days until cookie expires
+	var setCookie = function (cookieValue, expDate) {
+	    var d = new Date();
+	    d.setTime(d.getTime() + (expDate*24*60*60*1000));
+	    var expires = "expires=" + d.toUTCString();
+
+	    // create cookie
+	    document.cookie = "id=" + cookieValue + "; path=/; " + expires;
+	}
+
+
+	///////////////////////
+	// END TESTING COOKIES
+	///////////////////////
+
+
 
 
 
@@ -117,8 +163,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	// User clicked on list to add post
 	$scope.selectList = function (list) {
 		listToAdd = list;
-
-		console.log(listToAdd);
 
 		$scope.chooseList = false;
 		$scope.addPost = true;
@@ -201,10 +245,14 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	}
 
 	// Add-new-post modal
-	$scope.openBigModal = function () {
+	$scope.openBigModal = function (optionalTitle) {
+		$('body').css('overflow', 'hidden');
+		
+		if (optionalTitle) return $scope.selectList(optionalTitle);
+
 		$scope.chooseList = true;
 		$scope.addPost = false;
-		$('body').css('overflow', 'hidden');
+
 	}
 
 	// Cloding add-new-post modal
@@ -235,7 +283,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 }]);
 
 
-// TODO: MOVED TO DIFFERENT FILE
+// TODO: MOVE TO DIFFERENT FILE
 pelicanApp.filter('searchContent', function() {
 
 	return function(input, searchQuery, optional2) {

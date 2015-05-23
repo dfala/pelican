@@ -44,6 +44,29 @@ h2 {
 	font-size: 25px;
 }
 
+.add-one-post {
+	font-size: 25px;
+	position: absolute;
+	right: 0px;
+	top: -4px;
+	width: 35px;
+	height: 35px;
+	border-radius: 20px;
+	text-align: center;
+	padding: 0;
+	cursor: pointer;
+	color: #eee;
+}
+
+.add-one-post:hover {
+	background-color: #0093FF;
+	color: #fff;
+}
+
+.add-one-post:active {
+	background-color: #0083E4;
+}
+
 ul {
 	padding-left: 0;
 }
@@ -52,6 +75,10 @@ li {
 	list-style-type: none;
 	padding: 10px;
 	cursor: pointer;
+}
+
+.available-list {
+	border-bottom: 1px solid #FAFAFA;
 }
 
 a {
@@ -105,6 +132,7 @@ li:hover {
 
 .page-header {
 	margin: 40px 0 0;
+	position: relative;
 }
 
 .navbar {

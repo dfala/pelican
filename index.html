@@ -49,7 +49,7 @@
 
 		<!-- JUMBOTRON -->
 		
-		<div class="jumbotron pelican-banner" ng-cloak>
+		<div class="jumbotron pelican-banner" ng-if="!textSearch" ng-cloak>
 			<div class="container">
 				<h1>The Pelican Blog</h1>
 				<br>
@@ -72,6 +72,7 @@
 				<div class="list" ng-repeat="list in lists | searchContent: textSearch">
 					<div class="page-header">
 		  				<h2>{{list.listName}}</h2>
+		  				<div class="add-one-post" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
 					</div>
 
 					<ul class="post-data">
