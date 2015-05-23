@@ -66,13 +66,13 @@
 		<div class="container" id="main-body" ng-cloak>
 			<div class="col-xs-6">
 
-				<div class="list" ng-repeat="list in allData">
+				<div class="list" ng-repeat="list in lists">
 					<div class="page-header">
-		  				<h2>{{list.title}}</h2>
+		  				<h2>{{list.listName}}</h2>
 					</div>
 
 					<ul class="post-data">
-						<li ng-repeat="post in list.listPosts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description)">
+						<li ng-repeat="post in list.posts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description)">
 							<p class="post-title">{{post.title}}</p>
 							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
 							<p class="post-description" ng-if="post.description">{{post.description}}</p>
@@ -119,7 +119,7 @@
 	<!-- END POST MODAL -->
 
 
-	<!-- NEW ADD POST MODAL -->
+	<!-- ADD NEW POST MODAL -->
 	<div class="modal" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -134,8 +134,8 @@
 						{{alertMessage}}
 						<div class="list-wrapper" ng-show="chooseList">
 							<div>
-								<ul ng-repeat="list in allData">
-									<li class="available-list" ng-click="selectList(list)">{{list.title}}</li>
+								<ul ng-repeat="list in lists">
+									<li class="available-list" ng-click="selectList(list.listId)">{{list.listName}}</li>
 								</ul>
 							<div class="form-inline">
 								<form>
@@ -167,7 +167,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- END NEW ADD POST MODAL -->
+	<!-- END ADD NEW POST MODAL -->
 
 
 

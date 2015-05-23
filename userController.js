@@ -6,94 +6,115 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
 	var allLists = firebase.child("list");
 
-
-	////////////////////////////////
-	///////////////TESTING PURPOSES
-	////////////////////////////////
-
-
-	$scope.login = function () {
-		firebase.authWithOAuthPopup("facebook", function(error, authData) {
-			if (error) {
-				console.log("Login Failed!", error);
-			} else {
-				console.log("Authenticated successfully with payload:", authData);
-			}
-		});
-	}
-
-
-	
-
-
-
-	////////////////////////////////
-	///////////////TESTING PURPOSES
-	////////////////////////////////
-
-	$scope.allData = [];
-
 	$scope.activeTitle = "No title :(";
 	$scope.activeLink = "No link :(";
 	$scope.activeDescription = "No description :(";
 
 	$scope.modalTitle = "Pick a list";
-
 	var listToAdd;
 
-	
+	////////////////////////////////
+	///////////////LOGIN PURPOSES
+	////////////////////////////////
 
-	// GET ALL DATA
-	var getAllData = function () {
-		firebase.on('value', function (data) {
-			var rawData = data.val();
 
-			// parsing data
-			for (key in rawData) {
-				$scope.allData.push(rawData[key]);
+	var usersRef = new Firebase('https://pelican.firebaseio.com/users');
+	var userRef; // complete once a login happens
+	var activeUser;
+	$scope.lists = [];
+
+	// initial facebook request
+	$scope.login = function () {
+		firebase.authWithOAuthPopup("facebook", function(error, authData) {
+			if (error) {
+				console.log("Login Failed!", error);
+			} else {
+				checkUser(authData);
 			}
+		},{
+			scope: 'email,user_likes'
+		});
+	}
 
-			$scope.allData = $scope.allData[0];
-
-			$scope.$apply();
+	// checking if user exists
+	var checkUser = function (data) {
+		var id = data.uid;
+		
+		usersRef.once('value', function (snapshot) {
+			if (snapshot.hasChild(id)) {
+				getUserData(id); // the user exists
+			} else {
+				createNewUser(data); // the user does not exist
+			}
 		})
 	}
-	
-	getAllData();
 
+	// creating a new user
+	var createNewUser = function (data) {
+		var id = data.uid;
 
+		var user = {
+			id: id,
+			name: data.facebook.displayName,
+			email: data.facebook.email,
+			picUrl: data.facebook.cachedUserProfile.picture.data.url,
+			lists: 'lists'
+		}
 
-	// SET CONTENT ON MODAL
-	$scope.changeModal = function (title, link, description) {
-		$scope.activeTitle = title;
-		$scope.activeLink = link;
-		$scope.activeDescription = description;
+		firebase.child('users/' + id).set(user);
+
+		// activeUser defined at global $scope
+		activeUser = {
+			id: id,
+			name: data.facebook.displayName
+		}
+
+		console.log('User created');
+		getUserData(id);
+	}
+
+	// getting data for logged-in user
+	var getUserData = function (id) {
+		userRef = new Firebase('https://pelican.firebaseio.com/users/' + id);
+
+		userRef.once('value', function (data) {
+			var userData = data.val();
+
+			activeUser = {
+				id: userData.id,
+				name: userData.name,
+				picUrl: userData.picUrl
+			}
+
+			if (userData.lists === 'lists') return console.log('no lists under this user');
+			
+			for (key in userData.lists) {
+				var tempList = userData.lists[key];
+				tempList.listId = key;
+				$scope.lists.push(tempList);
+			}
+
+			console.log('$scope.lists', $scope.lists);
+
+			// trigger an angular digest cycle
+			$scope.$digest();
+		});
 	}
 
 
 
-	// BIG MODAL
-	$scope.openBigModal = function () {
-		$scope.chooseList = true;
-		$('body').css('overflow', 'hidden');
-	}
 
-	$scope.closeBigModal = function () {
-		$('body').css('overflow', 'auto');
 
-		//set adding steps back to 1
-		listToAdd = '';
-		$scope.addPost = false;
-		$scope.alertMessage = '';
-		$scope.modalTitle = "Pick a list";
-	}
+	/////////////////////////////
+	// MODIFYING LISTS AND POSTS
+	////////////////////////////
 
-	$('#addPostModal').on('hidden.bs.modal', function () {
-    	$scope.closeBigModal();
-	})
-
+	// User clicked on list to add post
 	$scope.selectList = function (list) {
-		if (list.title) { listToAdd = list.title; } else { listToAdd = list }
+		listToAdd = list;
+
+		console.log(listToAdd);
+
 		$scope.chooseList = false;
 		$scope.addPost = true;
 		$scope.modalTitle = "Add details";
@@ -103,9 +124,24 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 		})
 	}
 
+	// Creating a new list
+	$scope.createList = function(listName) {
+		if (!activeUser) return console.log('user not defined');
 
+		var newList = {
+			listName: listName,
+			posts: 'coming soon'
+		}
 
-	// PUSH A NEW POST
+		var newPostRef = firebase.child('users/' + activeUser.id + '/lists').push(newList);
+		
+		// get key of recent post
+		var postId = newPostRef.key();
+
+		$scope.selectList(postId);
+	}
+
+	// Create a new post
 	$scope.createPost = function (title, link, description) {
 		if (!listToAdd) return;
 
@@ -133,35 +169,57 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 		if (link) { newPost.link = link }
 		if (description) { newPost.description = description }
 
-		console.log(newPost);
+		userRef.child('/lists/' + listToAdd + '/posts').push(newPost);
 
-		postToFirebase(newPost);
-
-		// not necessary due to reload location temp hack
-		listToAdd = '';
+		// Trigger new digest cycle
 		$scope.closeBigModal();
+		$('#addPostModal').modal('hide');
 
-		//TODO: this is a hack to prevent bugs:
-		location.reload();
-	}
-
-	// add post to database
-	var postToFirebase = function (newPost) {
-		firebase.child('list/' + listToAdd + '/listPosts').push(newPost);
+		// TODO: this is a hack -- only need to reload the lists (or posts in list)
+		$scope.lists = [];
+		getUserData(activeUser.id);
 	}
 
 
+	//////////////////////////////////
+	///////////////END LOGIN PURPOSES
+	//////////////////////////////////
 
-	// SET KEY VALUE IN FIREBASE
-	$scope.createList = function(listName) {
-		firebase.child('list/' + listName + '/title').set(listName);
-		$scope.selectList(listName);
+
+
+	// Set-content-on-post modal
+	$scope.changeModal = function (title, link, description) {
+		$scope.activeTitle = title;
+		$scope.activeLink = link;
+		$scope.activeDescription = description;
 	}
 
+	// Add-new-post modal
+	$scope.openBigModal = function () {
+		$scope.chooseList = true;
+		$scope.addPost = false;
+		$('body').css('overflow', 'hidden');
+	}
+
+	// Cloding add-new-post modal
+	$scope.closeBigModal = function () {
+		$('body').css('overflow', 'auto');
+
+		// Reset the process
+		listToAdd = '';
+		$scope.addPost = false;
+		$scope.alertMessage = '';
+		$scope.modalTitle = "Pick a list";
+	}
+
+	$('#addPostModal').on('hidden.bs.modal', function () {
+    	$scope.closeBigModal();
+	})
+
+	// Add-new-post alert message
 	$scope.displayAlert = function(message) {
 		$scope.alertMessage = message;
 	}
-
 
 
 }]);
