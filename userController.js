@@ -143,6 +143,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 		// get key of recent post
 		var postId = newPostRef.key();
 
+		$('#add-list').val('');
 		$scope.selectList(postId);
 	}
 
@@ -215,6 +216,10 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 		$scope.addPost = false;
 		$scope.alertMessage = '';
 		$scope.modalTitle = "Pick a list";
+
+		$('#add-title').val('');
+		$('#add-link').val('');
+		$('#add-description').val('');
 	}
 
 	$('#addPostModal').on('hidden.bs.modal', function () {

@@ -142,7 +142,7 @@
 								</ul>
 							<div class="form-inline">
 								<form>
-									<input class="form-control" ng-model="postList" placeholder="New list name">
+									<input class="form-control" ng-model="postList" placeholder="New list name" id="add-list">
 									<button class="btn btn-default" ng-click="createList(postList)">Create a new list</button>
 								</form>
 							</div>
@@ -155,10 +155,10 @@
 									<input class="form-control" ng-model="postTitle" placeholder="Title" id="add-title">
 								</div>
 								<div class="form-group">
-									<input class="form-control" ng-model="postLink" placeholder="Link">
+									<input class="form-control" ng-model="postLink" placeholder="Link" id="add-link">
 								</div>
 								<div class="form-group">
-									<textarea class="form-control" ng-model="postDescription" placeholder="Thoughts">
+									<textarea class="form-control" ng-model="postDescription" placeholder="Thoughts" id="add-description">
 									</textarea>
 								</div>
 									<button class="btn btn-primary" ng-click="createPost(postTitle, postLink, postDescription)">Post it!</button>
