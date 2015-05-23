@@ -20,7 +20,7 @@
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="navLeft">
-	    		<a class="navbar-brand" href="#">Pelican</a>
+	    		<a class="navbar-brand" href="#" ng-click="homePage(true)">Pelican</a>
 	    		<button class="btn btn-primary btn-sm" ng-if="activeUser" ng-click="openBigModal()" data-toggle="modal" data-target="#addPostModal" ng-cloak>+</button>
     		</div>
 
@@ -28,7 +28,9 @@
 				<a href="#">
 					<p ng-if="!activeUser.picUrl" ng-click="login()">Sign up / Log In</p>
       			</a>
-      				<img ng-if="activeUser.picUrl" src="{{activeUser.picUrl}}">
+      				<div class="img-container">
+      					<img ng-if="activeUser.picUrl" ng-click="homePage(false)" src="{{activeUser.picUrl}}">
+      				</div>
       		</div>
 
     		<form class="navbar-form search-bar" role="search">
@@ -64,9 +66,39 @@
 
 
 
+
+
+		<!-- HOME PAGE LISTS -->
+
+		<div class="container" id="main-body" ng-if="publicPosts && isHomePage" ng-cloak>
+			<div class="col-xs-6">
+
+				<div class="list" id="public-feed">
+					<ul class="post-data">
+						<li class="light-border" ng-repeat="post in publicPosts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description)">
+							<p class="post-title">{{post.title}}</p>
+							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
+							<p class="post-description" ng-if="post.description">{{post.description}}</p>
+							<div class="postee-info" ng-if="post.posteeName">
+								<div class="img-container rounded-img">
+									<img src="{{post.postePicUrl}}">
+								</div>
+								<p>{{post.posteeName}}</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- END HOME PAGE LISTS -->
+
+
+
 		<!-- LISTS -->
 
-		<div class="container" id="main-body" ng-cloak>
+		<div class="container" id="main-body" ng-if="!isHomePage" ng-cloak>
 			<div class="col-xs-6">
 
 				<div class="list" ng-repeat="list in lists | searchContent: textSearch">

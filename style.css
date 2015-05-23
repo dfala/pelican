@@ -147,6 +147,12 @@ li:hover {
 	text-overflow: ellipsis;
 }
 
+.light-border {
+	border-radius: 2px;
+	border: 1px solid #eee;
+	margin-bottom: 12px;
+}
+
 .jumbotron{
 	background-size: cover;
 	margin: 0;
@@ -194,15 +200,56 @@ li:hover {
 	align-items: center;
 }
 
-.profile img {
-	display: inline-block;
+.img-container {
 	width: 30px;
 	height: 30px;
+	overflow: hidden;
+	position: relative;
 }
+
+.img-container img{
+	position: relative;
+	max-height: 100%;
+	cursor: pointer;
+	left: -9px;
+}
+
+.rounded-img {
+	border-radius: 30px;
+}
+
 
 .profile p {
 	padding-top: 10px;
 	font-size: 16px;
+}
+
+.postee-info {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	
+	border-top-left-radius: 30px;
+	border-bottom-left-radius: 30px;
+	cursor: pointer;
+}
+
+.postee-info:hover {
+	background-color: #fff;
+}
+
+.postee-info:hover p {
+	color: #000;
+}
+
+.postee-info p {
+	margin: 0;
+	padding-left: 10px;
+	color: #DBDBDB;
+}
+
+#public-feed {
+	margin-top: 40px;
 }
 
 

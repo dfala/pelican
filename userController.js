@@ -11,7 +11,46 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	$scope.activeDescription = "No description :(";
 
 	$scope.modalTitle = "Pick a list";
+	$scope.isHomePage = true;
 	var listToAdd;
+
+
+	////////////////////////////////
+	///////////////LOAD PUBLIC DATA
+	////////////////////////////////
+
+	var postsRef = new Firebase('https://pelican.firebaseio.com/publicPosts');
+	$scope.publicPosts = [];
+
+	var getPublicPosts = function () {
+		postsRef.limitToFirst(20).once('value', function (data) {
+			var publicData = data.val();
+
+			for (key in publicData) {
+				$scope.publicPosts.unshift(publicData[key])
+			}
+
+			console.log($scope.publicPosts);
+
+			// trigger an angular digest cycle
+			$scope.$digest();
+		});
+	}
+
+	getPublicPosts();
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -104,6 +143,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 			// second argument defines number of days until cookie expires
 			setCookie($scope.activeUser.id, 1);
 
+			$scope.isHomePage = false;
 			// trigger an angular digest cycle
 			$scope.$digest();
 		});
@@ -115,8 +155,24 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	///////////////////
-	// TESTING COOKIES
+	// SETTING COOKIES
 	///////////////////
 
 	var getCookie = function () {
@@ -127,8 +183,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	var checkCookie = function () {
 	    var userId = getCookie();
 	    userId = userId.substring(3);
-
-	    console.log(userId);
 
 	    if (userId) {
 	        getUserData(userId);
@@ -148,9 +202,14 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	}
 
 
-	///////////////////////
-	// END TESTING COOKIES
-	///////////////////////
+
+
+
+
+
+
+
+
 
 
 
@@ -219,7 +278,21 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 		if (link) { newPost.link = link }
 		if (description) { newPost.description = description }
 
+
+
+		// Push data to respective user list
 		userRef.child('/lists/' + listToAdd + '/posts').push(newPost);
+		
+
+		newPost.posteeName = $scope.activeUser.name;
+		newPost.posteeId = $scope.activeUser.id;
+		newPost.postePicUrl = $scope.activeUser.picUrl;
+
+
+		// Push data to public posts
+		postsRef.push(newPost);
+
+
 
 		// Trigger new digest cycle
 		$scope.closeBigModal();
@@ -231,10 +304,23 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	}
 
 
-	//////////////////////////////////
-	///////////////END LOGIN PURPOSES
-	//////////////////////////////////
 
+
+
+
+
+
+
+
+	///////////////////
+	// FRONT END UX/UI
+	///////////////////
+
+
+	// Set value of page (home page vs. user page)
+	$scope.homePage = function (value) {
+		$scope.isHomePage = value;
+	}
 
 
 	// Set-content-on-post modal
@@ -283,7 +369,21 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 }]);
 
 
-// TODO: MOVE TO DIFFERENT FILE
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////
+// TODO: MOVE SEARCH FILTER SMELSE
+///////////////////////////////////
+
 pelicanApp.filter('searchContent', function() {
 
 	return function(input, searchQuery, optional2) {
