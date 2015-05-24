@@ -9,6 +9,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	$scope.activeTitle = "No title :(";
 	$scope.activeLink = "No link :(";
 	$scope.activeDescription = "No description :(";
+	$scope.posteePicUrl;
+	$scope.posteeName;
 
 	$scope.modalTitle = "Pick a list";
 	$scope.isHomePage = true;
@@ -23,17 +25,15 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	$scope.publicPosts = [];
 
 	var getPublicPosts = function () {
-		postsRef.limitToFirst(20).once('value', function (data) {
+		// getting last 20 items in list (most recent 20)
+		postsRef.limitToLast(20).on('value', function (data) {
 			var publicData = data.val();
+
+			$scope.publicPosts = [];
 
 			for (key in publicData) {
 				$scope.publicPosts.unshift(publicData[key])
 			}
-
-			console.log($scope.publicPosts);
-
-			// trigger an angular digest cycle
-			$scope.$digest();
 		});
 	}
 
@@ -41,10 +41,16 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 
 
+	$scope.pinPublicPost = function (title, link, description) {
+		
+		$('#addPostModal').modal('show')
+		//populate values
+		$scope.postTitle = title;
+		$scope.postLink = link;
+		$scope.postDescription = description;
 
-
-
-
+		$scope.openBigModal();
+	}
 
 
 
@@ -286,7 +292,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 		newPost.posteeName = $scope.activeUser.name;
 		newPost.posteeId = $scope.activeUser.id;
-		newPost.postePicUrl = $scope.activeUser.picUrl;
+		newPost.posteePicUrl = $scope.activeUser.picUrl;
 
 
 		// Push data to public posts
@@ -324,10 +330,12 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 
 	// Set-content-on-post modal
-	$scope.changeModal = function (title, link, description) {
+	$scope.changeModal = function (title, link, description, posteeUrl, posteeName ) {
 		$scope.activeTitle = title;
 		$scope.activeLink = link;
 		$scope.activeDescription = description;
+		$scope.posteePicUrl = posteeUrl;
+		$scope.posteeName = posteeName;
 	}
 
 	// Add-new-post modal

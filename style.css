@@ -67,6 +67,19 @@ h2 {
 	background-color: #0083E4;
 }
 
+#public-feed .add-one-post {
+	top: 0;
+	font-size: 17px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#public-feed .add-one-post:hover {
+	background-color: inherit;
+	color: #0093FF;
+}
+
 ul {
 	padding-left: 0;
 }
@@ -151,6 +164,7 @@ li:hover {
 	border-radius: 2px;
 	border: 1px solid #eee;
 	margin-bottom: 12px;
+	position: relative;
 }
 
 .jumbotron{
@@ -231,21 +245,24 @@ li:hover {
 	
 	border-top-left-radius: 30px;
 	border-bottom-left-radius: 30px;
-	cursor: pointer;
 }
 
-.postee-info:hover {
+.postee-info.spacing-top {
+	margin-top: 20px;
+}
+
+/*.postee-info:hover {
 	background-color: #fff;
 }
 
 .postee-info:hover p {
 	color: #000;
-}
+}*/
 
 .postee-info p {
 	margin: 0;
 	padding-left: 10px;
-	color: #DBDBDB;
+	color: #C7C7C7;/*#DBDBDB;*/
 }
 
 #public-feed {
@@ -285,7 +302,7 @@ li:hover {
 
 #postModal .modal-header {
 	background: white;
-	padding: 35px 15px;
+	padding: 25px 25px 35px;
 }
 
 #postModal .modal-body {

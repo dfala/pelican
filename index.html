@@ -75,13 +75,16 @@
 
 				<div class="list" id="public-feed">
 					<ul class="post-data">
-						<li class="light-border" ng-repeat="post in publicPosts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description)">
+						<li class="light-border" ng-repeat="post in publicPosts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description, post.posteePicUrl, post.posteeName)">
+							<div class="add-one-post" ng-if="activeUser && activeUser.id !== post.posteeId" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
+								<span class="glyphicon glyphicon-pushpin"></span>
+							</div>
 							<p class="post-title">{{post.title}}</p>
 							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
 							<p class="post-description" ng-if="post.description">{{post.description}}</p>
 							<div class="postee-info" ng-if="post.posteeName">
 								<div class="img-container rounded-img">
-									<img src="{{post.postePicUrl}}">
+									<img src="{{post.posteePicUrl}}">
 								</div>
 								<p>{{post.posteeName}}</p>
 							</div>
@@ -139,6 +142,14 @@
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 					<h2 class="modal-title" id="myModalLabel">{{activeTitle}}</h2>
 					<a class="modal-link" href="link" target="_blank" ng-href="{{activeLink}}" ng-if="activeLink">{{activeLink}}</a>
+
+
+					<div class="postee-info spacing-top" ng-if="posteeName">
+						<div class="img-container rounded-img">
+							<img src="{{posteePicUrl}}">
+						</div>
+						<p>{{posteeName}}</p>
+					</div>
 				</div>
 
 				<div class="modal-body" ng-if="activeDescription">
