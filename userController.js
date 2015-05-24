@@ -45,7 +45,9 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 
 	$scope.pinPublicPost = function (title, link, description) {
-		
+
+		console.log(title, link, description);
+
 		$('#addPostModal').modal('show')
 		//populate values
 		$scope.postTitle = title;
@@ -355,6 +357,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	$scope.openBigModal = function (optionalTitle) {
 		$('body').css('overflow', 'hidden');
 		
+		// User clicked on the plus btn next to the title
 		if (optionalTitle) return $scope.selectList(optionalTitle);
 
 		$scope.chooseList = true;
@@ -372,9 +375,10 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 		$scope.alertMessage = '';
 		$scope.modalTitle = "Pick a list";
 
-		$('#add-title').val('');
-		$('#add-link').val('');
-		$('#add-description').val('');
+
+		$scope.postTitle = '';
+		$scope.postLink = '';
+		$scope.postDescription = '';
 	}
 
 	$('#addPostModal').on('hidden.bs.modal', function () {
