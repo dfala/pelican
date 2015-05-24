@@ -4,11 +4,11 @@
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="style.css">
 	<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+	<link rel="stylesheet" href="style.css">
 </head>
 
 
@@ -28,9 +28,16 @@
 				<a href="#">
 					<p ng-if="!activeUser.picUrl" ng-click="login()">Sign up / Log In</p>
       			</a>
-      				<div class="img-container">
-      					<img ng-if="activeUser.picUrl" ng-click="homePage(false)" src="{{activeUser.picUrl}}">
-      				</div>
+
+      			<span ng-if="activeUser.picUrl" style="display:flex; align-items: center;">
+	      			<a href="#">
+						<p ng-click="logOut()" style="margin-right: 20px;">Logout</p>
+	      			</a>
+	  				<div class="img-container">
+	  					<img ng-click="homePage(false)" src="{{activeUser.picUrl}}">
+	  				</div>
+  				</span>
+
       		</div>
 
     		<form class="navbar-form search-bar" role="search">

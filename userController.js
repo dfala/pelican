@@ -34,6 +34,9 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 			for (key in publicData) {
 				$scope.publicPosts.unshift(publicData[key])
 			}
+
+			// trigger an angular digest cycle
+			$scope.$digest();
 		});
 	}
 
@@ -86,6 +89,15 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 		},{
 			scope: 'email,user_likes'
 		});
+	}
+
+	// log user out
+	$scope.logOut = function () {
+		date = Date();
+		document.cookie = 'id=; expires=' + date + ';';
+		$timeout(function () {
+			location.reload();
+		}, 50);
 	}
 
 	// checking if user exists
@@ -150,6 +162,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 			setCookie($scope.activeUser.id, 1);
 
 			$scope.isHomePage = false;
+			
 			// trigger an angular digest cycle
 			$scope.$digest();
 		});
