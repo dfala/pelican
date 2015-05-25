@@ -89,7 +89,7 @@
 							</div>
 							<p class="post-title">{{post.title}}</p>
 							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
-							<p class="post-description" ng-if="post.description">{{post.description}}</p>
+							<p class="post-description" ng-bind-html="post.description | to_trusted"></p>
 							<div class="postee-info" ng-if="post.posteeName">
 								<div class="img-container rounded-img">
 									<img ng-if="post.posteePicUrl" src="{{post.posteePicUrl}}">
@@ -125,7 +125,8 @@
 							</div> -->
 							<p class="post-title">{{post.title}}</p>
 							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
-							<p class="post-description" ng-if="post.description">{{post.description}}</p>
+							<!-- <p class="post-description" ng-if="post.description">{{post.description}}</p> -->
+							<div class="post-description" ng-if="post.description" ng-bind-html="post.description | to_trusted"></div>
 						</li>
 					</ul>
 				</div>
@@ -164,7 +165,7 @@
 				</div>
 
 				<div class="modal-body" ng-if="activeDescription">
-					<p>{{activeDescription}}</p>
+					<p ng-bind-html="activeDescription | to_trusted"></p>
 				</div>
 
 				<div class="modal-footer">
@@ -213,10 +214,10 @@
 									<input class="form-control" ng-model="postLink" placeholder="Link" id="add-link">
 								</div>
 								<div class="form-group">
-									<textarea class="form-control" ng-model="postDescription" placeholder="Thoughts" id="add-description">
-									</textarea>
+									<div contenteditable="true" class="form-control" placeholder="Thoughts" id="add-description">
+									</div>
 								</div>
-									<button class="btn btn-primary" ng-click="createPost(postTitle, postLink, postDescription)">Post it!</button>
+									<button class="btn btn-primary" ng-click="createPost(postTitle, postLink, postDescription)" id="add-description">Post it!</button>
 							</form>
 						</div>
 

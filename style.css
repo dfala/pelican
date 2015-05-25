@@ -11,13 +11,11 @@
 
 /*HIGHLIGHT COLOR*/
 ::-moz-selection {
-	// background-color: #2e2f33;
 	background-color: #1481e3;
 	color: #fff;
 }
 
 ::selection {
-	// background-color: #2e2f33;
 	background-color: #1481e3;
 	color: #fff;
 }
@@ -30,6 +28,7 @@
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
+	overflow: scroll;
 }
 
 #main-body {
@@ -387,8 +386,15 @@ li:hover {
 	word-wrap: break-word;
 }
 
-textarea.form-control {
-	height: 150px;
+#add-description {
+	height: auto;
+	cursor: text;
+}
+
+div[contenteditable=true]:empty:before {
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+  color: #9C9C9C;
 }
 
 .form-inline {

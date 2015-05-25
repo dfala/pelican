@@ -6,6 +6,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
 	var allLists = firebase.child("list");
 
+
+	$('#add-description').html('');
 	$scope.activeTitle = "No title :(";
 	$scope.activeLink = "No link :(";
 	$scope.activeDescription = "No description :(";
@@ -36,7 +38,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 			}
 
 			// trigger an angular digest cycle
-			$scope.$digest();
+			// $scope.$digest();
 		});
 	}
 
@@ -45,9 +47,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 
 
 	$scope.pinPublicPost = function (title, link, description) {
-
-		console.log(title, link, description);
-
 		$('#addPostModal').modal('show')
 		//populate values
 		$scope.postTitle = title;
@@ -272,7 +271,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 	}
 
 	// Create a new post
-	$scope.createPost = function (title, link, description) {
+	$scope.createPost = function (title, link) {
 		if (!listToAdd) return;
 
 		// validation
@@ -295,10 +294,15 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 			timestamp: Date()
 		}
 
+		// adding link
 		if (link) { newPost.link = link }
-		if (description) { newPost.description = description }
 
+		// adding description
+		var postText = $('#add-description').html();
 
+		if (postText) {
+			newPost.description = postText;
+		}
 
 		// Push data to respective user list
 		userRef.child('/lists/' + listToAdd + '/posts').push(newPost);
@@ -314,7 +318,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 
 
 
-		// Trigger new digest cycle
 		$scope.closeBigModal();
 		$('#addPostModal').modal('hide');
 
@@ -378,7 +381,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 
 		$scope.postTitle = '';
 		$scope.postLink = '';
-		$scope.postDescription = '';
+		$('#add-description').html('');
 	}
 
 	$('#addPostModal').on('hidden.bs.modal', function () {
@@ -393,7 +396,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 
 	// Highlighting text
 	$scope.highlight = function(text, search) {
-	    console.log(text);
 	    if (!search) {
 	        return $sce.trustAsHtml(text);
 	    }
@@ -446,16 +448,16 @@ pelicanApp.filter('searchContent', function() {
 				// This is saving posts with the searchQuery on title
 				// but not sure how to return it
 
-				var tempPost = [];
-				for (var key in list.posts) {
+				// var tempPost = [];
+				// for (var key in list.posts) {
 
-					var tempPostName = list.posts[key].title.toLowerCase();	
+				// 	var tempPostName = list.posts[key].title.toLowerCase();	
 					
-					if (tempPostName.indexOf(searchQuery) > -1) {
-						tempPost.push(list.posts[key]);
-					}
+				// 	if (tempPostName.indexOf(searchQuery) > -1) {
+				// 		tempPost.push(list.posts[key]);
+				// 	}
 
-				}
+				// }
 			}
 		})
 
@@ -464,6 +466,12 @@ pelicanApp.filter('searchContent', function() {
 	}
 });
 
+
+pelicanApp.filter('to_trusted', ['$sce', function($sce){
+    return function(text) {
+        return $sce.trustAsHtml(text);
+    };
+}]);
 
 
 
