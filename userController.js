@@ -1,6 +1,6 @@
 var pelicanApp = angular.module('pelicanApp',[]);
 
-pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scope, $timeout) {
+pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', function($scope, $timeout, $sce) {
 
 	// INITIATING APP
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
@@ -31,7 +31,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 			$scope.publicPosts = [];
 
-			for (key in publicData) {
+			for (var key in publicData) {
 				$scope.publicPosts.unshift(publicData[key])
 			}
 
@@ -154,7 +154,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 			if (userData.lists === 'lists') return userFirstLogin();
 			
-			for (key in userData.lists) {
+			for (var key in userData.lists) {
 				var tempList = userData.lists[key];
 				tempList.listId = key;
 				$scope.lists.push(tempList);
@@ -333,6 +333,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 
 
 
+
 	///////////////////
 	// FRONT END UX/UI
 	///////////////////
@@ -391,6 +392,16 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', function($scop
 	}
 
 
+	// Highlighting text
+	$scope.highlight = function(text, search) {
+	    console.log(text);
+	    if (!search) {
+	        return $sce.trustAsHtml(text);
+	    }
+	    return $sce.trustAsHtml(text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">' + search + '</span>'));
+	};
+
+
 }]);
 
 
@@ -433,7 +444,7 @@ pelicanApp.filter('searchContent', function() {
 				// but not sure how to return it
 
 				var tempPost = [];
-				for (key in list.posts) {
+				for (var key in list.posts) {
 
 					var tempPostName = list.posts[key].title.toLowerCase();	
 					
