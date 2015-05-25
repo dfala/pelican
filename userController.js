@@ -277,7 +277,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 
 		// validation
 		if (!title) { return $scope.displayAlert('Please add a title') }
-		if (!link && !description) { return $scope.displayAlert('Please add a link OR description') }
 
 		if (link) {
 			// valid link?
