@@ -147,10 +147,19 @@ li:hover {
 	visibility: none;
 }
 
-.glyphicon-search {
+.search-bar .glyphicon {
 	top: 5px;
 	right: 30px;
 	color: #0093FF;
+}
+
+.search-bar .glyphicon-remove {
+	cursor: pointer;
+	color: #E7E7E7;
+}
+
+.search-bar .glyphicon-remove:hover {
+	color: #858585;
 }
 
 .post-description {

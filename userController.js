@@ -157,7 +157,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 			for (var key in userData.lists) {
 				var tempList = userData.lists[key];
 				tempList.listId = key;
-				$scope.lists.push(tempList);
+				$scope.lists.unshift(tempList);
 			}
 
 			// second argument defines number of days until cookie expires
@@ -400,6 +400,10 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 	    }
 	    return $sce.trustAsHtml(text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">' + search + '</span>'));
 	};
+
+	$scope.cleanSearchQuery = function () {
+		$scope.textSearch = '';
+	}
 
 
 }]);
