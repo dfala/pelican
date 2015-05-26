@@ -339,6 +339,24 @@ li:hover {
 	padding: 25px 25px 35px;
 }
 
+.modal-header {
+	padding-bottom: 25px;
+	position: relative;
+}
+
+.modal-header p {
+	position: absolute;
+	bottom: 0;
+	right: 25px;
+	color: #D4D4D4;
+	cursor: pointer;
+}
+
+.modal-header p:hover{
+	color: #878787;
+}
+
+
 #postModal .modal-body {
 	padding: 50px;
 	background: white;
@@ -374,10 +392,6 @@ li:hover {
 
 .modal {
 	padding-right: 0 !important;
-}
-
-.modal-header {
-	padding-bottom: 25px;
 }
 
 .modal-link {

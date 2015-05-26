@@ -402,7 +402,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 	// open edit post modal
 	$scope.editPostModal = function(title, link, content) {
 		// set modal
-		$scope.activeTitle = 'Edit post';
+		$scope.modalTitle = 'Edit post';
+
 		$scope.chooseList = false;
 		$scope.addPost = true;
 		$scope.editingPost = true;
@@ -418,8 +419,13 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 		})
 	}
 
-	$scope.updatePostModal = function () {
+	$scope.updatePostModal = function (deletePost) {
 		var postRef = 'users/' + $scope.activeUser.id + '/lists/' + $scope.listId + '/posts/' + $scope.postId;
+		if (deletePost) {
+			firebase.child(postRef).remove();
+			clearUpdate();
+			return
+		}
 
 		var newDescription = $('#add-description').html();
 		var newTimestamp = Date();
@@ -429,20 +435,23 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 			timestamp: newTimestamp
 		}
 
-		// TODO: Tell them they need a title
-		if (!$scope.postTitle) return console.log('Error.  Need a title');
-
+		// Validation
+		if (!$scope.postTitle) { return $scope.displayAlert('Please add a title') }
 		if (newDescription) { updatedPost.description = newDescription } else { updatedPost.description = null }
-
 		if ($scope.postLink) { updatedPost.link = $scope.postLink } else { updatedPost.link = null }
 
 		firebase.child(postRef).update(updatedPost);
 
-		//TODO: this is a hack -- only need to get the thread
-		$scope.lists = [];
+		clearUpdate();
+	}
+
+	var clearUpdate = function () {
+		// Closing modals
 		$('#addPostModal').modal('hide');
 		$('#postModal').modal('hide');
 
+		//TODO: this is a hack -- only need to get the thread
+		$scope.lists = [];
 		getUserData($scope.activeUser.id);
 		$scope.closeBigModal();
 	}

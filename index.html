@@ -158,7 +158,7 @@
 
 
 
-					<p ng-click="editPostModal(activeTitle, activeLink, activeDescription)" ng-if="activeUser" data-toggle="modal" data-target="#addPostModal">Edit post</p>
+					<p ng-click="editPostModal(activeTitle, activeLink, activeDescription);" ng-if="activeUser" data-toggle="modal" data-target="#addPostModal">edit post</p>
 
 
 
@@ -230,7 +230,7 @@
 
 									<span ng-if="editingPost">
 										<button class="btn btn-primary" ng-click="updatePostModal()" id="add-description">Update post</button>
-										<button class="btn btn-default" ng-click="deletePost()">Delete post</button>
+										<button class="btn btn-default" ng-click="updatePostModal(true)">Delete post</button>
 									</span>
 							</form>
 						</div>
