@@ -468,7 +468,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 	    if (!search) {
 	        return $sce.trustAsHtml(text);
 	    }
-	    search = search.toUpperCase();
 	    return $sce.trustAsHtml(text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">' + search + '</span>'));
 	};
 
