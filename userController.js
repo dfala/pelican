@@ -14,6 +14,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 	$scope.data();
 
 	$('#add-description').html('');
+	$scope.bannerTitle = 'The Pelican Blog';
 	$scope.activeTitle = "No title :(";
 	$scope.activeLink = "No link :(";
 	$scope.activeDescription = "No description :(";
@@ -152,19 +153,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 		userRef.once('value', function (data) {
 			var userData = data.val();
 
-			$scope.activeUser = {
-				id: userData.id,
-				name: userData.name,
-				picUrl: userData.picUrl
-			}
-
-			if (userData.lists === 'lists') return userFirstLogin();
-			
-			for (var key in userData.lists) {
-				var tempList = userData.lists[key];
-				tempList.listId = key;
-				$scope.lists.unshift(tempList);
-			}
+			cleanUserData(userData, true);
 
 			// second argument defines number of days until cookie expires
 			setCookie($scope.activeUser.id, 1);
@@ -174,6 +163,35 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 			// trigger an angular digest cycle
 			$scope.$digest();
 		});
+	}
+
+	var cleanUserData = function (userData, isUser) {
+		if (isUser) {
+			$scope.isNotUserData = false;
+			$scope.activeUser = {
+				id: userData.id,
+				name: userData.name,
+				picUrl: userData.picUrl
+			}
+		} else {
+			$scope.isNotUserData = true;
+		}
+
+		var firstName = userData.name.split(" ");
+		$scope.bannerTitle = firstName[0] + "'s Pelican";
+
+
+		if (userData.lists === 'lists') return userFirstLogin();
+		
+		$scope.lists = [];
+
+		for (var key in userData.lists) {
+			var tempList = userData.lists[key];
+			tempList.listId = key;
+			$scope.lists.unshift(tempList);
+		}
+
+		window.scrollTo(0, 0);
 	}
 
 	var userFirstLogin = function () {
@@ -339,6 +357,21 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 
 
 
+	///////////////////
+	// SEEING PROFILES
+	///////////////////
+
+	$scope.seeProfile = function (posteeId) {
+		var posteeRef = new Firebase('https://pelican.firebaseio.com/users/' + posteeId);
+
+		posteeRef.once('value', function (data) {
+			cleanUserData(data.val(), false);
+			$scope.isHomePage = false;
+			$scope.bannerTitle
+			$scope.$digest();
+		})
+	}
+
 
 
 
@@ -351,6 +384,11 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 	// Set value of page (home page vs. user page)
 	$scope.homePage = function (value) {
 		$scope.isHomePage = value;
+		if (value === false) {
+			getUserData($scope.activeUser.id);
+		} else {
+			$scope.bannerTitle = "The Pelican Blog";
+		}
 	}
 
 

@@ -82,6 +82,15 @@ button, .btn, .btn-primary {
 }
 
 
+.post-data .add-one-post {
+	font-size: 17px;
+}
+
+.post-data .add-one-post:hover {
+	background-color: #fff;
+	color: #0093FF;
+}
+/*
 
 .post-data .add-one-post {
 	font-size: 13px;
@@ -101,7 +110,7 @@ button, .btn, .btn-primary {
 #public-feed .add-one-post:hover {
 	color: #0093FF;
 }
-
+*/
 
 
 ul {

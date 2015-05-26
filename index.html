@@ -62,7 +62,7 @@
 		
 		<div class="jumbotron pelican-banner" ng-if="!textSearch" ng-cloak>
 			<div class="container">
-				<h1>The Pelican Blog</h1>
+				<h1>{{bannerTitle}}</h1>
 				<br>
 
 				<button class="btn btn-primary btn-lg" ng-click="login()" ng-if="!activeUser">Sign up / Log in</button>
@@ -95,7 +95,7 @@
 								<div class="img-container rounded-img">
 									<img ng-if="post.posteePicUrl" src="{{post.posteePicUrl}}">
 								</div>
-								<p>{{post.posteeName}}</p>
+								<p ng-click="seeProfile(post.posteeId);$event.stopPropagation()">{{post.posteeName}}</p>
 							</div>
 						</li>
 					</ul>
@@ -116,14 +116,16 @@
 				<div class="list" ng-repeat="list in lists | searchContent: textSearch">
 					<div class="page-header">
 		  				<h2 ng-bind-html="highlight(list.listName, textSearch)">{{list.listName}}</h2>
-		  				<div class="add-one-post" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
+		  				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
 					</div>
 
 					<ul class="post-data">
 						<li ng-repeat="(key, post) in list.posts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description, false, false, list.listId, key)" style="position: relative">
-							<!-- <div class="add-one-post">
-								<span class="glyphicon glyphicon-trash"></span>
-							</div> -->
+							
+							<div class="add-one-post" ng-if="isNotUserData" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
+								<span class="glyphicon glyphicon-pushpin"></span>
+							</div>
+
 							<p class="post-title">{{post.title}}</p>
 							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
 							<div class="post-description" ng-if="post.description" ng-bind-html="post.description | to_trusted"></div>
@@ -159,7 +161,7 @@
 
 
 
-					<p class="edit-post" ng-click="editPostModal(activeTitle, activeLink, activeDescription);" ng-if="activeUser" data-toggle="modal" data-target="#addPostModal" ng-show="isHomePage === false">edit post</p>
+					<p class="edit-post" ng-click="editPostModal(activeTitle, activeLink, activeDescription);" ng-if="activeUser" data-toggle="modal" data-target="#addPostModal" ng-show="isHomePage === false && !isNotUserData">edit post</p>
 
 
 
