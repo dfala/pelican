@@ -91,11 +91,17 @@
 							<p class="post-title">{{post.title}}</p>
 							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
 							<p class="post-description" ng-bind-html="post.description | to_trusted"></p>
-							<div class="postee-info" ng-if="post.posteeName">
+							
+							<div class="postee-info"
+								ng-if="post.posteeName"
+								ng-class="{'click-for-profile': post.posteeName !== activeUser.name}"
+								ng-click="seeProfile(post.posteeId);$event.stopPropagation()">
+
 								<div class="img-container rounded-img">
 									<img ng-if="post.posteePicUrl" src="{{post.posteePicUrl}}">
 								</div>
-								<p ng-click="seeProfile(post.posteeId);$event.stopPropagation()">{{post.posteeName}}</p>
+								<p>{{post.posteeName}}</p>
+								
 							</div>
 						</li>
 					</ul>

@@ -87,31 +87,9 @@ button, .btn, .btn-primary {
 }
 
 .post-data .add-one-post:hover {
-	background-color: #fff;
+	background-color: #F4F4F4;
 	color: #0093FF;
 }
-/*
-
-.post-data .add-one-post {
-	font-size: 13px;
-}
-
-.post-data .add-one-post:hover {
-	background-color: inherit;
-	color: #FF1F00;
-}
-
-
-
-#public-feed .add-one-post {
-	font-size: 17px;
-}
-
-#public-feed .add-one-post:hover {
-	color: #0093FF;
-}
-*/
-
 
 ul {
 	padding-left: 0;
@@ -302,6 +280,14 @@ li:hover {
 	margin: 0;
 	padding-left: 10px;
 	color: #C7C7C7;
+}
+
+.click-for-profile:hover {
+	background-color: #fff;
+}
+
+.click-for-profile:hover p {
+	color: #000;
 }
 
 #public-feed {
