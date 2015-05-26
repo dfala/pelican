@@ -9,6 +9,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="modals.css">
 </head>
 
 
@@ -42,7 +43,7 @@
 
     		<form class="navbar-form search-bar" role="search">
         		<div class="form-group">
-         			<input class="form-control" placeholder="Search" ng-model="textSearch">
+         			<input class="form-control" placeholder="Search" ng-model="textSearch" clear-search>
         		</div>
         		<button class="hidden">Search</button>
         		<span class="glyphicon glyphicon-search" ng-if="!textSearch"></span>
@@ -200,6 +201,8 @@
 
 				<div class="modal-body">
 						{{alertMessage}}
+						<div ng-if="alertMessage" style="margin-bottom: 10px"></div>
+
 						<div class="list-wrapper" ng-show="chooseList">
 							<div>
 								<ul ng-repeat="list in lists">
@@ -226,10 +229,10 @@
 									<div contenteditable="true" class="form-control" placeholder="Thoughts" id="add-description">
 									</div>
 								</div>
-									<button class="btn btn-primary" ng-click="createPost(postTitle, postLink, postDescription)" id="add-description" ng-if="!editingPost">Post it!</button>
+									<button class="btn btn-primary" ng-click="createPost(postTitle, postLink, postDescription)" ng-if="!editingPost">Post it!</button>
 
 									<span ng-if="editingPost">
-										<button class="btn btn-primary" ng-click="updatePostModal()" id="add-description">Update post</button>
+										<button class="btn btn-primary" ng-click="updatePostModal()">Update post</button>
 										<button class="btn btn-default" ng-click="updatePostModal(true)">Delete post</button>
 									</span>
 							</form>
@@ -253,6 +256,8 @@
 
 	<!-- Angular File -->
 	<script type="text/javascript" src="userController.js"></script>
+	<script type="text/javascript" src="peliDirectives.js"></script>
+	<script type="text/javascript" src="peliFilters.js"></script>
 	<script type="text/javascript" src="firebaseService.js"></script>
 
 	<!-- GOOGLE ANALYTICS -->

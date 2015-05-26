@@ -438,7 +438,22 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 		// Validation
 		if (!$scope.postTitle) { return $scope.displayAlert('Please add a title') }
 		if (newDescription) { updatedPost.description = newDescription } else { updatedPost.description = null }
-		if ($scope.postLink) { updatedPost.link = $scope.postLink } else { updatedPost.link = null }
+		
+		if ($scope.postLink) {
+			// valid link?
+			if ($scope.postLink.indexOf('.') < 0) {
+				return $scope.displayAlert('Please add a valid link');
+			}
+
+			// add http to link (if none)
+			if ($scope.postLink && link.indexOf('http') < 0) {
+				$scope.postLink = 'http://' + $scope.postLink;
+			}
+
+			updatedPost.link = $scope.postLink
+		} else {
+			updatedPost.link = null
+		}
 
 		firebase.child(postRef).update(updatedPost);
 
@@ -477,79 +492,3 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 
 
 }]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-///////////////////////////////////
-// TODO: MOVE SEARCH FILTER SMELSE
-///////////////////////////////////
-
-pelicanApp.filter('searchContent', function() {
-
-	return function(input, searchQuery, optional2) {
-
-		if (!searchQuery) return input;
-
-		var output = [];
-		searchQuery = searchQuery.toLowerCase();
-
-		input.forEach(function (list) {
-			var tempListName = list.listName.toLowerCase();
-
-			// Search functionality for list titles
-			if (tempListName.indexOf(searchQuery) > -1) {
-				return output.push(list);
-
-
-			} else {
-
-				// TODO: THIS DOES NOT WORK YET
-				// This is saving posts with the searchQuery on title
-				// but not sure how to return it
-
-				// var tempPost = [];
-				// for (var key in list.posts) {
-
-				// 	var tempPostName = list.posts[key].title.toLowerCase();	
-					
-				// 	if (tempPostName.indexOf(searchQuery) > -1) {
-				// 		tempPost.push(list.posts[key]);
-				// 	}
-
-				// }
-			}
-		})
-
-		return output;
-
-	}
-});
-
-
-pelicanApp.filter('to_trusted', ['$sce', function($sce){
-    return function(text) {
-        return $sce.trustAsHtml(text);
-    };
-}]);
-
-
-
-
-
-
-
-
-
-
-
-

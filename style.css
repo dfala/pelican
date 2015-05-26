@@ -47,6 +47,10 @@ h2 {
 	font-size: 25px;
 }
 
+button, .btn, .btn-primary {
+	cursor: pointer;
+}
+
 .add-one-post {
 	font-size: 25px;
 	position: absolute;
@@ -285,136 +289,12 @@ li:hover {
 	margin-top: 20px;
 }
 
-/*.postee-info:hover {
-	background-color: #fff;
-}
-
-.postee-info:hover p {
-	color: #000;
-}*/
-
 .postee-info p {
 	margin: 0;
 	padding-left: 10px;
-	color: #C7C7C7;/*#DBDBDB;*/
+	color: #C7C7C7;
 }
 
 #public-feed {
 	margin-top: 40px;
-}
-
-
-
-/*/////////////////////////////////////////////////////////////////////////////////////*/
-/* MODALS */
-/*/////////////////////////////////////////////////////////////////////////////////////*/
-
-
-/*///////////////////////////////////*/
-/*POST MODAL*/
-/*///////////////////////////////////*/
-
-#postModal .modal-dialog {
-	height: 100%;
-}
-
-#postModal .modal-lg {
-	margin-right: 0;
-	margin-top: 0;
-	margin-bottom: 0;
-	width: 50%;
-	max-width: 700px;
-	min-height: 100%;
-}
-
-#postModal .modal-content {
-	border-radius: 0;
-	border: red;
-	min-height: 100%;
-	background: #eee;
-}
-
-#postModal .modal-header {
-	background: white;
-	padding: 25px 25px 35px;
-}
-
-.modal-header {
-	padding-bottom: 25px;
-	position: relative;
-}
-
-.edit-post {
-	position: absolute;
-	bottom: 0;
-	right: 25px;
-	color: #D4D4D4;
-	cursor: pointer;
-}
-
-.edit-post:hover{
-	color: #878787;
-}
-
-
-#postModal .modal-body {
-	padding: 50px;
-	background: white;
-}
-
-#postModal .modal p {
-	line-height: 1.5;
-	right: 0px;
-}
-
-#postModal .modal-footer {
-	text-align: left;
-	background: #eee; 
-}
-
-.modal-body .btn-default {
-	float: right;
-}
-
-/*///////////////////////////////////*/
-/*NEW ADD POST MODAL*/
-/*///////////////////////////////////*/
-
-#addPostModal .modal-lg {
-	max-width: 600px;
-}
-
-#addPostModal .modal-content {
-	border-radius: 3px;
-	box-shadow: 0 0 6px 0px #3C3C3C;
-	-webkit-box-shadow: 0 0 6px 0px #3C3C3C;
-}
-
-.modal {
-	padding-right: 0 !important;
-}
-
-.modal-link {
-	margin: 15px 0;
-	padding: 10px;
-	background-color: #F4F4F4;
-	border-radius: 2px;
-	display: block;
-	max-width: 100%;
-	word-wrap: break-word;
-}
-
-#add-description {
-	height: auto;
-	cursor: text;
-}
-
-div[contenteditable=true]:empty:before {
-  content: attr(placeholder);
-  display: block; /* For Firefox */
-  color: #9C9C9C;
-}
-
-.form-inline {
-	margin-top: 20px;
 }
