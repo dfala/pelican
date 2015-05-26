@@ -1,16 +1,23 @@
 var pelicanApp = angular.module('pelicanApp',[]);
 
-pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', function($scope, $timeout, $sce) {
+pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'firebaseService', function($scope, $timeout, $sce, firebaseService) {
 
 	// INITIATING APP
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
 	var allLists = firebase.child("list");
 
 
+	$scope.data = function() {
+		firebaseService.getData();
+	}
+
+	$scope.data();
+
 	$('#add-description').html('');
 	$scope.activeTitle = "No title :(";
 	$scope.activeLink = "No link :(";
 	$scope.activeDescription = "No description :(";
+	$scope.editingPost = false;
 	$scope.posteePicUrl;
 	$scope.posteeName;
 
@@ -51,7 +58,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 		//populate values
 		$scope.postTitle = title;
 		$scope.postLink = link;
-		$scope.postDescription = description;
+		$('#add-description').html(description);
 
 		$scope.openBigModal();
 	}
@@ -348,24 +355,25 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 
 
 	// Set-content-on-post modal
-	$scope.changeModal = function (title, link, description, posteeUrl, posteeName ) {
+	$scope.changeModal = function (title, link, description, posteeUrl, posteeName, listId, postId) {
 		$scope.activeTitle = title;
 		$scope.activeLink = link;
 		$scope.activeDescription = description;
 		$scope.posteePicUrl = posteeUrl;
 		$scope.posteeName = posteeName;
+		$scope.listId = listId;
+		$scope.postId = postId;
 	}
 
 	// Add-new-post modal
 	$scope.openBigModal = function (optionalTitle) {
 		$('body').css('overflow', 'hidden');
-		
+
 		// User clicked on the plus btn next to the title
 		if (optionalTitle) return $scope.selectList(optionalTitle);
 
 		$scope.chooseList = true;
 		$scope.addPost = false;
-
 	}
 
 	// Cloding add-new-post modal
@@ -375,6 +383,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 		// Reset the process
 		listToAdd = '';
 		$scope.addPost = false;
+		$scope.editingPost = false;
 		$scope.alertMessage = '';
 		$scope.modalTitle = "Pick a list";
 
@@ -384,9 +393,60 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 		$('#add-description').html('');
 	}
 
+	// on boostrap close modal trigger closeBigModal();
 	$('#addPostModal').on('hidden.bs.modal', function () {
     	$scope.closeBigModal();
 	})
+
+
+	// open edit post modal
+	$scope.editPostModal = function(title, link, content) {
+		// set modal
+		$scope.activeTitle = 'Edit post';
+		$scope.chooseList = false;
+		$scope.addPost = true;
+		$scope.editingPost = true;
+
+		// set values
+		$scope.postTitle = title;
+		$scope.postLink = link;
+		$('#add-description').html(content);
+
+		// focus on title
+		$timeout(function () {
+			$('#add-title').focus();
+		})
+	}
+
+	$scope.updatePostModal = function () {
+		var postRef = 'users/' + $scope.activeUser.id + '/lists/' + $scope.listId + '/posts/' + $scope.postId;
+
+		var newDescription = $('#add-description').html();
+		var newTimestamp = Date();
+
+		var updatedPost = {
+			title: $scope.postTitle,
+			timestamp: newTimestamp
+		}
+
+		// TODO: Tell them they need a title
+		if (!$scope.postTitle) return console.log('Error.  Need a title');
+
+		if (newDescription) { updatedPost.description = newDescription } else { updatedPost.description = null }
+
+		if ($scope.postLink) { updatedPost.link = $scope.postLink } else { updatedPost.link = null }
+
+		firebase.child(postRef).update(updatedPost);
+
+		//TODO: this is a hack -- only need to get the thread
+		$scope.lists = [];
+		$('#addPostModal').modal('hide');
+		$('#postModal').modal('hide');
+
+		getUserData($scope.activeUser.id);
+		$scope.closeBigModal();
+	}
+
 
 	// Add-new-post alert message
 	$scope.displayAlert = function(message) {
@@ -399,6 +459,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', functi
 	    if (!search) {
 	        return $sce.trustAsHtml(text);
 	    }
+	    search = search.toUpperCase();
 	    return $sce.trustAsHtml(text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">' + search + '</span>'));
 	};
 

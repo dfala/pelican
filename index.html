@@ -119,13 +119,12 @@
 					</div>
 
 					<ul class="post-data">
-						<li ng-repeat="post in list.posts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description)" style="position: relative">
+						<li ng-repeat="(key, post) in list.posts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description, false, false, list.listId, key)" style="position: relative">
 							<!-- <div class="add-one-post">
 								<span class="glyphicon glyphicon-trash"></span>
 							</div> -->
 							<p class="post-title">{{post.title}}</p>
 							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
-							<!-- <p class="post-description" ng-if="post.description">{{post.description}}</p> -->
 							<div class="post-description" ng-if="post.description" ng-bind-html="post.description | to_trusted"></div>
 						</li>
 					</ul>
@@ -154,6 +153,16 @@
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 					<h2 class="modal-title" id="myModalLabel">{{activeTitle}}</h2>
 					<a class="modal-link" href="link" target="_blank" ng-href="{{activeLink}}" ng-if="activeLink">{{activeLink}}</a>
+
+
+
+
+
+					<p ng-click="editPostModal(activeTitle, activeLink, activeDescription)" ng-if="activeUser" data-toggle="modal" data-target="#addPostModal">Edit post</p>
+
+
+
+
 
 
 					<div class="postee-info spacing-top" ng-if="posteeName">
@@ -217,7 +226,12 @@
 									<div contenteditable="true" class="form-control" placeholder="Thoughts" id="add-description">
 									</div>
 								</div>
-									<button class="btn btn-primary" ng-click="createPost(postTitle, postLink, postDescription)" id="add-description">Post it!</button>
+									<button class="btn btn-primary" ng-click="createPost(postTitle, postLink, postDescription)" id="add-description" ng-if="!editingPost">Post it!</button>
+
+									<span ng-if="editingPost">
+										<button class="btn btn-primary" ng-click="updatePostModal()" id="add-description">Update post</button>
+										<button class="btn btn-default" ng-click="deletePost()">Delete post</button>
+									</span>
 							</form>
 						</div>
 
@@ -239,6 +253,7 @@
 
 	<!-- Angular File -->
 	<script type="text/javascript" src="userController.js"></script>
+	<script type="text/javascript" src="firebaseService.js"></script>
 
 	<!-- GOOGLE ANALYTICS -->
 	<script>

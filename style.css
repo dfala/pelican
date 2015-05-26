@@ -354,6 +354,10 @@ li:hover {
 	background: #eee; 
 }
 
+.modal-body .btn-default {
+	float: right;
+}
+
 /*///////////////////////////////////*/
 /*NEW ADD POST MODAL*/
 /*///////////////////////////////////*/
