@@ -344,7 +344,7 @@ li:hover {
 	position: relative;
 }
 
-.modal-header p {
+.edit-post {
 	position: absolute;
 	bottom: 0;
 	right: 25px;
@@ -352,7 +352,7 @@ li:hover {
 	cursor: pointer;
 }
 
-.modal-header p:hover{
+.edit-post:hover{
 	color: #878787;
 }
 
