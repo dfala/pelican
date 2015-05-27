@@ -63,7 +63,7 @@ pelicanApp.directive('clearSearch', function() {
 
 			//Resize when textArea content changes
 			scope.$watch(attrs.ngModel, function (newValue, oldValue) {
-				if (newValue !== undefined) {
+				if (newValue) {
 					textarea = element[0];
 					resizeTextArea(5);
 				}
