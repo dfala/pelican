@@ -157,6 +157,7 @@ li:hover {
 	max-height: 4.5rem;
   	overflow: hidden;
   	color: #989898;
+  	white-space: pre-wrap;
 }
 
 .post-title {
@@ -189,7 +190,7 @@ li:hover {
 .light-border {
 	border-radius: 2px;
 	border: 1px solid #eee;
-	margin-bottom: 12px;
+	margin-bottom: 10px;
 }
 
 .jumbotron{
@@ -257,6 +258,10 @@ li:hover {
 	border-radius: 30px;
 }
 
+.rounded-img img {
+	opacity: 0.6;
+}
+
 
 .profile p {
 	padding-top: 10px;
@@ -267,6 +272,8 @@ li:hover {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+	margin-left: 12px;
+	margin-bottom: 26px;
 	
 	border-top-left-radius: 30px;
 	border-bottom-left-radius: 30px;
@@ -278,16 +285,25 @@ li:hover {
 
 .postee-info p {
 	margin: 0;
-	padding-left: 10px;
 	color: #C7C7C7;
+	margin-left: 10px;
+}
+
+.click-for-profile {
+	cursor: pointer;
 }
 
 .click-for-profile:hover {
 	background-color: #fff;
 }
 
+.click-for-profile:hover img{
+	opacity: 1;
+}
+
+
 .click-for-profile:hover p {
-	color: #000;
+	color: #333;
 }
 
 #public-feed {

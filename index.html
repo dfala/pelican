@@ -84,14 +84,16 @@
 
 				<div class="list" id="public-feed">
 					<ul class="post-data">
-						<li class="light-border" ng-repeat="post in publicPosts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description, post.posteePicUrl, post.posteeName)">
-							<div class="add-one-post" ng-if="activeUser && activeUser.id !== post.posteeId" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
-								<span class="glyphicon glyphicon-pushpin"></span>
-							</div>
-							<p class="post-title">{{post.title}}</p>
-							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
-							<p class="post-description" ng-bind-html="post.description | to_trusted"></p>
-							
+						<span ng-repeat="post in publicPosts">
+							<li class="light-border" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description, post.posteePicUrl, post.posteeName)">
+								<div class="add-one-post" ng-if="activeUser && activeUser.id !== post.posteeId" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
+									<span class="glyphicon glyphicon-pushpin"></span>
+								</div>
+								<p class="post-title">{{post.title}}</p>
+								<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
+								<p class="post-description">{{post.description}}</p>
+							</li>
+
 							<div class="postee-info"
 								ng-if="post.posteeName"
 								ng-class="{'click-for-profile': post.posteeName !== activeUser.name}"
@@ -103,7 +105,7 @@
 								<p>{{post.posteeName}}</p>
 								
 							</div>
-						</li>
+						</span>
 					</ul>
 				</div>
 
@@ -134,7 +136,7 @@
 
 							<p class="post-title">{{post.title}}</p>
 							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
-							<div class="post-description" ng-if="post.description" ng-bind-html="post.description | to_trusted"></div>
+							<p class="post-description">{{post.description}}</p>
 						</li>
 					</ul>
 				</div>
@@ -167,9 +169,15 @@
 
 
 
-					<p class="edit-post" ng-click="editPostModal(activeTitle, activeLink, activeDescription);" ng-if="activeUser" data-toggle="modal" data-target="#addPostModal" ng-show="isHomePage === false && !isNotUserData">edit post</p>
-
-
+					<p class="edit-post"
+						ng-click="editPostModal(activeTitle, activeLink, activeDescription);"
+						ng-if="activeUser"
+						data-toggle="modal"
+						data-target="#addPostModal"
+						ng-show="isHomePage === false && !isNotUserData">
+						
+						edit post
+					</p>
 
 
 
@@ -183,7 +191,7 @@
 				</div>
 
 				<div class="modal-body" ng-if="activeDescription">
-					<p ng-bind-html="activeDescription | to_trusted"></p>
+					<p class="post-description">{{ activeDescription }}</p>
 				</div>
 
 				<div class="modal-footer">
@@ -234,8 +242,8 @@
 									<input class="form-control" ng-model="postLink" placeholder="Link" id="add-link">
 								</div>
 								<div class="form-group">
-									<div contenteditable="true" class="form-control" placeholder="Thoughts" id="add-description">
-									</div>
+									<textarea class="form-control" placeholder="Thoughts" id="add-description" ng-model="addDescription">
+									</textarea>
 								</div>
 									<button class="btn btn-primary" ng-click="createPost(postTitle, postLink, postDescription)" ng-if="!editingPost">Post it!</button>
 
@@ -266,7 +274,7 @@
 	<script type="text/javascript" src="userController.js"></script>
 	<script type="text/javascript" src="peliDirectives.js"></script>
 	<script type="text/javascript" src="peliFilters.js"></script>
-	<script type="text/javascript" src="firebaseService.js"></script>
+	<script type="text/javascript" src="cleanText.js"></script>
 
 	<!-- GOOGLE ANALYTICS -->
 	<script>

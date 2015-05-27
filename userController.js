@@ -1,17 +1,15 @@
 var pelicanApp = angular.module('pelicanApp',[]);
 
-pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'firebaseService', function($scope, $timeout, $sce, firebaseService) {
+pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cleanText', function($scope, $timeout, $sce, cleanText) {
 
 	// INITIATING APP
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
 	var allLists = firebase.child("list");
 
 
-	$scope.data = function() {
-		firebaseService.getData();
-	}
-
-	$scope.data();
+	// $scope.data = function() {
+	// 	firebaseService.getData();
+	// }
 
 	$('#add-description').html('');
 	$scope.bannerTitle = 'The Pelican Blog';
@@ -323,7 +321,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'fireb
 		if (link) { newPost.link = link }
 
 		// adding description
-		var postText = $('#add-description').html();
+		var postText = $scope.addDescription;
+		// var postText = cleanText.cleanThoughts();
 
 		if (postText) {
 			newPost.description = postText;

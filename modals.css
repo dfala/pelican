@@ -48,6 +48,7 @@
 #postModal .modal-body {
 	padding: 50px;
 	background: white;
+	word-break: break-word;
 }
 
 #postModal .modal p {
