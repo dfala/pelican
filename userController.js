@@ -57,7 +57,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		//populate values
 		$scope.postTitle = title;
 		$scope.postLink = link;
-		$('#add-description').html(description);
+		$scope.addDescription = description;
 
 		$scope.openBigModal();
 	}
@@ -84,6 +84,9 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 	var userRef; // complete once a login happens
 	$scope.activeUser;
 	$scope.lists = [];
+	$scope.friendList = [];
+
+
 
 	// initial facebook request
 	$scope.login = function () {
@@ -166,6 +169,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 	var cleanUserData = function (userData, isUser) {
 		if (isUser) {
 			$scope.isNotUserData = false;
+			$scope.lists = [];
 			$scope.activeUser = {
 				id: userData.id,
 				name: userData.name,
@@ -176,17 +180,17 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		}
 
 		var firstName = userData.name.split(" ");
+		$scope.friendList = [];
 		$scope.bannerTitle = firstName[0] + "'s Pelican";
 
 
 		if (userData.lists === 'lists') return userFirstLogin();
-		
-		$scope.lists = [];
 
 		for (var key in userData.lists) {
 			var tempList = userData.lists[key];
 			tempList.listId = key;
-			$scope.lists.unshift(tempList);
+			if (isUser) { $scope.lists.unshift(tempList); }
+			if (!isUser) { $scope.friendList.unshift(tempList); }
 		}
 
 		window.scrollTo(0, 0);
@@ -264,6 +268,11 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 	// User clicked on list to add post
 	$scope.selectList = function (list) {
+		// this is a hack to trigger elastic directive on addDescription ng-model change
+		var tempDescription = $scope.addDescription;
+		$scope.addDescription = '';
+
+
 		listToAdd = list;
 
 		$scope.chooseList = false;
@@ -272,6 +281,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		
 		$timeout(function () {
 			$('#add-title').focus();
+			$scope.addDescription = tempDescription;
 		})
 	}
 
@@ -366,7 +376,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		posteeRef.once('value', function (data) {
 			cleanUserData(data.val(), false);
 			$scope.isHomePage = false;
-			$scope.bannerTitle
 			$scope.$digest();
 		})
 	}
@@ -427,7 +436,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 		$scope.postTitle = '';
 		$scope.postLink = '';
-		$('#add-description').html('');
+		$scope.addDescription = '';
 	}
 
 	// on boostrap close modal trigger closeBigModal();
@@ -448,11 +457,11 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		// set values
 		$scope.postTitle = title;
 		$scope.postLink = link;
-		$('#add-description').html(content);
 
 		// focus on title
 		$timeout(function () {
 			$('#add-title').focus();
+			$scope.addDescription = content;
 		})
 	}
 
@@ -464,7 +473,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 			return
 		}
 
-		var newDescription = $('#add-description').html();
+		var newDescription = $scope.addDescription;
 		var newTimestamp = Date();
 
 		var updatedPost = {
@@ -483,7 +492,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 			}
 
 			// add http to link (if none)
-			if ($scope.postLink && link.indexOf('http') < 0) {
+			if ($scope.postLink && $scope.postLink.indexOf('http') < 0) {
 				$scope.postLink = 'http://' + $scope.postLink;
 			}
 

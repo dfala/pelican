@@ -157,7 +157,10 @@ li:hover {
 	max-height: 4.5rem;
   	overflow: hidden;
   	color: #989898;
-  	white-space: pre-wrap;
+}
+
+.read-br {
+	white-space: pre-wrap;
 }
 
 .post-title {
@@ -173,6 +176,26 @@ li:hover {
 
 .navbar {
 	margin-bottom: 0px;
+}
+
+.slash {
+	cursor: pointer;
+	position: relative;
+}
+
+.slash::before {
+	content: "/";
+	/*margin-right: 10px;*/
+	position: absolute;
+	left: 5px;
+}
+
+.slash:hover {
+	color: #0093FF !important;
+}
+
+.active-nav-title {
+	color: #0093FF !important;
 }
 
 .post-data a {

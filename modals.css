@@ -86,7 +86,7 @@
 
 .modal-link {
 	margin: 15px 0;
-	padding: 10px;
+	padding: 13px;
 	background-color: #F4F4F4;
 	border-radius: 2px;
 	display: block;
@@ -95,7 +95,7 @@
 }
 
 #add-description {
-	height: auto;
+	height: 34px;
 	cursor: text;
 }
 

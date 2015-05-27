@@ -1,0 +1,25 @@
+<div class="container" id="main-body" ng-if="!isHomePage && friendList.length" ng-cloak>
+	<div class="col-xs-6">
+
+		<div class="list" ng-repeat="list in friendList | searchContent: textSearch">
+			<div class="page-header">
+  				<h2 ng-bind-html="highlight(list.listName, textSearch)">{{list.listName}}</h2>
+  				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
+			</div>
+
+			<ul class="post-data">
+				<li ng-repeat="(key, post) in list.posts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description, false, false, list.listId, key)" style="position: relative">
+					
+					<div class="add-one-post" ng-if="isNotUserData" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
+						<span class="glyphicon glyphicon-pushpin"></span>
+					</div>
+
+					<p class="post-title">{{post.title}}</p>
+					<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
+					<p class="post-description read-br">{{post.description}}</p>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+</div>
