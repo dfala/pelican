@@ -1,1 +1,69 @@
 /*STYLE FOR SUPER SHARE 1000*/
+.shareWidget {
+	font-family: 'Open Sans';
+	color: white;
+	position: fixed;
+	top: 0;
+	left: -150px;
+	margin-top: 20px;
+}
+
+#shares {
+	width: 150px;
+}
+
+#shares h1 {
+	margin: 0;
+}
+
+#shares p {
+	margin-top: 0;
+}
+
+#shareCount {
+	text-align: center;
+}
+
+#shares p {
+	text-align: center;
+}
+
+.shareGroup {
+	max-width: 80px;
+	text-align: center;
+	margin: auto;
+}
+
+.shareGroup h4 {
+	margin: 0;
+}
+
+.shareBtn {
+	height: 35px;
+	width: 100%;
+	cursor: pointer;
+	border: none;
+}
+
+.shareBtn.fb {
+	background-color: #2d5f9a;
+	color: white;
+}
+
+.shareBtn.twitter {
+	background-color: #00c3f3;
+	color: white;
+}
+
+.shareBtn.li {
+	background-color: #2ba3e1;
+	color: white;
+}
+
+.shareBtn:hover {
+	background-color: black;
+}
+
+.shareBtn a {
+	color: white;
+}

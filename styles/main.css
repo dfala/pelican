@@ -62,7 +62,7 @@ button, .btn, .btn-primary {
 	text-align: center;
 	padding: 0;
 	cursor: pointer;
-	color: #eee;
+	color: #ccc;
 }
 
 .add-one-post:hover {
@@ -154,9 +154,10 @@ li:hover {
 
 .post-description {
 	display: block;
-	max-height: 4.5rem;
+	max-height: 4.25rem;
   	overflow: hidden;
   	color: #989898;
+  	font-size: 14px;
 }
 
 .read-br {
@@ -167,6 +168,10 @@ li:hover {
 	margin-bottom: 5px;
 	font-weight: bold;
 	padding-right: 25px;
+	font-size: 18px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .page-header {
@@ -281,11 +286,6 @@ li:hover {
 	border-radius: 30px;
 }
 
-.rounded-img img {
-	opacity: 0.6;
-}
-
-
 .profile p {
 	padding-top: 10px;
 	font-size: 16px;
@@ -296,7 +296,7 @@ li:hover {
 	justify-content: flex-start;
 	align-items: center;
 	margin-left: 12px;
-	margin-bottom: 26px;
+	margin-bottom: 45px;
 	
 	border-top-left-radius: 30px;
 	border-bottom-left-radius: 30px;
@@ -308,7 +308,7 @@ li:hover {
 
 .postee-info p {
 	margin: 0;
-	color: #C7C7C7;
+	color: #333;
 	margin-left: 10px;
 }
 
@@ -317,12 +317,12 @@ li:hover {
 }
 
 .click-for-profile:hover {
-	background-color: #fff;
+	text-decoration: underline;
 }
 
-.click-for-profile:hover img{
+/*.click-for-profile:hover img{
 	opacity: 1;
-}
+}*/
 
 
 .click-for-profile:hover p {
