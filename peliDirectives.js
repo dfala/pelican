@@ -41,6 +41,54 @@ pelicanApp.directive('clearSearch', function() {
 	};
 })
 
+
+
+
+.directive('superShare', function () {
+	return {
+		restrict: 'A',
+		templateUrl: 'templates/supershare.html',
+		link : function (scope, element, attrs) {
+
+
+			//YOUR JS FILE HERE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		}
+	};
+})
+
+
+
+
+
 .directive('elastic', ['$timeout', function ($timeout) {
 	return {
 		restrict: 'EA',
