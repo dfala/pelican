@@ -18,7 +18,6 @@
 #postModal .modal-content {
 	border-radius: 0;
 	border: red;
-	min-height: 100%;
 	background: #eee;
 }
 
