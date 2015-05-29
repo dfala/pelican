@@ -137,18 +137,19 @@ pelicanApp.directive('clearSearch', function() {
 
 				  // GET TWITTER SHARES
 				  var getTwitter = (function () {
-
+				  	
 				    jQuery.getJSON('https://cdn.api.twitter.com/1/urls/count.json?url='+ cleanURL + '&callback=?', function (data) {
 				      if (data.count) {
 				        twitterCount = twitterCount + data.count;
+				        updateCount();
 				      };
 				    });
 
 				    jQuery.getJSON('https://cdn.api.twitter.com/1/urls/count.json?url='+ wwwURL + '&callback=?', function (data) {
 				      if (data.count) {
-				        wwwTwitterCount = twitterCount + data.count;
+				        twitterCount = twitterCount + data.count;
+				        updateCount();
 				      };
-				      // updateCount();
 				    });
 
 				  })();
@@ -157,12 +158,14 @@ pelicanApp.directive('clearSearch', function() {
 				  //GET FACEBOOK SHARES & COMMENTS
 				  var getFacebook = (function () {
 				    
-				    jQuery.getJSON('http://graph.facebook.com/' + url, function (data) {
+				    jQuery.getJSON('https://graph.facebook.com/' + url, function (data) {
 				      if (data.shares) {
 				        fbCount = fbCount + data.shares;
+				        updateCount();
 				      }
 				      if (data.comments) {
 				        fbComments = fbCount + data.comments;
+				        updateCount();
 				      }
 				    });
 
@@ -172,7 +175,7 @@ pelicanApp.directive('clearSearch', function() {
 				  //GET LINKEDIN SHARES
 				  var getLinkedIn = (function () {
 
-				    jQuery.getJSON('http://www.linkedin.com/countserv/count/share?url=' + url + '&callback=?', function (data) {
+				    jQuery.getJSON('https://www.linkedin.com/countserv/count/share?url=' + url + '&callback=?', function (data) {
 				      if (data.count) {
 				        liCount = liCount + data.count;
 				      }
