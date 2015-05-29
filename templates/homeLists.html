@@ -13,9 +13,9 @@
 						<p class="post-description read-br">{{post.description}}</p>
 					</li>
 
-					<div class="postee-info"
+					<div class="postee-info click-for-profile"
 						ng-if="post.posteeName"
-						ng-class="{'click-for-profile': post.posteeName !== activeUser.name}"
+						
 						ng-click="seeProfile(post.posteeId);$event.stopPropagation()">
 
 						<div class="img-container rounded-img">

@@ -322,16 +322,11 @@ li:hover {
 }
 
 .click-for-profile:hover {
-	text-decoration: underline;
+	text-decoration: none;
 }
 
-/*.click-for-profile:hover img{
-	opacity: 1;
-}*/
-
-
 .click-for-profile:hover p {
-	color: #333;
+	color: #ff611a;
 }
 
 #public-feed {
