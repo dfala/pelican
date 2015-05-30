@@ -154,6 +154,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		userRef.once('value', function (data) {
 			var userData = data.val();
 
+			for (key in userData.lists) console.log(key);
+
 			cleanUserData(userData, true);
 
 			// second argument defines number of days until cookie expires
@@ -557,10 +559,10 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 	                     ///+//
 	                    ////////
 	                    ///
-   \\  ///////////////////
-    \\///////////////////
-	 \//////////////////
-	    //  ///////  //
+   \\  ////////:://:://::/
+    \\//////:://:://::///
+	 \///:://:://:://::/
+	    //:://::///:://
 	  	//			 //
 	  	//			 //
 	  	--			 --
