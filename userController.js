@@ -1,15 +1,14 @@
 var pelicanApp = angular.module('pelicanApp',[]);
 
-pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cleanText', function($scope, $timeout, $sce, cleanText) {
+pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cookies', function($scope, $timeout, $sce, cookies) {
 
-	// INITIATING APP
+
+	////////////////////////////////////////////////
+	//////////////// INITIATING APP ////////////////
+	////////////////////////////////////////////////
+
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
 	var allLists = firebase.child("list");
-
-
-	// $scope.data = function() {
-	// 	firebaseService.getData();
-	// }
 
 	$('#add-description').html('');
 	$scope.bannerTitle = 'The Pelican Blog';
@@ -25,16 +24,30 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 	var listToAdd;
 
 
-	////////////////////////////////
-	///////////////LOAD PUBLIC DATA
-	////////////////////////////////
+	// LISTS REFERENCES
+	var listsRef = new Firebase('https://pelican.firebaseio.com/lists');
+	var listId; // changes everytime a new list is CREATED
 
-	var postsRef = new Firebase('https://pelican.firebaseio.com/publicPosts');
+	// POSTS REFERENCES
+	var postsRef = new Firebase('https://pelican.firebaseio.com/posts');
+
+	// DEPRECATED
+	var publicRef = new Firebase('https://pelican.firebaseio.com/posts');
 	$scope.publicPosts = [];
+
+
+
+
+
+
+	////////////////////////////////////////////////
+	/////////////// LOAD PUBLIC DATA ///////////////
+	////////////////////////////////////////////////
+
 
 	var getPublicPosts = function () {
 		// getting last 20 items in list (most recent 20)
-		postsRef.limitToLast(20).on('value', function (data) {
+		publicRef.limitToLast(20).on('value', function (data) {
 			var publicData = data.val();
 
 			$scope.publicPosts = [];
@@ -44,7 +57,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 			}
 
 			// trigger an angular digest cycle
-			// $scope.$digest();
+			$scope.$digest();
 		});
 	}
 
@@ -75,16 +88,18 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 
 
-	////////////////////////////////
-	///////////////LOGIN PURPOSES
-	////////////////////////////////
+	////////////////////////////////////////////////
+	//////////////// LOGIN PURPOSES ////////////////
+	////////////////////////////////////////////////
 
 
 	var usersRef = new Firebase('https://pelican.firebaseio.com/users');
 	var userRef; // complete once a login happens
 	$scope.activeUser;
 	$scope.lists = [];
+	$scope.posts = [];
 	$scope.friendList = [];
+
 
 
 
@@ -103,11 +118,9 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 	// log user out
 	$scope.logOut = function () {
-		date = Date();
-		document.cookie = 'id=; expires=' + date + ';';
-		$timeout(function () {
+		cookies.deleteCookie(function () {
 			location.reload();
-		}, 50);
+		})
 	}
 
 	// checking if user exists
@@ -132,6 +145,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 			name: data.facebook.displayName,
 			email: data.facebook.email,
 			picUrl: data.facebook.cachedUserProfile.picture.data.url,
+			timestamp: Date(),
 			lists: 'lists'
 		}
 
@@ -154,12 +168,12 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		userRef.once('value', function (data) {
 			var userData = data.val();
 
-			for (key in userData.lists) console.log(key);
+			// for (key in userData.lists) console.log(key);
 
 			cleanUserData(userData, true);
 
 			// second argument defines number of days until cookie expires
-			setCookie($scope.activeUser.id, 1);
+			cookies.setCookie($scope.activeUser.id, 1);
 
 			$scope.isHomePage = false;
 			
@@ -168,10 +182,14 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		});
 	}
 
+
+
+
 	var cleanUserData = function (userData, isUser) {
 		if (isUser) {
 			$scope.isNotUserData = false;
 			$scope.lists = [];
+			$scope.posts = [];
 			$scope.activeUser = {
 				id: userData.id,
 				name: userData.name,
@@ -182,21 +200,82 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		}
 
 		var firstName = userData.name.split(" ");
-		$scope.friendList = [];
 		$scope.bannerTitle = firstName[0] + "'s Pelican";
+
+		$scope.friendList = [];
 
 
 		if (userData.lists === 'lists') return userFirstLogin();
 
-		for (var key in userData.lists) {
-			var tempList = userData.lists[key];
-			tempList.listId = key;
-			if (isUser) { $scope.lists.unshift(tempList); }
-			if (!isUser) { $scope.friendList.unshift(tempList); }
-		}
+
+		//TODO: PROBABLY WILL NEED REFACTORING
+		// for (var key in userData.lists) {
+		// 	var tempList = userData.lists[key];
+		// 	tempList.listId = key;
+		// 	if (isUser) { $scope.lists.unshift(tempList); }
+		// 	if (!isUser) { $scope.friendList.unshift(tempList); }
+		// }
+
+
+		var fakePromise = 0;
+
+
+		listsRef.orderByChild($scope.activeUser.id).once('value', function (response) {
+			var listData = response.val();
+			for (var key in listData) {
+				// transform to list array
+				// $scope.$apply(function(){
+				  $scope.lists.unshift(listData[key]);
+				// });
+			}
+
+			fakePromise++;
+			if (fakePromise === 2) {
+				combineData();
+			}
+		})
+
+		postsRef.orderByChild($scope.activeUser.id).once('value', function (response) {
+			var postData = response.val();
+
+			for (var key in postData) {
+				$scope.posts.unshift(postData[key]);
+			}
+
+			fakePromise++;
+			if (fakePromise === 2) {
+				combineData();
+			}
+		})
+
+
+
 
 		window.scrollTo(0, 0);
 	}
+
+
+	var combineData = function () {
+		console.log("running");
+
+		$scope.lists.forEach(function (list, index) {
+			list.posts = [];
+			$scope.posts.forEach(function (post, index) {
+				if (post.listId === list.listId) {
+					$scope.$apply(function(){
+						list.posts.push(post);
+					})
+				}
+			})
+		})
+
+		console.log($scope.lists);
+	}
+
+
+
+
+
 
 	var userFirstLogin = function () {
 		console.log('no lists under this user')
@@ -209,46 +288,15 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-	///////////////////
-	// SETTING COOKIES
-	///////////////////
-
-	var getCookie = function () {
-	    var cookie = document.cookie;
-	    return cookie;
+	//MAKING COOKIES WORK!
+	var checkForCookies = function () {
+		var cookieUserId = cookies.checkCookie();
+		if(cookieUserId) {
+			getUserData(cookieUserId);
+		}
 	}
 
-	var checkCookie = function () {
-	    var userId = getCookie();
-	    userId = userId.substring(3);
-
-	    if (userId) {
-	        getUserData(userId);
-	    }
-	}
-
-	checkCookie();
-
-	// second param defines number of days until cookie expires
-	var setCookie = function (cookieValue, expDate) {
-	    var d = new Date();
-	    d.setTime(d.getTime() + (expDate*24*60*60*1000));
-	    var expires = "expires=" + d.toUTCString();
-
-	    // create cookie
-	    document.cookie = "id=" + cookieValue + "; path=/; " + expires;
-	}
+	checkForCookies();
 
 
 
@@ -264,9 +312,12 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 
 
-	/////////////////////////////
-	// MODIFYING LISTS AND POSTS
-	////////////////////////////
+
+
+	////////////////////////////////////////////////
+	////////// MODIFYING LISTS AND POSTS ///////////
+	////////////////////////////////////////////////
+
 
 	// User clicked on list to add post
 	$scope.selectList = function (list) {
@@ -287,29 +338,46 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 		})
 	}
 
+
+
 	// Creating a new list
 	$scope.createList = function(listName) {
 		if (!$scope.activeUser) return console.log('user not defined');
 
 		var newList = {
 			listName: listName,
+			userId: $scope.activeUser.id,
+			timestamp: Date(),
 			posts: 'coming soon'
 		}
 
-		var newPostRef = firebase.child('users/' + $scope.activeUser.id + '/lists').push(newList);
+		// var newPostRef = firebase.child('users/' + $scope.activeUser.id + '/lists').push(newList);
+		var newPostRef = listsRef.push(newList);
 		
 		// get key of recent post
-		var postId = newPostRef.key();
+		listToAdd = newPostRef.key();
 
+		// add key to list object
+		listsRef.child(listToAdd).update({listId: listToAdd});
+
+		// add key to user lists
+		userRef.child('lists').push(listToAdd);
+
+		// front end changes
 		$('#add-list').val('');
-		$scope.selectList(postId);
+		$scope.selectList(listToAdd);
 	}
 
+
+
 	// Create a new post
-	$scope.createPost = function (title, link) {
-		if (!listToAdd) return;
+	$scope.createPost = function () {
+		var title = $scope.postTitle;
+		var link = $scope.postLink;
+		var description = $scope.addDescription;
 
 		// validation
+		if (!listToAdd) return console.log('listToAdd is not defined');
 		if (!title) { return $scope.displayAlert('Please add a title') }
 
 		if (link) {
@@ -326,31 +394,35 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 		var newPost = {
 			title: title,
-			timestamp: Date()
+			timestamp: Date(),
+			posteeName: $scope.activeUser.name,
+			posteeId: $scope.activeUser.id,
+			posteePicUrl: $scope.activeUser.picUrl,
+			listId: listToAdd
+			//listId: listId
 		}
+
 
 		// adding link
 		if (link) { newPost.link = link }
 
 		// adding description
 		var postText = $scope.addDescription;
-		// var postText = cleanText.cleanThoughts();
 
 		if (postText) {
 			newPost.description = postText;
 		}
 
-		// Push data to respective user list
-		userRef.child('/lists/' + listToAdd + '/posts').push(newPost);
-		
-
-		newPost.posteeName = $scope.activeUser.name;
-		newPost.posteeId = $scope.activeUser.id;
-		newPost.posteePicUrl = $scope.activeUser.picUrl;
+		// push post to post list
+		var postKey = postsRef.push(newPost);
+		// get id of post
+		var postId = postKey.key();
 
 
-		// Push data to public posts
-		postsRef.push(newPost);
+		// push post id back to post
+		postsRef.child('/' + postId).update({postId: postId});
+		// push post id to appropriate list
+		listsRef.child('/' + listToAdd + '/posts').push(postId);
 
 
 
@@ -368,9 +440,19 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 
 
-	///////////////////
-	// SEEING PROFILES
-	///////////////////
+
+
+
+
+
+
+
+	////////////////////////////////////////////////
+	/////////////// SETING PROFILES ////////////////
+	////////////////////////////////////////////////
+
+
+
 
 	$scope.seeProfile = function (posteeId) {
 		var posteeRef = new Firebase('https://pelican.firebaseio.com/users/' + posteeId);
@@ -386,9 +468,24 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 
 
-	///////////////////
-	// FRONT END UX/UI
-	///////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+	////////////////////////////////////////////////
+	//////////////// UX/UI PURPOSES ////////////////
+	////////////////////////////////////////////////
+
+
+
 
 
 	// Set value of page (home page vs. user page)
@@ -545,9 +642,13 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'clean
 
 
 
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-///////////  THIS CODE NEEDS MAJOR MASSIVE TESTGIN AND REFACTORING  ////////////
+///////////  THIS CODE NEEDS MAJOR MASSIVE TESTING AND REFACTORING  ////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 

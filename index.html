@@ -199,7 +199,7 @@
 									<textarea class="form-control" placeholder="Thoughts" id="add-description" ng-model="addDescription" elastic>
 									</textarea>
 								</div>
-									<button class="btn btn-primary" ng-click="createPost(postTitle, postLink, postDescription)" ng-if="!editingPost">Post it!</button>
+									<button class="btn btn-primary" ng-click="createPost()" ng-if="!editingPost">Post it!</button>
 
 									<span ng-if="editingPost">
 										<button class="btn btn-primary" ng-click="updatePostModal()">Update post</button>
@@ -228,7 +228,7 @@
 	<script type="text/javascript" src="userController.js"></script>
 	<script type="text/javascript" src="peliDirectives.js"></script>
 	<script type="text/javascript" src="peliFilters.js"></script>
-	<script type="text/javascript" src="cleanText.js"></script>
+	<script type="text/javascript" src="cookies.js"></script>
 
 	<!-- GOOGLE ANALYTICS -->
 	<script>
