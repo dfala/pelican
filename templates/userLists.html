@@ -8,7 +8,7 @@
 			</div>
 
 			<ul class="post-data">
-				<li ng-repeat="(key, post) in list.posts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description, false, false, list.listId, key)" style="position: relative">
+				<li ng-repeat="post in list.posts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post)" style="position: relative">
 					
 					<div class="add-one-post" ng-if="isNotUserData" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
 						<span class="glyphicon glyphicon-pushpin"></span>

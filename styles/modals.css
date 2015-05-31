@@ -17,8 +17,8 @@
 
 #postModal .modal-content {
 	border-radius: 0;
-	border: red;
 	background: #eee;
+	height: 100vh;
 }
 
 #postModal .modal-header {

@@ -435,6 +435,15 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	}
 
 
+	var changeHash = function (postId) {
+		window.location.hash = '#' + postId;
+	}
+
+	$('#postModal').on('hidden.bs.modal', function () {
+	    history.pushState("", document.title, window.location.pathname
+                                                       + window.location.search);
+	})
+
 
 
 
@@ -500,14 +509,16 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 
 	// Set-content-on-post modal
-	$scope.changeModal = function (title, link, description, posteeUrl, posteeName, listId, postId) {
-		$scope.activeTitle = title;
-		$scope.activeLink = link;
-		$scope.activeDescription = description;
-		$scope.posteePicUrl = posteeUrl;
-		$scope.posteeName = posteeName;
-		$scope.listId = listId;
-		$scope.postId = postId;
+	$scope.changeModal = function (post) {
+		$scope.activeTitle = post.title;
+		$scope.activeLink = post.link;
+		$scope.activeDescription = post.description;
+		$scope.posteePicUrl = post.posteePicUrl;
+		$scope.posteeName = post.posteeName;
+		$scope.listId = post.listId;
+		$scope.postId = post.postId;
+
+		changeHash(post.postId);
 	}
 
 	// Add-new-post modal
@@ -707,8 +718,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	  //     results = regex.exec(location.search);
 	  // return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 
-	  var newId = location.search;
-	  newId = newId.substring(5);
+	  var newId = location.hash;
+	  newId = newId.substring(1);
 
 	  return newId;
 	}
@@ -761,7 +772,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	    
 	    // var item = searchForItemById(id);
 
-	    var pathToPost = new Firebase('https://pelican.firebaseio.com/publicPosts/' + idToGet);
+	    var pathToPost = new Firebase('https://pelican.firebaseio.com/posts/' + idToGet);
 		// $scope.publicPosts = [];
 
 		pathToPost.once('value', function (response) {
