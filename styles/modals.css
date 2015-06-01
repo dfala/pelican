@@ -62,6 +62,7 @@
 
 .modal-body .btn-default {
 	float: right;
+	border: 1px solid #ccc;
 }
 
 
@@ -94,7 +95,7 @@
 }
 
 #add-description {
-	height: 34px;
+	min-height: 34px !important;
 	cursor: text;
 }
 

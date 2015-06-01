@@ -574,13 +574,13 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	$scope.updatePostModal = function (deletePost) {
 		// var postRef = 'users/' + $scope.activeUser.id + '/lists/' + $scope.listId + '/posts/' + $scope.postId;
 		var postRef = 'posts/' + $scope.postId;
-		var postInListRef = new Firebase('https://pelican.firebaseio.com/lists/' + $scope.listId + '/posts');
+		var postInListRef = new Firebase('https://pelican.firebaseio.com/lists/' + $scope.listId);
 
 		if (deletePost) {
 			firebase.child(postRef).remove();
 
 			//TODO: removing the post from lists/posts does not work
-			postInListRef.equalTo($scope.postId).set(null);
+			postInListRef.orderByChild("posts").equalTo($scope.postId).remove();
 			clearUpdate();
 			return
 		}
