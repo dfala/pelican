@@ -256,8 +256,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 
 	var combineData = function () {
-		console.log("running");
-
 		$scope.lists.forEach(function (list, index) {
 			list.posts = [];
 			$scope.posts.forEach(function (post, index) {
@@ -268,8 +266,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 				}
 			})
 		})
-
-		console.log($scope.lists);
 	}
 
 
@@ -576,9 +572,15 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	}
 
 	$scope.updatePostModal = function (deletePost) {
-		var postRef = 'users/' + $scope.activeUser.id + '/lists/' + $scope.listId + '/posts/' + $scope.postId;
+		// var postRef = 'users/' + $scope.activeUser.id + '/lists/' + $scope.listId + '/posts/' + $scope.postId;
+		var postRef = 'posts/' + $scope.postId;
+		var postInListRef = new Firebase('https://pelican.firebaseio.com/lists/' + $scope.listId + '/posts');
+
 		if (deletePost) {
 			firebase.child(postRef).remove();
+
+			//TODO: removing the post from lists/posts does not work
+			postInListRef.equalTo($scope.postId).set(null);
 			clearUpdate();
 			return
 		}
@@ -727,7 +729,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	// GET ID FROM THE URL
 	var idToGet = getParameterByName('id');
 
-	console.log(idToGet)
+	// console.log(idToGet)
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 
