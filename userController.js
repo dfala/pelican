@@ -454,8 +454,9 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	}
 
 	$('#postModal').on('hidden.bs.modal', function () {
-	    history.pushState("", document.title, window.location.pathname
-                                                       + window.location.search);
+
+		console.log("working");
+	    window.history.pushState("object or string", "Title", '/');
 	})
 
 
@@ -738,8 +739,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	  //     results = regex.exec(location.search);
 	  // return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 
-	  var newId = location.hash;
-	  newId = newId.substring(1);
+	  var newId = location.search;
+	  newId = newId.substring(5);
 
 	  return newId;
 	}
