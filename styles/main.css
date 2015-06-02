@@ -345,3 +345,8 @@ li:hover {
 #public-feed {
 	margin-top: 40px;
 }
+
+.loading-gif {
+	text-align: center;
+	margin: 0 auto;
+}

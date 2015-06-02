@@ -46,7 +46,7 @@ pelicanApp.directive('clearSearch', function() {
 	return {
 		restrict:'A',
 		link: function (scope, element) {
-			var LAZY_LOAD_THRESHOLD = 900;
+			var LAZY_LOAD_THRESHOLD = 1;
 			
 			$(window).scroll(function () {
 				var bottomOfScreen = $(window).height() + $(window).scrollTop();
@@ -56,13 +56,9 @@ pelicanApp.directive('clearSearch', function() {
 				// console.log(scrollRemaining, $(window).scrollTop());
 
 				if (pastThreshold && !scope.autoLoad) {
-					
-					console.log("hit the bottom");
-
-
-					scope.$apply(function(){
+					// scope.$apply(function(){
 						scope.getMorePosts();
-					});
+					// });
 				}
 			});
 		}

@@ -47,7 +47,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 	var getPublicPosts = function () {
 		// getting last 5 items in list (most recent 20)
-		publicRef.limitToLast(5).on('value', function (data) {
+		publicRef.limitToLast(10).once('value', function (data) {
 			var publicData = data.val();
 
 			$scope.publicPosts = [];
@@ -62,11 +62,16 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	}
 
 	getPublicPosts();
+	var lazyCount = 1;
 
 	$scope.getMorePosts = function () {
+		if (!$scope.isHomePage) return console.log('stopped');
+
 		$scope.autoLoad = true;
 
-		publicRef.endAt(5).limitToLast(5).on('value', function (data) {
+		publicRef.limitToLast(lazyCount * 10).once('value', function (data) {
+		// publicRef.limitToLast(5).on('value', function (data) {
+
 			var publicData = data.val();
 
 			$scope.publicPosts = [];
@@ -77,6 +82,9 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 			// trigger an angular digest cycle
 			$scope.$digest();
+
+			$scope.autoLoad = false;
+			lazyCount++;
 		});
 	}
 
