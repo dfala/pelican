@@ -42,6 +42,32 @@ pelicanApp.directive('clearSearch', function() {
 })
 
 
+.directive('keepLoading', function () {
+	return {
+		restrict:'A',
+		link: function (scope, element) {
+			var LAZY_LOAD_THRESHOLD = 900;
+			
+			$(window).scroll(function () {
+				var bottomOfScreen = $(window).height() + $(window).scrollTop();
+				var scrollRemaining = $(document).height() - bottomOfScreen;
+				var pastThreshold = scrollRemaining < LAZY_LOAD_THRESHOLD;
+
+				// console.log(scrollRemaining, $(window).scrollTop());
+
+				if (pastThreshold && !scope.autoLoad) {
+					
+					console.log("hit the bottom");
+
+
+					scope.$apply(function(){
+						scope.getMorePosts();
+					});
+				}
+			});
+		}
+	};
+})
 
 
 .directive('superShare', function () {
@@ -141,14 +167,12 @@ pelicanApp.directive('clearSearch', function() {
 				    jQuery.getJSON('https://cdn.api.twitter.com/1/urls/count.json?url='+ cleanURL + '&callback=?', function (data) {
 				      if (data.count) {
 				        twitterCount = twitterCount + data.count;
-				        updateCount();
 				      };
 				    });
 
 				    jQuery.getJSON('https://cdn.api.twitter.com/1/urls/count.json?url='+ wwwURL + '&callback=?', function (data) {
 				      if (data.count) {
 				        twitterCount = twitterCount + data.count;
-				        updateCount();
 				      };
 				    });
 

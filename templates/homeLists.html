@@ -2,8 +2,8 @@
 	<div class="col-xs-6">
 
 		<div class="list" id="public-feed">
-			<ul class="post-data">
-				<span ng-repeat="post in publicPosts">
+			<ul class="post-data" keep-loading>
+				<span ng-repeat="post in publicPosts | filter: textSearch">
 					<!-- <li class="light-border" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description, post.posteePicUrl, post.posteeName, post.postId)"> -->
 					<li class="light-border" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post)">
 						<div class="add-one-post" ng-if="activeUser && activeUser.id !== post.posteeId" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">

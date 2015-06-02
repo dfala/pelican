@@ -1,7 +1,7 @@
 <div class="container" id="main-body" ng-if="!isHomePage && friendList.length" ng-cloak>
 	<div class="col-xs-6">
 
-		<div class="list" ng-repeat="list in friendList | searchContent: textSearch">
+		<div class="list" ng-repeat="list in friendList | filter: textSearch">
 			<div class="page-header">
   				<h2 ng-bind-html="highlight(list.listName, textSearch)">{{list.listName}}</h2>
   				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>

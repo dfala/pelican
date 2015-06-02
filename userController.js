@@ -46,8 +46,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 
 	var getPublicPosts = function () {
-		// getting last 20 items in list (most recent 20)
-		publicRef.limitToLast(20).on('value', function (data) {
+		// getting last 5 items in list (most recent 20)
+		publicRef.limitToLast(5).on('value', function (data) {
 			var publicData = data.val();
 
 			$scope.publicPosts = [];
@@ -62,6 +62,23 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	}
 
 	getPublicPosts();
+
+	$scope.getMorePosts = function () {
+		$scope.autoLoad = true;
+
+		publicRef.endAt(5).limitToLast(5).on('value', function (data) {
+			var publicData = data.val();
+
+			$scope.publicPosts = [];
+
+			for (var key in publicData) {
+				$scope.publicPosts.unshift(publicData[key])
+			}
+
+			// trigger an angular digest cycle
+			$scope.$digest();
+		});
+	}
 
 
 
@@ -432,7 +449,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 
 	var changeHash = function (postId) {
-		window.location.hash = '#' + postId;
+		return "not finished"
+		//window.location.hash = '#' + postId;
 	}
 
 	$('#postModal').on('hidden.bs.modal', function () {

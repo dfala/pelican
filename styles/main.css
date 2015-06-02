@@ -56,6 +56,19 @@ button, .btn, .btn-primary {
 	box-shadow: none !important;
 }
 
+#close-search {
+	position: fixed;
+	right: 40px;
+	top: 50px;
+	font-size: 80px;
+	color: #F8F8F8;
+	cursor: pointer;
+}
+
+#close-search:hover {
+	color: #7B7B7B;
+}
+
 .add-one-post {
 	font-size: 25px;
 	position: absolute;
