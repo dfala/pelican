@@ -480,8 +480,9 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 		var newComment = {
 			content: comment,
-			commenteeName: $scope.posteeName,
-			commenteePicUrl: $scope.posteePicUrl,
+			commenteeName: $scope.activeUser.name,
+			commenteeId: $scope.activeUser.id,
+			commenteePicUrl: $scope.activeUser.picUrl,
 			timestamp: Date()
 		}
 
