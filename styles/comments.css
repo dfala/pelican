@@ -1,0 +1,41 @@
+.comment-wrapper {
+	width: 80%;
+	margin: 0 auto;
+}
+
+	.add-comment {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 50px;
+		margin: 0 auto;
+	}
+
+		.add-comment textarea {
+			width: 92%;
+			max-width: 93%;
+			height: 34px;
+		}
+
+	.loaded-comments {
+		display: flex;
+		margin: 0 auto;
+		margin-top: 20px;
+	}
+
+		.comment-info {
+			padding-left: 15px;
+		}
+
+		.comment-author {
+			margin: 0;
+			font-size: 14px;
+			color: #0890C7;
+		}
+
+		.comment {
+			font-size: 14px;
+			margin-top: 5px;
+			border-radius: 2px;
+			border-top-left-radius: 0;
+		}

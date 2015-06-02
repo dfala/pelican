@@ -13,6 +13,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	$('#add-description').html('');
 	$scope.bannerTitle = 'The Pelican Blog';
 	$scope.activeTitle = "No title :(";
+	$scope.postComments = [];
 	$scope.activeLink;
 	$scope.activeDescription;
 	$scope.editingPost = false;
@@ -461,16 +462,42 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 		//window.location.hash = '#' + postId;
 	}
 
-	$('#postModal').on('hidden.bs.modal', function () {
-
-		console.log("working");
-	    window.history.pushState("object or string", "Title", '/');
-	})
 
 
 
 
 
+
+	
+
+	////////////////////////////////////////////////
+	////////////// POSTING COMMENTS ////////////////
+	////////////////////////////////////////////////
+
+
+	$scope.addComment = function (comment) {
+		if (!comment || !$scope.postId) return;
+
+		var newComment = {
+			content: comment,
+			commenteeName: $scope.posteeName,
+			commenteePicUrl: $scope.posteePicUrl,
+			timestamp: Date()
+		}
+
+		var commentRef = new Firebase('https://pelican.firebaseio.com/posts/' + $scope.postId + '/comments');
+		
+		// save comment
+		var newRef = commentRef.push(newComment);
+		newRef = newRef.key();
+
+		// pushing id
+		commentRef.child(newRef).update({commentId: newRef});
+		
+		// reflecting front-end changes
+		$scope.postComments.unshift(newComment);
+		$scope.newComment = '';
+	}
 
 
 
@@ -544,7 +571,14 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 		$scope.listId = post.listId;
 		$scope.postId = post.postId;
 
-		changeHash(post.postId);
+		if (post.comments) {
+			for (var key in post.comments) {
+				$scope.postComments.unshift(post.comments[key]);
+			}
+		}
+
+		// DEPRECATED
+		// changeHash(post.postId);
 	}
 
 	// Add-new-post modal
@@ -573,12 +607,22 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 		$scope.postTitle = '';
 		$scope.postLink = '';
 		$scope.addDescription = '';
+		$scope.newComment = '';
 	}
 
 	// on boostrap close modal trigger closeBigModal();
 	$('#addPostModal').on('hidden.bs.modal', function () {
     	$scope.closeBigModal();
 	})
+
+	$('#postModal').on('hidden.bs.modal', function () {
+    	$scope.postComments = [];
+    	$scope.postTitle = '';
+		$scope.postLink = '';
+		$scope.addDescription = '';
+		$scope.newComment = '';
+	})
+
 
 
 	// open edit post modal
