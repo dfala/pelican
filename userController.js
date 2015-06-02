@@ -65,7 +65,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	var lazyCount = 1;
 
 	$scope.getMorePosts = function () {
-		if (!$scope.isHomePage) return console.log('stopped');
+		if (!$scope.isHomePage) return;
 
 		$scope.autoLoad = true;
 
@@ -522,6 +522,9 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 	// Set value of page (home page vs. user page)
 	$scope.homePage = function (value) {
+		// animate to the top
+		$('html, body').animate({scrollTop : 0},0);
+
 		$scope.isHomePage = value;
 		if (value === false) {
 			getUserData($scope.activeUser.id);

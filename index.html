@@ -14,7 +14,7 @@
 </head>
 
 
-<body ng-controller="PelicanController">
+<body ng-controller="PelicanController" clear-search>
 
 
 	<!-- NAVBAR -->
@@ -49,7 +49,7 @@
 
     		<form class="navbar-form search-bar" role="search">
         		<div class="form-group">
-         			<input class="form-control" placeholder="Search" ng-model="textSearch" clear-search>
+         			<input class="form-control" placeholder="Search" ng-model="textSearch">
         		</div>
         		<button class="hidden">Search</button>
         		<span class="glyphicon glyphicon-search" ng-if="!textSearch"></span>
