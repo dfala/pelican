@@ -212,6 +212,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	var cleanUserData = function (userData, isUser) {
 		if (isUser) {
 			$scope.isNotUserData = false;
+			$scope.lists = [];
+			$scope.posts = [];
 			$scope.activeUser = {
 				id: userData.id,
 				name: userData.name,
@@ -221,8 +223,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 			$scope.isNotUserData = true;
 		}
 
-		$scope.lists = [];
-		$scope.posts = [];
 		var firstName = userData.name.split(" ");
 		$scope.bannerTitle = firstName[0] + "'s Pelican";
 		$scope.friendList = [];
