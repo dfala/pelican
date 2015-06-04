@@ -149,11 +149,9 @@
 					<div class="comment-wrapper">
 						<div class="add-comment" ng-if="activeUser">
 
-			  				<div class="img-container"><img src="{{activeUser.picUrl}}"></div>
+			  				<textarea class="form-control" placeholder="Say something" ng-model="newComment" elastic></textarea>
 
-			  				<textarea class="form-control" placeholder="Say something" ng-model="newComment"></textarea>
-
-			  				<button class="btn" ng-click="addComment(newComment)">Submit</button>
+			  				<button class="btn btn-comment" ng-click="addComment(newComment); newComment = '' ">Submit</button>
 
 		  				</div>
 
@@ -164,6 +162,7 @@
 			  				</div>
 			  				<div class="comment-info">
 				  				<p class="comment-author">{{comment.commenteeName}}</p>
+				  				<p class="comment comment-timestamp">{{comment.timestamp | date:'mediumDate'}}</p>
 				  				<div class="comment">
 			  						{{comment.content}}
 			  					</div>

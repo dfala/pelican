@@ -171,7 +171,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 			name: data.facebook.displayName,
 			email: data.facebook.email,
 			picUrl: data.facebook.cachedUserProfile.picture.data.url,
-			timestamp: Date(),
+			timestamp: Firebase.ServerValue.TIMESTAMP,
 			lists: 'lists'
 		}
 
@@ -194,8 +194,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 		userRef.once('value', function (data) {
 			var userData = data.val();
 
-			// for (key in userData.lists) console.log(key);
-
 			cleanUserData(userData, true);
 
 			// second argument defines number of days until cookie expires
@@ -214,8 +212,6 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	var cleanUserData = function (userData, isUser) {
 		if (isUser) {
 			$scope.isNotUserData = false;
-			$scope.lists = [];
-			$scope.posts = [];
 			$scope.activeUser = {
 				id: userData.id,
 				name: userData.name,
@@ -225,33 +221,36 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 			$scope.isNotUserData = true;
 		}
 
+		$scope.lists = [];
+		$scope.posts = [];
 		var firstName = userData.name.split(" ");
 		$scope.bannerTitle = firstName[0] + "'s Pelican";
-
 		$scope.friendList = [];
+
+
+
 
 
 		if (userData.lists === 'lists') return userFirstLogin();
 
 
-		var fakePromise = 0;
 
-		listsRef.orderByChild('userId').equalTo($scope.activeUser.id).once('value', function (response) {
+		var fakePromise = 0;
+		var tempList = [];
+
+		listsRef.orderByChild('userId').equalTo(userData.id).once('value', function (response) {
 			var listData = response.val();
 			for (var key in listData) {
-				// transform to list array
-				// $scope.$apply(function(){
-				  $scope.lists.unshift(listData[key]);
-				// });
+				tempList.unshift(listData[key]);
 			}
 
 			fakePromise++;
 			if (fakePromise === 2) {
-				combineData();
+				combineData(tempList, isUser);
 			}
 		})
 
-		postsRef.orderByChild('posteeId').equalTo($scope.activeUser.id).once('value', function (response) {
+		postsRef.orderByChild('posteeId').equalTo(userData.id).once('value', function (response) {
 			var postData = response.val();
 
 			for (var key in postData) {
@@ -260,7 +259,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 			fakePromise++;
 			if (fakePromise === 2) {
-				combineData();
+				combineData(tempList, isUser);
 			}
 		})
 
@@ -271,8 +270,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	}
 
 
-	var combineData = function () {
-		$scope.lists.forEach(function (list, index) {
+	var combineData = function (passedList, isUser) {
+		passedList.forEach(function (list, index) {
 			list.posts = [];
 			$scope.posts.forEach(function (post, index) {
 				if (post.listId === list.listId) {
@@ -282,6 +281,14 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 				}
 			})
 		})
+
+		if (isUser) {
+			$scope.lists = passedList;
+		} else {
+			$scope.friendList = passedList;
+		}
+
+		$scope.$apply();
 	}
 
 
@@ -360,7 +367,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 		var newList = {
 			listName: listName,
 			userId: $scope.activeUser.id,
-			timestamp: Date(),
+			timestamp: Firebase.ServerValue.TIMESTAMP,
 			posts: 'coming soon'
 		}
 
@@ -407,7 +414,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 		var newPost = {
 			title: title,
-			timestamp: Date(),
+			timestamp: Firebase.ServerValue.TIMESTAMP,
 			posteeName: $scope.activeUser.name,
 			posteeId: $scope.activeUser.id,
 			posteePicUrl: $scope.activeUser.picUrl,
@@ -474,7 +481,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 			commenteeName: $scope.activeUser.name,
 			commenteeId: $scope.activeUser.id,
 			commenteePicUrl: $scope.activeUser.picUrl,
-			timestamp: Date()
+			timestamp: Firebase.ServerValue.TIMESTAMP
 		}
 
 		var commentRef = new Firebase('https://pelican.firebaseio.com/posts/' + $scope.postId + '/comments');
@@ -487,8 +494,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 		commentRef.child(newRef).update({commentId: newRef});
 		
 		// reflecting front-end changes
+		newComment.timestamp = 'just now';
 		$scope.postComments.unshift(newComment);
-		$scope.newComment = '';
 	}
 
 
@@ -662,7 +669,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 		}
 
 		var newDescription = $scope.addDescription;
-		var newTimestamp = Date();
+		var newTimestamp = Firebase.ServerValue.TIMESTAMP;
 
 		var updatedPost = {
 			title: $scope.postTitle,

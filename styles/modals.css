@@ -18,7 +18,7 @@
 #postModal .modal-content {
 	border-radius: 0;
 	background: #eee;
-	height: 100vh;
+	min-height: 100vh;
 }
 
 #postModal .modal-header {
@@ -35,6 +35,7 @@
 	position: absolute;
 	bottom: 0;
 	right: 25px;
+	font-size: 14px;
 	color: #D4D4D4;
 	cursor: pointer;
 }
@@ -57,7 +58,13 @@
 
 #postModal .modal-footer {
 	text-align: left;
-	background: #eee; 
+	background: #eee;
+}
+
+#postModal .modal-footer h3 {
+	color: #979797;
+	margin-left: 5%;
+	margin-bottom: 0;
 }
 
 .modal-body .btn-default {
@@ -96,6 +103,7 @@
 
 #add-description {
 	min-height: 34px !important;
+	max-width: 100%;
 	cursor: text;
 }
 
