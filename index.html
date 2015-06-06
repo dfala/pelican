@@ -65,20 +65,6 @@
 
 	<div style="padding-top: 50px;">
 
-		<!-- JUMBOTRON -->
-		
-<!-- 		<div class="jumbotron pelican-banner" ng-if="!textSearch" ng-cloak>
-			<div class="container">
-				<h1>{{bannerTitle}}</h1>
-				<br>
-
-				<button class="btn btn-primary btn-lg" ng-click="login()" ng-if="!activeUser">Sign up / Log in</button>
-
-	  			<button class="btn btn-primary btn-lg" ng-click="openBigModal()" ng-if="activeUser && !friendList.length" data-toggle="modal" data-target="#addPostModal">+ Post some crap</button>
-			</div>
-		</div> -->
-
-
 		<div class="jumbotron pelican-banner" ng-if="!textSearch" ng-cloak>
 			<div class="container">
 				<h1>{{bannerTitle}}</h1>
@@ -102,8 +88,6 @@
 
 		<!-- USER PAGE CONTENT -->
 		<div friend-content></div>
-
-
 
 
 	</div>
@@ -171,19 +155,11 @@
 
 	  				</div>
 
-
-
-
-
 				</div>
-
 			</div>
 		</div>
 	</div>
 	<!-- END POST MODAL -->
-
-
-
 
 
 
@@ -247,17 +223,19 @@
 
 
 
-	<!-- Angular Files -->
+	<!-- CONTROLLERS -->
 	<script type="text/javascript" src="js/controllers/mainController.js"></script>
-
+	<!-- DIRECTIVES -->
 	<script type="text/javascript" src="js/directives/peliDirectives.js"></script>
 	<script type="text/javascript" src="js/directives/superShareDirective.js"></script>
+	<!-- FILTERS -->
 	<script type="text/javascript" src="js/filters/searchFilter.js"></script>
-	<!-- Services -->
+	<!-- SERVICES -->
 	<script type="text/javascript" src="js/services/cookiesService.js"></script>
 	<script type="text/javascript" src="js/services/homeFeedService.js"></script>
 	<script type="text/javascript" src="js/services/loginService.js"></script>
 	<script type="text/javascript" src="js/services/contentService.js"></script>
+
 
 	<!-- GOOGLE ANALYTICS -->
 	<script>
