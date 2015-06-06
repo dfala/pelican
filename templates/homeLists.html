@@ -4,7 +4,6 @@
 		<div class="list" id="public-feed">
 			<ul class="post-data" keep-loading>
 				<span ng-repeat="post in publicPosts | filter: textSearch">
-					<!-- <li class="light-border" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post.title, post.link, post.description, post.posteePicUrl, post.posteeName, post.postId)"> -->
 					<li class="light-border" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post)">
 						<div class="add-one-post" ng-if="activeUser && activeUser.id !== post.posteeId" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
 							<span class="glyphicon glyphicon-pushpin"></span>
@@ -30,7 +29,8 @@
 
 			<!-- LOADING GIF -->
 			<div class="loading-gif">
-				<img ng-show="autoLoad" style="" src="http://www.ajaxload.info/images/exemples/24.gif">
+				<!-- TODO: gif never shows -->
+				<img ng-show="autoLoad" src="http://www.ajaxload.info/images/exemples/24.gif">
 			</div>
 		</div>
 

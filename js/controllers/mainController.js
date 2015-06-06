@@ -1,6 +1,6 @@
-var pelicanApp = angular.module('pelicanApp',[]);
+var app = angular.module('pelicanApp',[]);
 
-pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cookies', function($scope, $timeout, $sce, cookies) {
+app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService', 'homeFeedService', 'loginService', function($scope, $timeout, $sce, cookiesService, homeFeedService, loginService) {
 
 
 	////////////////////////////////////////////////
@@ -42,70 +42,41 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 
 	////////////////////////////////////////////////
-	/////////////// LOAD PUBLIC DATA ///////////////
+	//////////////// HOME FEED DATA ////////////////
 	////////////////////////////////////////////////
 
-
 	var getPublicPosts = function () {
-		// getting last 5 items in list (most recent 20)
-		publicRef.limitToLast(10).once('value', function (data) {
-			var publicData = data.val();
-
-			$scope.publicPosts = [];
-
-			for (var key in publicData) {
-				$scope.publicPosts.unshift(publicData[key])
-			}
-
-			// trigger an angular digest cycle
-			$scope.$digest();
-		});
+		homeFeedService.getPulicPosts()
+			.then(function (response) {
+				$scope.publicPosts = response;
+			})
 	}
-
 	getPublicPosts();
-	var lazyCount = 1;
 
 	$scope.getMorePosts = function () {
 		if (!$scope.isHomePage) return;
-
+		//turn on loading gif
 		$scope.autoLoad = true;
 
-		publicRef.limitToLast(lazyCount * 10).once('value', function (data) {
-		// publicRef.limitToLast(5).on('value', function (data) {
-
-			var publicData = data.val();
-
-			$scope.publicPosts = [];
-
-			for (var key in publicData) {
-				$scope.publicPosts.unshift(publicData[key])
-			}
-
-			// trigger an angular digest cycle
-			$scope.$digest();
-
-			$scope.autoLoad = false;
-			lazyCount++;
-		});
+		homeFeedService.getMorePosts()
+			.then(function (response) {
+				$scope.publicPosts = response;
+				$scope.autoLoad = false;
+			})
 	}
 
-
-
 	$scope.pinPublicPost = function (title, link, description) {
+		//open modal
 		$('#addPostModal').modal('show');
+
 		//populate values
 		$scope.postTitle = title;
 		$scope.postLink = link;
 		$scope.addDescription = description;
 
+		//load modal data
 		$scope.openBigModal();
 	}
-
-
-
-
-
-
 
 
 
@@ -131,82 +102,50 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 	// initial facebook request
 	$scope.login = function () {
-		firebase.authWithOAuthPopup("facebook", function(error, authData) {
-			if (error) {
-				console.log("Login Failed!", error);
-			} else {
+		loginService.login()
+			.then(function (authData) {
 				checkUser(authData);
-			}
-		},{
-			scope: 'email,user_likes'
-		});
+			})
 	}
 
 	// log user out
 	$scope.logOut = function () {
-		cookies.deleteCookie(function () {
+		cookiesService.deleteCookie(function () {
 			location.reload();
 		})
 	}
 
 	// checking if user exists
 	var checkUser = function (data) {
-		var id = data.uid;
-		
-		usersRef.once('value', function (snapshot) {
-			if (snapshot.hasChild(id)) {
-				getUserData(id); // the user exists
-			} else {
-				createNewUser(data); // the user does not exist
-			}
-		})
+		loginService.checkUser(data)
+			.then(function (id) {
+				getUserData(id);
+			}, function (data) {
+				createNewUser(data);
+			})
 	}
 
 	// creating a new user
 	var createNewUser = function (data) {
-		var id = data.uid;
-
-		var user = {
-			id: id,
-			name: data.facebook.displayName,
-			email: data.facebook.email,
-			picUrl: data.facebook.cachedUserProfile.picture.data.url,
-			timestamp: Firebase.ServerValue.TIMESTAMP,
-			lists: 'lists'
-		}
-
-		firebase.child('users/' + id).set(user);
-
-		// activeUser defined at global $scope
-		$scope.activeUser = {
-			id: id,
-			name: data.facebook.displayName
-		}
-
-		console.log('User created');
-		getUserData(id);
+		var response = loginService.createNewUser(data);
+		$scope.activeUser = response;
+		getUserData(response.id);
 	}
 
 	// getting data for logged-in user
 	var getUserData = function (id) {
-		userRef = new Firebase('https://pelican.firebaseio.com/users/' + id);
-
-		userRef.once('value', function (data) {
-			var userData = data.val();
-
-			cleanUserData(userData, true);
-
-			// second argument defines number of days until cookie expires
-			cookies.setCookie($scope.activeUser.id, 1);
-
-			$scope.isHomePage = false;
-			
-			// trigger an angular digest cycle
-			$scope.$digest();
-		});
+		loginService.getUserData(id)
+			.then(function (response) {
+				cleanUserData(response, true);
+				$scope.isHomePage = false;
+			})
 	}
 
 
+	////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////
 
 
 	var cleanUserData = function (userData, isUser) {
@@ -228,46 +167,76 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 		$scope.friendList = [];
 
 
-
-
-
 		if (userData.lists === 'lists') return userFirstLogin();
 
 
-
-		var fakePromise = 0;
-		var tempList = [];
-
-		listsRef.orderByChild('userId').equalTo(userData.id).once('value', function (response) {
-			var listData = response.val();
-			for (var key in listData) {
-				tempList.unshift(listData[key]);
-			}
-
-			fakePromise++;
-			if (fakePromise === 2) {
-				combineData(tempList, isUser);
-			}
-		})
-
-		postsRef.orderByChild('posteeId').equalTo(userData.id).once('value', function (response) {
-			var postData = response.val();
-
-			for (var key in postData) {
-				$scope.posts.unshift(postData[key]);
-			}
-
-			fakePromise++;
-			if (fakePromise === 2) {
-				combineData(tempList, isUser);
-			}
-		})
-
-
-
-
-		window.scrollTo(0, 0);
+		loginService.cleanUserData(userData)
+			.then(function (response) {
+				$scope.posts = response[1];
+				combineData(response[0], isUser)
+				window.scrollTo(0, 0);
+			})
 	}
+
+
+
+
+	// var cleanUserData = function (userData, isUser) {
+	// 	if (isUser) {
+	// 		$scope.isNotUserData = false;
+	// 		$scope.lists = [];
+	// 		$scope.posts = [];
+	// 		$scope.activeUser = {
+	// 			id: userData.id,
+	// 			name: userData.name,
+	// 			picUrl: userData.picUrl
+	// 		}
+	// 	} else {
+	// 		$scope.isNotUserData = true;
+	// 	}
+
+	// 	var firstName = userData.name.split(" ");
+	// 	$scope.bannerTitle = firstName[0] + "'s Pelican";
+	// 	$scope.friendList = [];
+
+
+
+
+
+	// 	if (userData.lists === 'lists') return userFirstLogin();
+
+
+
+	// 	var fakePromise = 0;
+	// 	var tempList = [];
+
+	// 	listsRef.orderByChild('userId').equalTo(userData.id).once('value', function (response) {
+	// 		var listData = response.val();
+	// 		for (var key in listData) {
+	// 			tempList.unshift(listData[key]);
+	// 		}
+
+	// 		fakePromise++;
+	// 		if (fakePromise === 2) {
+	// 			combineData(tempList, isUser);
+	// 		}
+	// 	})
+
+	// 	postsRef.orderByChild('posteeId').equalTo(userData.id).once('value', function (response) {
+	// 		var postData = response.val();
+
+	// 		for (var key in postData) {
+	// 			$scope.posts.unshift(postData[key]);
+	// 		}
+
+	// 		fakePromise++;
+	// 		if (fakePromise === 2) {
+	// 			combineData(tempList, isUser);
+	// 		}
+	// 	})
+
+	// 	window.scrollTo(0, 0);
+	// }
 
 
 	var combineData = function (passedList, isUser) {
@@ -309,7 +278,7 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 
 	//MAKING COOKIES WORK!
 	var checkForCookies = function () {
-		var cookieUserId = cookies.checkCookie();
+		var cookieUserId = cookiesService.checkCookie();
 		if(cookieUserId) {
 			getUserData(cookieUserId);
 		}
@@ -789,7 +758,8 @@ pelicanApp.controller('PelicanController', ['$scope', '$timeout', '$sce', 'cooki
 	// GET ID FROM THE URL
 	var idToGet = getParameterByName('id');
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////
 
 	var searchForItemById = function (id) {
 	    //look at each one until you find it.

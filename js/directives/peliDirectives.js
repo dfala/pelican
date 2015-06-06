@@ -46,19 +46,15 @@ pelicanApp.directive('clearSearch', function() {
 	return {
 		restrict:'A',
 		link: function (scope, element) {
-			var LAZY_LOAD_THRESHOLD = 1;
+			var LAZY_LOAD_THRESHOLD = 2;
 			
 			$(window).scroll(function () {
 				var bottomOfScreen = $(window).height() + $(window).scrollTop();
 				var scrollRemaining = $(document).height() - bottomOfScreen;
 				var pastThreshold = scrollRemaining < LAZY_LOAD_THRESHOLD;
 
-				// console.log(scrollRemaining, $(window).scrollTop());
-
 				if (pastThreshold && !scope.autoLoad) {
-					// scope.$apply(function(){
-						scope.getMorePosts();
-					// });
+					scope.getMorePosts();
 				}
 			});
 		}

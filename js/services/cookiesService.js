@@ -1,17 +1,17 @@
-angular.module('pelicanApp')
-.service('cookies', function() {
+var app = angular.module('pelicanApp');
+
+app.factory('cookiesService', function() {
+	////////////////////////////////////////////////////////////
+	var service = {};
+	////////////////////////////////////////////////////////////
 
 
-	///////////////////
-	// SETTING COOKIES
-	///////////////////
-
-	this.getCookie = function () {
+	service.getCookie = function () {
 	    var cookie = document.cookie;
 	    return cookie;
 	}
 
-	this.checkCookie = function () {
+	service.checkCookie = function () {
 	    var userId = this.getCookie();
 	    userId = userId.substring(3);
 
@@ -21,7 +21,7 @@ angular.module('pelicanApp')
 	}
 
 	// second param defines number of days until cookie expires
-	this.setCookie = function (cookieValue, expDate) {
+	service.setCookie = function (cookieValue, expDate) {
 	    var d = new Date();
 	    d.setTime(d.getTime() + (expDate*24*60*60*1000));
 	    var expires = "expires=" + d.toUTCString();
@@ -30,14 +30,13 @@ angular.module('pelicanApp')
 	    document.cookie = "id=" + cookieValue + "; path=/; " + expires;
 	}
 
-	this.deleteCookie = function (callback) {
+	service.deleteCookie = function (callback) {
 		date = Date();
 		document.cookie = 'id=; expires=' + date + ';';
 		setTimeout(callback, 50);
 	}
 
-})
-
-
-
-
+	////////////////////////////////////////////////////////////
+	return service;
+	////////////////////////////////////////////////////////////
+});

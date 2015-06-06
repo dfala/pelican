@@ -15,7 +15,7 @@
 </head>
 
 
-<body ng-controller="PelicanController" clear-search>
+<body ng-controller="mainController" clear-search>
 
 
 	<!-- NAVBAR -->
@@ -253,11 +253,15 @@
 
 
 
-	<!-- Angular File -->
-	<script type="text/javascript" src="userController.js"></script>
-	<script type="text/javascript" src="peliDirectives.js"></script>
-	<script type="text/javascript" src="peliFilters.js"></script>
-	<script type="text/javascript" src="cookies.js"></script>
+	<!-- Angular Files -->
+	<script type="text/javascript" src="js/controllers/mainController.js"></script>
+
+	<script type="text/javascript" src="js/directives/peliDirectives.js"></script>
+	<script type="text/javascript" src="js/filters/searchFilter.js"></script>
+	<!-- Services -->
+	<script type="text/javascript" src="js/services/cookiesService.js"></script>
+	<script type="text/javascript" src="js/services/homeFeedService.js"></script>
+	<script type="text/javascript" src="js/services/loginService.js"></script>
 
 	<!-- GOOGLE ANALYTICS -->
 	<script>
