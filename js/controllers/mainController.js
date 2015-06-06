@@ -1,6 +1,6 @@
 var app = angular.module('pelicanApp',[]);
 
-app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService', 'homeFeedService', 'loginService', function($scope, $timeout, $sce, cookiesService, homeFeedService, loginService) {
+app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService', 'homeFeedService', 'loginService', 'contentService', function($scope, $timeout, $sce, cookiesService, homeFeedService, loginService, contentService) {
 
 
 	////////////////////////////////////////////////
@@ -134,19 +134,14 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 
 	// getting data for logged-in user
 	var getUserData = function (id) {
+		userRef = new Firebase('https://pelican.firebaseio.com/users/' + id);
+
 		loginService.getUserData(id)
 			.then(function (response) {
 				cleanUserData(response, true);
 				$scope.isHomePage = false;
 			})
 	}
-
-
-	////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////
-
 
 	var cleanUserData = function (userData, isUser) {
 		if (isUser) {
@@ -179,74 +174,12 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 	}
 
 
-
-
-	// var cleanUserData = function (userData, isUser) {
-	// 	if (isUser) {
-	// 		$scope.isNotUserData = false;
-	// 		$scope.lists = [];
-	// 		$scope.posts = [];
-	// 		$scope.activeUser = {
-	// 			id: userData.id,
-	// 			name: userData.name,
-	// 			picUrl: userData.picUrl
-	// 		}
-	// 	} else {
-	// 		$scope.isNotUserData = true;
-	// 	}
-
-	// 	var firstName = userData.name.split(" ");
-	// 	$scope.bannerTitle = firstName[0] + "'s Pelican";
-	// 	$scope.friendList = [];
-
-
-
-
-
-	// 	if (userData.lists === 'lists') return userFirstLogin();
-
-
-
-	// 	var fakePromise = 0;
-	// 	var tempList = [];
-
-	// 	listsRef.orderByChild('userId').equalTo(userData.id).once('value', function (response) {
-	// 		var listData = response.val();
-	// 		for (var key in listData) {
-	// 			tempList.unshift(listData[key]);
-	// 		}
-
-	// 		fakePromise++;
-	// 		if (fakePromise === 2) {
-	// 			combineData(tempList, isUser);
-	// 		}
-	// 	})
-
-	// 	postsRef.orderByChild('posteeId').equalTo(userData.id).once('value', function (response) {
-	// 		var postData = response.val();
-
-	// 		for (var key in postData) {
-	// 			$scope.posts.unshift(postData[key]);
-	// 		}
-
-	// 		fakePromise++;
-	// 		if (fakePromise === 2) {
-	// 			combineData(tempList, isUser);
-	// 		}
-	// 	})
-
-	// 	window.scrollTo(0, 0);
-	// }
-
-
 	var combineData = function (passedList, isUser) {
 		passedList.forEach(function (list, index) {
 			list.posts = [];
 			$scope.posts.forEach(function (post, index) {
 				if (post.listId === list.listId) {
-					$scope.$apply(function(){
-						list.posts.push(post);
-					})
+					list.posts.push(post);
 				}
 			})
 		})
@@ -256,23 +189,13 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 		} else {
 			$scope.friendList = passedList;
 		}
-
-		$scope.$apply();
 	}
-
-
-
-
 
 
 	var userFirstLogin = function () {
 		console.log('no lists under this user')
 		$scope.$digest();
 	}
-
-
-
-
 
 
 
@@ -292,16 +215,6 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 
 
 
-
-
-
-
-
-
-
-
-
-
 	////////////////////////////////////////////////
 	////////// MODIFYING LISTS AND POSTS ///////////
 	////////////////////////////////////////////////
@@ -312,7 +225,6 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 		// this is a hack to trigger elastic directive on addDescription ng-model change
 		var tempDescription = $scope.addDescription;
 		$scope.addDescription = '';
-
 
 		listToAdd = list;
 
@@ -331,28 +243,9 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 	// Creating a new list
 	$scope.createList = function(listName) {
 		if (!$scope.activeUser) return console.log('user not defined');
-		// return console.log($scope.activeUser);
 
-		var newList = {
-			listName: listName,
-			userId: $scope.activeUser.id,
-			timestamp: Firebase.ServerValue.TIMESTAMP,
-			posts: 'coming soon'
-		}
+		contentService.createList(listName, userRef, $scope.activeUser.id)
 
-		// var newPostRef = firebase.child('users/' + $scope.activeUser.id + '/lists').push(newList);
-		var newPostRef = listsRef.push(newList);
-		
-		// get key of recent post
-		listToAdd = newPostRef.key();
-
-		// add key to list object
-		listsRef.child(listToAdd).update({listId: listToAdd});
-
-		// add key to user lists
-		userRef.child('lists').push(listToAdd);
-
-		// front end changes
 		$('#add-list').val('');
 		$scope.selectList(listToAdd);
 	}
@@ -388,7 +281,6 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 			posteeId: $scope.activeUser.id,
 			posteePicUrl: $scope.activeUser.picUrl,
 			listId: listToAdd
-			//listId: listId
 		}
 
 
@@ -472,9 +364,6 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 	/////////////// SETING PROFILES ////////////////
 	////////////////////////////////////////////////
 
-
-
-
 	$scope.seeProfile = function (posteeId) {
 		var posteeRef = new Firebase('https://pelican.firebaseio.com/users/' + posteeId);
 
@@ -497,6 +386,26 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 
 
 
+	////////////////////////////////////////////////
+	////////////////////////////////////////////////
+	////// MOVE EVERYTHING BELOW TO DIRECTIVE //////
+	////////////////////////////////////////////////
+	////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -504,9 +413,6 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 	////////////////////////////////////////////////
 	//////////////// UX/UI PURPOSES ////////////////
 	////////////////////////////////////////////////
-
-
-
 
 
 	// Set value of page (home page vs. user page)

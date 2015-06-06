@@ -1,7 +1,6 @@
 var app = angular.module('pelicanApp');
 
 app.factory('loginService', function ($q, cookiesService) {
-	////////////////////////////////////////////////////////////
 	var service = {};
 	////////////////////////////////////////////////////////////
 
@@ -116,32 +115,6 @@ app.factory('loginService', function ($q, cookiesService) {
 
 
 
-	// var combineData = function (passedList, isUser) {
-	// 	passedList.forEach(function (list, index) {
-	// 		list.posts = [];
-	// 		$scope.posts.forEach(function (post, index) {
-	// 			if (post.listId === list.listId) {
-	// 				$scope.$apply(function(){
-	// 					list.posts.push(post);
-	// 				})
-	// 			}
-	// 		})
-	// 	})
-
-	// 	if (isUser) {
-	// 		$scope.lists = passedList;
-	// 	} else {
-	// 		$scope.friendList = passedList;
-	// 	}
-	// }
-
-
-
-
-
-
-
 	////////////////////////////////////////////////////////////
 	return service;
-	////////////////////////////////////////////////////////////
 });
