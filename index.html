@@ -78,8 +78,6 @@
 
 		<div id="close-search" ng-if="textSearch" ng-click="cleanSearchQuery()">x</div>
 
-
-
 		<!-- HOME PAGE CONTENT -->
 		<div home-content></div>
 
@@ -123,8 +121,12 @@
 				</div>
 
 				<div class="modal-body" ng-if="activeDescription">
-					<p class="read-br" style="color: #595959">{{activeDescription}}</p>
+					<p class="read-br" style="color: #595959" ng-bind-html="activeDescription | to_trusted"></p>
 				</div>
+
+<!-- 				<div class="modal-body" ng-if="activeDescription">
+					<p class="read-br" style="color: #595959">{{activeDescription}}</p>
+				</div> -->
 
 				<div class="modal-footer">
 					<h3>Comments</h3>
