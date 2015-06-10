@@ -353,6 +353,8 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 		commentRef.child(newRef).update({commentId: newRef});
 		
 		// reflecting front-end changes
+		location.reload();
+
 		newComment.timestamp = 'just now';
 		$scope.postComments.unshift(newComment);
 	}
@@ -706,12 +708,23 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 			var data = response.val();
 			if (!data) return
 
-			console.log('data.link', data);
+			// console.log('data.link', data);
 
 			$('#postModal').modal('show');
+			$scope.postId = data.postId;
 			$scope.activeTitle = data.title;
 			if (data.link) { $scope.activeLink = data.link; }
 			if (data.description) { $scope.activeDescription = data.description; }
+			if (data.comments) {
+				var comments = data.comments;
+				var orderedComments = [];
+
+				for (var key in comments) {
+					orderedComments.unshift(comments[key]);
+				}
+
+				$scope.postComments = orderedComments;
+			}
 
 			$scope.$digest();
 		})
