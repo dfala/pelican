@@ -245,6 +245,10 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 		if (!$scope.activeUser) return console.log('user not defined');
 
 		contentService.createList(listName, userRef, $scope.activeUser.id)
+			.then(function (listKey) {
+				listToAdd = listKey;
+			})
+			/// get the key here and add to listToAdd
 
 		$('#add-list').val('');
 		$scope.selectList(listToAdd);
@@ -259,7 +263,7 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 		var description = $scope.addDescription;
 
 		// validation
-		if (!listToAdd) return console.log('listToAdd is not defined');
+		if (!listToAdd) return console.warn('listToAdd is not defined');
 		if (!title) { return $scope.displayAlert('Please add a title') }
 
 		if (link) {

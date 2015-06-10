@@ -1,6 +1,6 @@
 var app = angular.module('pelicanApp');
 
-app.factory('contentService', function () {
+app.factory('contentService', function ($q) {
 	var service = {};
 	////////////////////////////////////////////////////////////
 
@@ -9,6 +9,8 @@ app.factory('contentService', function () {
 	var userRef;
 
 	service.createList = function(listName, passedUserRef, id) {
+		var deferred = $q.defer();
+
 		userRef = passedUserRef;
 
 		var newList = {
@@ -18,17 +20,20 @@ app.factory('contentService', function () {
 			posts: 'coming soon'
 		}
 
-		// var newPostRef = firebase.child('users/' + $scope.activeUser.id + '/lists').push(newList);
-		var newPostRef = listsRef.push(newList);
+		// var newListRef = firebase.child('users/' + $scope.activeUser.id + '/lists').push(newList);
+		var newListRef = listsRef.push(newList);
 		
 		// get key of recent post
-		listToAdd = newPostRef.key();
+		listToAdd = newListRef.key();
+		deferred.resolve(listToAdd);
 
 		// add key to list object
 		listsRef.child(listToAdd).update({listId: listToAdd});
 
 		// add key to user lists
 		userRef.child('lists').push(listToAdd);
+
+		return deferred.promise;
 	}
 
 
