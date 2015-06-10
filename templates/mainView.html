@@ -1,0 +1,198 @@
+<!-- NAVBAR -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navLeft" ng-cloak>
+			<button class="btn btn-primary btn-sm" ng-if="activeUser" ng-click="openBigModal()" data-toggle="modal" data-target="#addPostModal">+</button>
+
+    		<a class="navbar-brand" ng-click="homePage(true)">Pelican</a>
+
+    		<a class="navbar-brand slash" ng-class="{'active-nav-title': isHomePage}" ng-click="homePage(true)">home</a>
+
+    		<a class="navbar-brand slash" ng-class="{'active-nav-title': !isHomePage && !friendList.length}" ng-click="homePage(false)">profile</a>
+		</div>
+
+		<div class="navbar-brand profile">
+			<a href="#">
+				<p ng-if="!activeUser.picUrl" ng-click="login()">Sign up / Log In</p>
+  			</a>
+
+  			<span ng-if="activeUser.picUrl" style="display:flex; align-items: center;">
+      			<a href="#">
+					<p ng-click="logOut()" style="margin-right: 20px;">Logout</p>
+      			</a>
+  				<div class="img-container">
+  					<img ng-click="homePage(false)" src="{{activeUser.picUrl}}">
+  				</div>
+				</span>
+
+  		</div>
+
+		<form class="navbar-form search-bar" role="search">
+    		<div class="form-group">
+     			<input class="form-control" placeholder="Search" ng-model="textSearch">
+    		</div>
+    		<button class="hidden">Search</button>
+    		<span class="glyphicon glyphicon-search" ng-if="!textSearch"></span>
+    		<span class="glyphicon glyphicon-remove" ng-if="textSearch" ng-click="cleanSearchQuery()"></span>
+  		</form>
+
+	</div>
+</nav>
+
+<!-- END NAVBAR -->
+
+
+<div style="padding-top: 50px;">
+
+	<div class="jumbotron pelican-banner" ng-if="!textSearch" ng-cloak>
+		<div class="container">
+			<h1>{{bannerTitle}}</h1>
+			<br>
+
+			<button class="btn btn-primary btn-lg" ng-click="login()" ng-if="!activeUser">Sign up / Log in</button>
+
+  			<button class="btn btn-primary btn-lg" ng-click="openBigModal()" ng-if="activeUser && !friendList.length" data-toggle="modal" data-target="#addPostModal">+ Post some crap</button>
+		</div>
+	</div>
+
+	<div id="close-search" ng-if="textSearch" ng-click="cleanSearchQuery()">x</div>
+
+	<!-- HOME PAGE CONTENT -->
+	<div home-content></div>
+
+	<!-- USER PAGE CONTENT -->
+	<div user-content></div>
+
+	<!-- USER PAGE CONTENT -->
+	<div friend-content></div>
+
+
+</div>
+
+<!-- POST MODAL -->
+<div class="modal" id="postModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<div super-share></div>
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h2 class="modal-title" id="myModalLabel">{{activeTitle}}</h2>
+				<a class="modal-link" href="link" target="_blank" ng-href="{{activeLink}}" ng-if="activeLink">{{activeLink}}</a>
+
+				<p class="edit-post"
+					ng-click="editPostModal(activeTitle, activeLink, activeDescription);"
+					ng-if="activeUser"
+					data-toggle="modal"
+					data-target="#addPostModal"
+					ng-show="isHomePage === false && !isNotUserData">
+					
+					edit post
+				</p>
+
+				<div class="postee-info spacing-top" ng-if="posteeName && isNotUserData">
+					<div class="img-container rounded-img">
+						<img ng-if="posteePicUrl" src="{{posteePicUrl}}">
+					</div>
+					<p>{{posteeName}}</p>
+				</div>
+			</div>
+
+			<div class="modal-body" ng-if="activeDescription">
+				<p class="read-br" style="color: #595959" ng-bind-html="activeDescription | to_trusted"></p>
+			</div>
+
+			<div class="modal-footer">
+				<h3>Comments</h3>
+
+
+				<div class="comment-wrapper">
+					<div class="add-comment" ng-if="activeUser">
+
+		  				<textarea class="form-control" placeholder="Say something" ng-model="newComment" elastic></textarea>
+
+		  				<button class="btn btn-comment" ng-click="addComment(newComment); newComment = '' ">Submit</button>
+
+	  				</div>
+
+	  				<div class="loaded-comments" ng-repeat="comment in postComments">
+						
+						<div class="img-container">
+		  					<img ng-src="{{comment.commenteePicUrl}}">
+		  				</div>
+		  				<div class="comment-info">
+			  				<p class="comment-author">{{comment.commenteeName}}</p>
+			  				<p class="comment comment-timestamp">{{comment.timestamp | date:'mediumDate'}}</p>
+			  				<div class="comment">
+		  						{{comment.content}}
+		  					</div>
+	  					</div>
+	  				</div>
+
+  				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END POST MODAL -->
+
+
+
+<!-- ADD NEW POST MODAL -->
+<div class="modal" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h2>{{modalTitle}}</h2>
+			</div>
+
+
+			<div class="modal-body">
+					{{alertMessage}}
+					<div ng-if="alertMessage" style="margin-bottom: 10px"></div>
+
+					<div class="list-wrapper" ng-show="chooseList">
+						<div>
+							<ul ng-repeat="list in lists">
+								<li class="available-list" ng-click="selectList(list.listId)">{{list.listName}}</li>
+							</ul>
+						<div class="form-inline">
+							<form>
+								<input class="form-control" ng-model="postList" placeholder="New list name" id="add-list">
+								<button class="btn btn-default" ng-click="createList(postList)">Create a new list</button>
+							</form>
+						</div>
+						</div>
+					</div>
+
+					<div ng-show="addPost">
+						<form>
+							<div class="form-group">
+								<input class="form-control" ng-model="postTitle" placeholder="Title" id="add-title">
+							</div>
+							<div class="form-group">
+								<input class="form-control" ng-model="postLink" placeholder="Link" id="add-link">
+							</div>
+							<div class="form-group">
+								<textarea class="form-control" placeholder="Thoughts" id="add-description" ng-model="addDescription" elastic>
+								</textarea>
+							</div>
+								<button class="btn btn-primary" ng-click="createPost()" ng-if="!editingPost">Post it!</button>
+
+								<span ng-if="editingPost">
+									<button class="btn btn-primary" ng-click="updatePostModal()">Update post</button>
+									<button class="btn btn-default" ng-click="updatePostModal(true)">Delete post</button>
+								</span>
+						</form>
+					</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- END ADD NEW POST MODAL -->
