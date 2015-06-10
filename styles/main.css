@@ -217,6 +217,10 @@ li:hover {
 	color: #0093FF !important;
 }
 
+.navbar-brand {
+	cursor: pointer;
+}
+
 .active-nav-title {
 	color: #0093FF !important;
 }

@@ -1,6 +1,6 @@
-var app = angular.module('pelicanApp',[]);
+var app = angular.module('pelicanApp')
 
-app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService', 'homeFeedService', 'loginService', 'contentService', function($scope, $timeout, $sce, cookiesService, homeFeedService, loginService, contentService) {
+.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService', 'homeFeedService', 'loginService', 'contentService', function($scope, $timeout, $sce, cookiesService, homeFeedService, loginService, contentService) {
 
 
 	////////////////////////////////////////////////
@@ -378,6 +378,8 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 			$scope.isHomePage = false;
 			$scope.$digest();
 		})
+
+		// $scope.cleanSearchQuery();
 	}
 
 
@@ -432,6 +434,7 @@ app.controller('mainController', ['$scope', '$timeout', '$sce', 'cookiesService'
 		} else {
 			$scope.bannerTitle = "The Pelican Blog";
 		}
+		$scope.cleanSearchQuery();
 	}
 
 

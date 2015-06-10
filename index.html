@@ -4,10 +4,13 @@
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+
 	<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+
 	<link rel="stylesheet" href="styles/main.css">
 	<link rel="stylesheet" href="styles/modals.css">
 	<link rel="stylesheet" href="styles/comments.css">
@@ -29,7 +32,7 @@
 
 	    		<a class="navbar-brand slash" ng-class="{'active-nav-title': isHomePage}" ng-click="homePage(true)">home</a>
 
-	    		<a class="navbar-brand slash" ng-class="{'active-nav-title': !isHomePage}" ng-click="homePage(false)">profile</a>
+	    		<a class="navbar-brand slash" ng-class="{'active-nav-title': !isHomePage && !friendList.length}" ng-click="homePage(false)">profile</a>
     		</div>
 
 			<div class="navbar-brand profile">
@@ -225,6 +228,7 @@
 
 
 
+	<script type="text/javascript" src="js/app.js"></script>
 	<!-- CONTROLLERS -->
 	<script type="text/javascript" src="js/controllers/mainController.js"></script>
 	<!-- DIRECTIVES -->
