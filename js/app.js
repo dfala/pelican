@@ -9,13 +9,13 @@ var app = angular.module('pelicanApp', ['ngRoute'])
 
 	$routeProvider
 	.when('/', {
-		templateUrl: 'templates/mainView.html',
-		controller: 'mainController'
-	})
-
-	.when('/search', {
 		templateUrl: 'templates/search.html',
 		controller: 'searchController'
+	})
+
+	.when('/profile', {
+		templateUrl: 'templates/mainView.html',
+		controller: 'mainController'
 	})
 
 	.when('/404', {
