@@ -25,10 +25,16 @@
 }
 
 /*ALL STYLING*/
+html {
+	height: 100%;
+}
+
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 	overflow: scroll;
+	margin: 0;
+	height: 100%;
 }
 
 #main-body {
