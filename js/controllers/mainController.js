@@ -193,8 +193,8 @@ var app = angular.module('pelicanApp')
 
 
 	var userFirstLogin = function () {
-		console.log('no lists under this user')
-		$scope.$digest();
+		console.info('No lists to load');
+		// $scope.$digest();
 	}
 
 
@@ -206,7 +206,6 @@ var app = angular.module('pelicanApp')
 			getUserData(cookieUserId);
 		}
 	}
-
 	checkForCookies();
 
 

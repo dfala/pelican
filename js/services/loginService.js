@@ -1,10 +1,10 @@
 var app = angular.module('pelicanApp');
 
-app.factory('loginService', function ($q, cookiesService) {
+app.factory('loginService', function ($q, cookiesService, $firebaseAuth) {
 	var service = {};
 	////////////////////////////////////////////////////////////
 
-	var firebase = new Firebase("https://pelican.firebaseio.com/");
+	var appRef = new Firebase("https://pelican.firebaseio.com/");
 	var usersRef = new Firebase('https://pelican.firebaseio.com/users');
 	var userRef; // to be defined later on
 	var listsRef = new Firebase('https://pelican.firebaseio.com/lists');
@@ -13,7 +13,19 @@ app.factory('loginService', function ($q, cookiesService) {
 	service.login = function () {
 		var deferred = $q.defer();
 
-		firebase.authWithOAuthPopup("facebook", function(error, authData) {
+		// $firebaseAuth(appRef).$authWithOAuthPopup("facebook")
+		// 	.then(function (authData) {
+		// 		// manage logged in data
+		// 		deferred.resolve(authData);
+		// 	})
+		// 	.catch(function (error) {
+		// 		console.error("Authentication failed", error);
+		//	})
+
+
+		// DEPRECATED
+
+		appRef.authWithOAuthPopup("facebook", function(error, authData) {
 			if (error) {
 				console.error("Login Failed!", error);
 				deferred.reject(error);
@@ -24,6 +36,7 @@ app.factory('loginService', function ($q, cookiesService) {
 		},{
 			scope: 'email,user_likes'
 		});
+
 		return deferred.promise;
 	}
 
@@ -55,7 +68,7 @@ app.factory('loginService', function ($q, cookiesService) {
 			lists: 'lists'
 		}
 
-		firebase.child('users/' + id).set(user);
+		appRef.child('users/' + id).set(user);
 
 		var user = {
 			id: id,

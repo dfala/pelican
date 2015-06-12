@@ -1,10 +1,7 @@
 var app = angular.module('pelicanApp');
 
 app.factory('cookiesService', function() {
-	////////////////////////////////////////////////////////////
 	var service = {};
-	////////////////////////////////////////////////////////////
-
 
 	service.getCookie = function () {
 	    var cookie = document.cookie;
@@ -21,7 +18,10 @@ app.factory('cookiesService', function() {
 	}
 
 	// second param defines number of days until cookie expires
-	service.setCookie = function (cookieValue, expDate) {
+	service.setCookie = function (rawText, expDate) {
+		// cleaning cookie value
+		var cookieValue = rawText.slice(rawText.indexOf('facebook')).split(' ')[0];
+
 	    var d = new Date();
 	    d.setTime(d.getTime() + (expDate*24*60*60*1000));
 	    var expires = "expires=" + d.toUTCString();
@@ -36,7 +36,5 @@ app.factory('cookiesService', function() {
 		setTimeout(callback, 50);
 	}
 
-	////////////////////////////////////////////////////////////
 	return service;
-	////////////////////////////////////////////////////////////
 });
