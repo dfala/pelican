@@ -11,6 +11,10 @@ app.get('/search', function (req, res) {
  res.redirect('/#/search');
 })
 
+app.get('/profile', function (req, res) {
+ res.redirect('/#/profile');
+})
+
 app.use(function(req, res) {
  res.status(400);
  res.render(__dirname + '/templates/404', {title: '404: File not Found'});

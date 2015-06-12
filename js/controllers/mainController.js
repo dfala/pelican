@@ -163,10 +163,11 @@ var app = angular.module('pelicanApp')
 
 
 		if (userData.lists === 'lists') return userFirstLogin();
-
+		console.log($scope.activeUser);
 
 		loginService.cleanUserData(userData)
 			.then(function (response) {
+				console.log(response);
 				$scope.posts = response[1];
 				combineData(response[0], isUser)
 				window.scrollTo(0, 0);
@@ -189,12 +190,14 @@ var app = angular.module('pelicanApp')
 		} else {
 			$scope.friendList = passedList;
 		}
+
+		console.log('combineData completed');
 	}
 
 
 	var userFirstLogin = function () {
 		console.info('No lists to load');
-		// $scope.$digest();
+		$scope.$digest();
 	}
 
 
@@ -428,7 +431,7 @@ var app = angular.module('pelicanApp')
 		$('html, body').animate({scrollTop : 0},0);
 
 		$scope.isHomePage = value;
-		if (value === false) {
+		if (value === false && $scope.activeUser) {
 			getUserData($scope.activeUser.id);
 		} else {
 			$scope.bannerTitle = "The Pelican Blog";

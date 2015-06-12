@@ -13,6 +13,8 @@ app.factory('loginService', function ($q, cookiesService, $firebaseAuth) {
 	service.login = function () {
 		var deferred = $q.defer();
 
+		// DEPRECATED
+
 		// $firebaseAuth(appRef).$authWithOAuthPopup("facebook")
 		// 	.then(function (authData) {
 		// 		// manage logged in data
@@ -21,9 +23,6 @@ app.factory('loginService', function ($q, cookiesService, $firebaseAuth) {
 		// 	.catch(function (error) {
 		// 		console.error("Authentication failed", error);
 		//	})
-
-
-		// DEPRECATED
 
 		appRef.authWithOAuthPopup("facebook", function(error, authData) {
 			if (error) {
@@ -100,7 +99,6 @@ app.factory('loginService', function ($q, cookiesService, $firebaseAuth) {
 
 		var tempList = [];
 		var tempPosts = [];
-
 
 		listsRef.orderByChild('userId').equalTo(userData.id).once('value', function (response) {
 			var listData = response.val();

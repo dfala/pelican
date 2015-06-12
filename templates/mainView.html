@@ -13,12 +13,12 @@
 		</div>
 
 		<div class="navbar-brand profile">
-			<a href="#/">
-				<p ng-if="!activeUser.picUrl" ng-click="login()">Sign up / Log In</p>
+			<a href="#">
+				<p ng-if="!activeUser" ng-click="login()">Sign up / Log In</p>
   			</a>
 
-  			<span ng-if="activeUser.picUrl" style="display:flex; align-items: center;">
-      			<a href="#/">
+  			<span ng-if="activeUser" style="display:flex; align-items: center;">
+      			<a href="#">
 					<p ng-click="logOut()" style="margin-right: 20px;">Logout</p>
       			</a>
   				<div class="img-container">

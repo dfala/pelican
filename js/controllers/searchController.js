@@ -13,6 +13,8 @@ angular.module('pelicanApp')
 
 	// Highlighting query matches
 	$scope.highlight = function(text, search) {
+	    if(!text) return;
+
 	    if (!search) {
 	        return $sce.trustAsHtml(text);
 	    }
