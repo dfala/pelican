@@ -366,7 +366,7 @@ var app = angular.module('pelicanApp')
 	$scope.seeProfile = function (posteeId, isUser) {
 		if (!isUser)
 			isUser === false;
-
+		console.log(posteeId);
 		var posteeRef = new Firebase('https://pelican.firebaseio.com/users/' + posteeId);
 
 		posteeRef.once('value', function (data) {
