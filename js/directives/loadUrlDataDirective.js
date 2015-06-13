@@ -37,7 +37,7 @@ angular.module('pelicanApp')
 
 			// ADD ID TO URL
 			$scope.appendToUrl = function (append) {
-				var url = getBaseUrl() + "?id=" + append;
+				var url = getBaseUrl() + "/posts/" + append;
 				window.history.pushState({}, PAGE_TITLE, url);
 			}
 
@@ -51,7 +51,10 @@ angular.module('pelicanApp')
 			}
 
 			// GET ID FROM THE URL
-			var idToGet = getParameterByName('id');
+
+			// TODO: bring this back
+			// var idToGet = getParameterByName('id');
+			var idToGet;
 
 			//////////////////////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////////////////

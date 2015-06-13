@@ -21,18 +21,20 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 
 	.when('/profile/:userId', {
 		templateUrl: 'templates/mainView.html',
-		controller: 'mainController'
-		// resolve: {
-		// 	passedUserId: function ($route) {
-		// 		return $route.current.params.userId;
-		// 	}
-		// }
+		controller: 'mainController',
+		resolve: {
+			passedUserId: function ($route) {
+				return $route.current.params.userId;
+			}
+		}
 	})
 
 	.when('/404', {
 		templateUrl: 'templates/404.html'
 	})
 
-	.otherwise('/404');
+	.otherwise({
+		redirectTo: '/'
+	});
 
 }]);

@@ -37,7 +37,8 @@ angular.module('pelicanApp')
 
 				// DEPRECATED
 				// changeHash(post.postId);
-				$scope.appendToUrl(post.postId);
+				
+				// $scope.appendToUrl(post.postId);
 			}
 
 			// Add-new-post modal
