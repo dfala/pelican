@@ -43,8 +43,6 @@ angular.module('pelicanApp')
 
 			// Add-new-post modal
 			$scope.openBigModal = function (optionalTitle) {
-				$('body').css('overflow', 'hidden');
-
 				// User clicked on the plus btn next to the title
 				if (optionalTitle) return $scope.selectList(optionalTitle);
 
@@ -54,7 +52,7 @@ angular.module('pelicanApp')
 
 			// Cloding add-new-post modal
 			$scope.closeBigModal = function () {
-				$('body').css('overflow', 'auto');
+				console.log('closing');
 
 				// Reset the process
 				listToAdd = '';
@@ -68,13 +66,16 @@ angular.module('pelicanApp')
 				$scope.postLink = '';
 				$scope.addDescription = '';
 				$scope.newComment = '';
+				$('body').css('overflow', 'auto');
 			}
 
+			// TODO: this part is not working
 			// on boostrap close modal trigger closeBigModal();
 			$('#addPostModal').on('hidden.bs.modal', function () {
 		    	$scope.closeBigModal();
 			})
 
+			// TODO: check if this part is working
 			$('#postModal').on('hidden.bs.modal', function () {
 		    	$scope.postComments = [];
 		    	$scope.postTitle = '';
@@ -106,7 +107,6 @@ angular.module('pelicanApp')
 					$scope.addDescription = content;
 				})
 			}
-
 
 
 

@@ -1,0 +1,58 @@
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navLeft" ng-cloak>
+    		<!-- <a class="navbar-brand" ng-class="{'active-nav-title': isHomePage}" ng-click="homePage(true)">Pelican</a> -->
+
+    		<a class="navbar-brand" ng-class="{'active-nav-title': isHomePage}" ng-href="/home">Pelican</a>
+
+    		<!-- <a class="navbar-brand slash" ng-class="{'active-nav-title': !isHomePage && !friendList.length}" ng-click="homePage(false)">profile</a> -->
+
+    		<a class="navbar-brand slash" ng-class="{'active-nav-title': !isHomePage && !friendList.length}" ng-click="homePage(false)" ng-href="/profile/{{activeUser.id}}">profile</a>
+
+    		<a class="navbar-brand slash" href="/search">search</a>
+		</div>
+
+		<div class="navbar-brand profile">
+			<a href="#">
+				<p ng-if="!activeUser" ng-click="login()">Sign up / Log In</p>
+  			</a>
+
+  			<span ng-if="activeUser" style="display:flex; align-items: center;">
+      			<a href="#">
+					<p ng-click="logOut()" style="margin-right: 20px;">Logout</p>
+      			</a>
+  				<div class="img-container">
+  					<img ng-click="homePage(false)" src="{{activeUser.picUrl}}">
+  				</div>
+			</span>
+
+  		</div>
+
+		<form class="navbar-form search-bar" role="search">
+    		<div class="form-group">
+     			<input class="form-control" placeholder="Search" ng-model="textSearch">
+    		</div>
+    		<button class="hidden">Search</button>
+    		<span class="glyphicon glyphicon-search" ng-if="!textSearch"></span>
+    		<span class="glyphicon glyphicon-remove" ng-if="textSearch" ng-click="cleanSearchQuery()"></span>
+  		</form>
+
+	</div>
+</nav>
+<!-- END NAVBAR -->
+
+
+<div style="padding-top: 50px;">
+
+  <div class="jumbotron pelican-banner" ng-if="!textSearch" ng-cloak>
+    <div class="container">
+      <h1>{{bannerTitle}}</h1>
+      <br>
+
+      <button class="btn btn-primary btn-lg" ng-click="login()" ng-if="!activeUser">Sign up / Log in</button>
+
+        <button class="btn btn-primary btn-lg" ng-click="openBigModal()" ng-if="activeUser && !friendList.length" data-toggle="modal" data-target="#addPostModal">+ Post some crap</button>
+    </div>
+  </div>
+
+  <div id="close-search" ng-if="textSearch" ng-click="cleanSearchQuery()">x</div>

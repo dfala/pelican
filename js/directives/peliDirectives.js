@@ -14,33 +14,19 @@ var pelicanApp = angular.module('pelicanApp')
 	};
 })
 
-.directive('homeContent', function () {
+.directive('navBar', function () {
 	return {
-		restrict: 'EA',
-		templateUrl: 'templates/homeLists.html',
-		replace: true,
-		link : function (scope, element, attrs) {}
-	};
+		restrict: 'AE',
+		templateUrl: 'templates/navBar.html'
+	}
 })
 
-.directive('userContent', function () {
+.directive('modalsTemplate', function () {
 	return {
-		restrict: 'EA',
-		templateUrl: 'templates/userLists.html',
-		replace: true,
-		link : function (scope, element, attrs) {}
-	};
+		restrict: 'AE',
+		templateUrl: 'templates/modals.html'
+	}
 })
-
-.directive('friendContent', function () {
-	return {
-		restrict: 'EA',
-		templateUrl: 'templates/friendList.html',
-		replace: true,
-		link : function (scope, element, attrs) {}
-	};
-})
-
 
 .directive('keepLoading', function () {
 	return {
@@ -100,16 +86,3 @@ var pelicanApp = angular.module('pelicanApp')
 		}
 	};
 }]);
-
-
-
-
-
-
-
-
-
-
-
-
-

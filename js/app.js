@@ -1,5 +1,22 @@
 var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 
+// .constant('loggedInUser', {
+// 	userId: (function () {
+// 				var appRef = new Firebase("https://pelican.firebaseio.com/");
+
+// 				appRef.authWithOAuthPopup("facebook", function(error, authData) {
+// 					if (error) {
+// 						console.error("Login Failed!", error);
+// 					} else {
+// 						console.log(authData);
+// 						return authData;
+// 					}
+// 				},{
+// 					scope: 'email,user_likes'
+// 				});
+// 			})()
+// })
+
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 	
 	$locationProvider.html5Mode({
@@ -9,8 +26,23 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 
 	$routeProvider
 	.when('/', {
-		templateUrl: 'templates/mainView.html',
-		controller: 'mainController'
+		templateUrl: 'templates/userLists.html',
+		controller: 'mainController',
+		resolve: {
+			passedUserId: function () {
+				return null;
+			}
+		}
+	})
+
+	.when('/home', {
+		templateUrl: 'templates/homeLists.html',
+		controller: 'mainController',
+		resolve: {
+			passedUserId: function () {
+				return null;
+			}
+		}
 	})
 
 	.when('/search', {
@@ -19,10 +51,11 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 	})
 
 	.when('/profile/:userId', {
-		templateUrl: 'templates/mainView.html',
+		templateUrl: 'templates/friendList.html',
 		controller: 'mainController',
 		resolve: {
 			passedUserId: function ($route) {
+				//$location.path('/')
 				return $route.current.params.userId;
 			}
 		}

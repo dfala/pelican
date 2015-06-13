@@ -1,38 +1,53 @@
-<div class="container" id="main-body" ng-if="publicPosts && isHomePage" ng-cloak>
-	<div class="col-xs-6">
+<clear-search ux-ui load-url-data>
+<nav-bar></nav-bar>
 
-		<div class="list" id="public-feed">
-			<ul class="post-data" keep-loading>
-				<span ng-repeat="post in publicPosts | filter: textSearch">
-					<li class="light-border" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post)">
-						<div class="add-one-post" ng-if="activeUser && activeUser.id !== post.posteeId" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
-							<span class="glyphicon glyphicon-pushpin"></span>
-						</div>
-						<!-- <p class="post-title">{{post.title}}</p> -->
-						<p class="post-title" ng-bind-html="highlight(post.title, textSearch)">{{post.title}}</p>
-						<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
-						<p class="post-description read-br">{{post.description}}</p>
-					</li>
+	<div class="container" id="main-body" ng-if="publicPosts && isHomePage" ng-cloak>
+		<div class="col-xs-6">
 
-					<div class="postee-info click-for-profile"
-						 ng-if="post.posteeName"
-						 ng-click="seeProfile(post.posteeId);$event.stopPropagation()">
+			<div class="list" id="public-feed">
+				<ul class="post-data" keep-loading>
+					<span ng-repeat="post in publicPosts | filter: textSearch">
+						<li class="light-border" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post)">
+							<div class="add-one-post" ng-if="activeUser && activeUser.id !== post.posteeId" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
+								<span class="glyphicon glyphicon-pushpin"></span>
+							</div>
+							<!-- <p class="post-title">{{post.title}}</p> -->
+							<p class="post-title" ng-bind-html="highlight(post.title, textSearch)">{{post.title}}</p>
+							<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
+							<p class="post-description read-br">{{post.description}}</p>
+						</li>
+	<!-- 
+						<div class="postee-info click-for-profile"
+							 ng-if="post.posteeName"
+							 ng-click="seeProfile(post.posteeId);$event.stopPropagation()"> -->
 
-						<div class="img-container rounded-img">
-							<img ng-if="post.posteePicUrl" src="{{post.posteePicUrl}}">
-						</div>
-						<p>{{post.posteeName}}</p>
-						
-					</div>
-				</span>
-			</ul>
+						<a ng-href="/profile/{{post.posteeId}}">
+							<div class="postee-info click-for-profile"
+								 ng-if="post.posteeName">
 
-			<!-- LOADING GIF -->
-			<div class="loading-gif">
-				<!-- TODO: gif never shows -->
-				<img ng-show="autoLoad" src="http://www.ajaxload.info/images/exemples/24.gif">
+								<div class="img-container rounded-img">
+									<img ng-if="post.posteePicUrl" src="{{post.posteePicUrl}}">
+								</div>
+								<p>{{post.posteeName}}</p>
+								
+							</div>
+						</a>
+					</span>
+				</ul>
+
+				<!-- LOADING GIF -->
+				<div class="loading-gif">
+					<!-- TODO: gif never shows -->
+					<img ng-show="autoLoad" src="http://www.ajaxload.info/images/exemples/24.gif">
+				</div>
 			</div>
-		</div>
 
+		</div>
 	</div>
+
+
+<!-- CLOSING DIV FROM NAV BAR -->
 </div>
+
+<modals-template></modals-template>
+</clean-search>

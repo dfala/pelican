@@ -1,21 +1,30 @@
-<div class="container" id="main-body" ng-if="!isHomePage && !friendList.length" ng-cloak>
-	<div class="col-xs-6">
+<clear-search ux-ui load-url-data>
+<nav-bar></nav-bar>
 
-		<div class="list" ng-repeat="list in lists | filter: textSearch">
-			<div class="page-header">
-  				<h2 ng-bind-html="highlight(list.listName, textSearch)">{{list.listName}}</h2>
-  				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
+	<div class="container" id="main-body" ng-if="!isHomePage && !friendList.length" ng-cloak>
+		<div class="col-xs-6">
+
+			<div class="list" ng-repeat="list in lists | filter: textSearch">
+				<div class="page-header">
+	  				<h2 ng-bind-html="highlight(list.listName, textSearch)">{{list.listName}}</h2>
+	  				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
+				</div>
+
+				<ul class="post-data">
+					<li ng-repeat="post in list.posts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post)" style="position: relative">
+						<!-- <p class="post-title">{{post.title}}</p> -->
+						<p class="post-title" ng-bind-html="highlight(post.title, textSearch)">{{post.title}}</p>
+						<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
+						<p class="post-description read-br">{{post.description}}</p>
+					</li>
+				</ul>
 			</div>
 
-			<ul class="post-data">
-				<li ng-repeat="post in list.posts" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post)" style="position: relative">
-					<!-- <p class="post-title">{{post.title}}</p> -->
-					<p class="post-title" ng-bind-html="highlight(post.title, textSearch)">{{post.title}}</p>
-					<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink">{{post.link}}</a>
-					<p class="post-description read-br">{{post.description}}</p>
-				</li>
-			</ul>
 		</div>
-
 	</div>
+
+<!-- CLOSING DIV FROM NAV BAR -->
 </div>
+
+<modals-template></modals-template>
+</clean-search>

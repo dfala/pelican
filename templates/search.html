@@ -1,3 +1,4 @@
+<span ux-ui>
 <section class="search-body" active-search>
 
 	<div class="search-wrapper">
@@ -19,6 +20,7 @@
 			<ul class="post-data" keep-loading>
 				<span ng-repeat="post in postsResult">
 					<li class="light-border" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post)">
+						<!-- TODO: PUSHPIN IS BROKEN FOR NOW -->
 						<div class="add-one-post" ng-if="activeUser && activeUser.id !== post.posteeId" ng-click="pinPublicPost(post.title, post.link, post.description); $event.stopPropagation()" data-toggle="modal" data-target="#addPostModal">
 							<span class="glyphicon glyphicon-pushpin"></span>
 						</div>
@@ -28,19 +30,23 @@
 						<p class="post-description read-br" ng-bind-html="highlight(post.description, searchQuery)">{{post.description}}</p>
 					</li>
 
-					<div class="postee-info click-for-profile"
-						 ng-if="post.posteeName"
-						 ng-click="seeProfile(post.posteeId);$event.stopPropagation()">
+					<a ng-href="/#/profile/{{post.posteeId}}">
+						<div class="postee-info click-for-profile"
+							 ng-if="post.posteeName"
+							 ng-click="seeProfile(post.posteeId);$event.stopPropagation()">
 
-						<div class="img-container rounded-img">
-							<img ng-if="post.posteePicUrl" src="{{post.posteePicUrl}}">
+							<div class="img-container rounded-img">
+								<img ng-if="post.posteePicUrl" src="{{post.posteePicUrl}}">
+							</div>
+							<p>{{post.posteeName}}</p>
 						</div>
-						<p>{{post.posteeName}}</p>
-						
-					</div>
+					</a>
 				</span>
 			</ul>
 		</div>
 
 	</div>
 </div>
+
+<modals-template></modals-template>
+</span>
