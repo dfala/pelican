@@ -1,6 +1,6 @@
 var app = angular.module('pelicanApp');
 
-app.factory('loginService', function ($q, cookiesService, $firebaseAuth) {
+app.factory('loginService', function ($q, cookiesService) {
 	var service = {};
 	////////////////////////////////////////////////////////////
 
@@ -13,24 +13,12 @@ app.factory('loginService', function ($q, cookiesService, $firebaseAuth) {
 	service.login = function () {
 		var deferred = $q.defer();
 
-		// DEPRECATED
-
-		// $firebaseAuth(appRef).$authWithOAuthPopup("facebook")
-		// 	.then(function (authData) {
-		// 		// manage logged in data
-		// 		deferred.resolve(authData);
-		// 	})
-		// 	.catch(function (error) {
-		// 		console.error("Authentication failed", error);
-		//	})
-
 		appRef.authWithOAuthPopup("facebook", function(error, authData) {
 			if (error) {
 				console.error("Login Failed!", error);
 				deferred.reject(error);
 			} else {
 				deferred.resolve(authData);
-				// checkUser(authData);
 			}
 		},{
 			scope: 'email,user_likes'
@@ -42,7 +30,7 @@ app.factory('loginService', function ($q, cookiesService, $firebaseAuth) {
 
 	service.checkUser = function (data) {
 		var deferred = $q.defer();
-		var id = data.uid;
+		var id = cleanTheId(data.uid);
 		
 		usersRef.once('value', function (snapshot) {
 			if (snapshot.hasChild(id)) {
@@ -56,7 +44,7 @@ app.factory('loginService', function ($q, cookiesService, $firebaseAuth) {
 
 
 	service.createNewUser = function (data) {
-		var id = data.uid;
+		var id = cleanTheId(data.uid);
 
 		var user = {
 			id: id,
@@ -75,6 +63,11 @@ app.factory('loginService', function ($q, cookiesService, $firebaseAuth) {
 		}
 
 		return user;
+	}
+
+	var cleanTheId = function (rawId) {
+		id = rawId.slice(rawId.indexOf('facebook:') + 9);
+		return id;
 	}
 
 

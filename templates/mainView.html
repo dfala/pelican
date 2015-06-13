@@ -3,8 +3,6 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navLeft" ng-cloak>
-			<button class="btn btn-primary btn-sm" ng-if="activeUser" ng-click="openBigModal()" data-toggle="modal" data-target="#addPostModal">+</button>
-
     		<a class="navbar-brand" ng-click="homePage(true)">Pelican</a>
 
     		<a class="navbar-brand slash" ng-class="{'active-nav-title': isHomePage}" ng-click="homePage(true)">home</a>
@@ -24,7 +22,7 @@
   				<div class="img-container">
   					<img ng-click="homePage(false)" src="{{activeUser.picUrl}}">
   				</div>
-				</span>
+			</span>
 
   		</div>
 

@@ -1,8 +1,9 @@
 var app = angular.module('pelicanApp')
 
 .controller('mainController', ['$scope', '$timeout', 'cookiesService', 'homeFeedService', 'loginService', 'contentService', function($scope, $timeout, cookiesService, homeFeedService, loginService, contentService) {
-
-
+	
+	// console.log(passedUserId);
+	
 	////////////////////////////////////////////////
 	//////////////// INITIATING APP ////////////////
 	////////////////////////////////////////////////
@@ -32,7 +33,7 @@ var app = angular.module('pelicanApp')
 	// POSTS REFERENCES
 	var postsRef = new Firebase('https://pelican.firebaseio.com/posts');
 
-	// DEPRECATED
+	// PUBLIC POSTS REFERENCE
 	var publicRef = new Firebase('https://pelican.firebaseio.com/posts');
 	$scope.publicPosts = [];
 
@@ -118,8 +119,8 @@ var app = angular.module('pelicanApp')
 		loginService.checkUser(data)
 			.then(function (id) {
 				$scope.getUserData(id);
-			}, function (data) {
-				createNewUser(data);
+			}, function (id) {
+				createNewUser(id);
 			})
 	}
 
@@ -142,6 +143,8 @@ var app = angular.module('pelicanApp')
 	}
 
 	var cleanUserData = function (userData, isUser) {
+		if (!userData) return console.warn("No user data");
+
 		if (isUser) {
 			$scope.isNotUserData = false;
 			$scope.lists = [];
@@ -193,7 +196,7 @@ var app = angular.module('pelicanApp')
 
 	var userFirstLogin = function () {
 		console.info('No lists to load');
-		$scope.$digest();
+		// $scope.$digest();
 	}
 
 

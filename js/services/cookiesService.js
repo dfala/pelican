@@ -20,7 +20,7 @@ app.factory('cookiesService', function() {
 	// second param defines number of days until cookie expires
 	service.setCookie = function (rawText, expDate) {
 		// cleaning cookie value
-		var cookieValue = rawText.slice(rawText.indexOf('facebook')).split(' ')[0];
+		var cookieValue = rawText.slice(rawText.indexOf('facebook') + 9).split(' ')[0];
 
 	    var d = new Date();
 	    d.setTime(d.getTime() + (expDate*24*60*60*1000));

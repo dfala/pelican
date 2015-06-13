@@ -10,15 +10,23 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 
 	$routeProvider
 	.when('/', {
-		templateUrl: 'templates/search.html',
-		controller: 'searchController'
-		// templateUrl: 'templates/mainView.html',
-		// controller: 'mainController'
-	})
-
-	.when('/profile', {
 		templateUrl: 'templates/mainView.html',
 		controller: 'mainController'
+	})
+
+	.when('/search', {
+		templateUrl: 'templates/search.html',
+		controller: 'searchController'
+	})
+
+	.when('/profile/:userId', {
+		templateUrl: 'templates/mainView.html',
+		controller: 'mainController'
+		// resolve: {
+		// 	passedUserId: function ($route) {
+		// 		return $route.current.params.userId;
+		// 	}
+		// }
 	})
 
 	.when('/404', {
