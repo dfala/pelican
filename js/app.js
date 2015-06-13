@@ -2,7 +2,6 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 	
-	// TODO: comment this back in to get rid of # on the URL
 	$locationProvider.html5Mode({
 		enabled: true,
 		requiredBase: false

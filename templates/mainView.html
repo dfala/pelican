@@ -3,11 +3,11 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navLeft" ng-cloak>
-    		<a class="navbar-brand" ng-click="homePage(true)">Pelican</a>
-
-    		<a class="navbar-brand slash" ng-class="{'active-nav-title': isHomePage}" ng-click="homePage(true)">home</a>
+    		<a class="navbar-brand" ng-class="{'active-nav-title': isHomePage}" ng-click="homePage(true)">Pelican</a>
 
     		<a class="navbar-brand slash" ng-class="{'active-nav-title': !isHomePage && !friendList.length}" ng-click="homePage(false)">profile</a>
+
+    		<a class="navbar-brand slash" href="/search">search</a>
 		</div>
 
 		<div class="navbar-brand profile">
