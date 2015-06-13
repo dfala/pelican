@@ -116,9 +116,6 @@ app.factory('loginService', function ($q, cookiesService) {
 		return all;
 	}
 
-
-
-
 	////////////////////////////////////////////////////////////
 	return service;
 });

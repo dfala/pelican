@@ -61,6 +61,16 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 		}
 	})
 
+	.when('/profile/:userId/:listId', {
+		templateUrl: 'templates/listTemplate.html',
+		controller: 'listController',
+		resolve: {
+			passedListInfo: function ($route) {
+				return $route.current.params;
+			}
+		}
+	})
+
 	.when('/404', {
 		templateUrl: 'templates/404.html'
 	})

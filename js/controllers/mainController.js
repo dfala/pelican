@@ -378,7 +378,8 @@ var app = angular.module('pelicanApp')
 		})
 	}
 
-	var checkForPassedUserId = function () {		
+	var checkForPassedUserId = function () {
+		return console.warn(passedUserId);
 		$scope.seeProfile(passedUserId, false);
 	}
 	

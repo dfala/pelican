@@ -4,11 +4,10 @@
 	<div class="container" id="main-body" ng-if="!isHomePage && !friendList.length" ng-cloak>
 		<div class="col-xs-6">
 
+			<!-- WE ARE ONLY HAVING ONE LIST... KEEPING NG-REPEAT FOR FILTER PURPOSES -->
 			<div class="list" ng-repeat="list in lists | filter: textSearch">
 				<div class="page-header">
-					<a class="override-a" ng-href="/profile/{{list.userId}}/{{list.listId}}">
-	  					<h2 ng-bind-html="highlight(list.listName, textSearch)"></h2>
-	  				</a>
+	  				<h2 ng-bind-html="highlight(list.listName, textSearch)">{{list.listName}}</h2>
 	  				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
 				</div>
 

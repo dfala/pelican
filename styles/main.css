@@ -51,6 +51,7 @@ body {
 
 h2 {
 	font-size: 25px;
+	display: inline-block;
 }
 
 button, .btn, .btn-primary {
@@ -137,6 +138,10 @@ a {
 
 a:hover {
 	text-decoration: none;
+}
+
+.override-a {
+	color: #333;
 }
 
 li:hover {
