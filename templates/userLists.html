@@ -1,7 +1,8 @@
 <clear-search ux-ui load-url-data>
 <nav-bar></nav-bar>
+<banner-template></banner-template>
 
-	<div class="container" id="main-body" ng-if="!isHomePage && !friendList.length" ng-cloak>
+	<div class="container main-body" ng-if="!isHomePage && !friendList.length" ng-cloak>
 		<div class="col-xs-6">
 
 			<div class="list" ng-repeat="list in lists | filter: textSearch">

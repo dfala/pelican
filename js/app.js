@@ -30,7 +30,16 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 		controller: 'mainController',
 		resolve: {
 			passedUserId: function () {
-				return null;
+				var userId = document.cookie;
+				userId = userId.substring(3);
+				if (userId) {
+					return {
+						userId: userId,
+						isUser: true
+					}
+				} else {
+					return null;
+				}
 			}
 		}
 	})
@@ -56,7 +65,10 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 		resolve: {
 			passedUserId: function ($route) {
 				//$location.path('/')
-				return $route.current.params.userId;
+				return {
+					userId: $route.current.params.userId,
+					isUser: false
+				}
 			}
 		}
 	})

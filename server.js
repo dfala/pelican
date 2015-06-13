@@ -11,6 +11,10 @@ app.get('/search', function (req, res) {
  res.redirect('/#/search');
 })
 
+app.get('/home', function (req, res) {
+ res.redirect('/#/home');
+})
+
 app.get('/profile', function (req, res) {
  res.redirect('/#/profile');
 })

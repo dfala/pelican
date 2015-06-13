@@ -3,11 +3,13 @@ var app = angular.module('pelicanApp');
 app.factory('cookiesService', function() {
 	var service = {};
 
+	// DEPRECATED (loading cookie on resolve ng-routes)
 	service.getCookie = function () {
 	    var cookie = document.cookie;
 	    return cookie;
 	}
 
+	// DEPRECATED (loading cookie on resolve ng-routes)
 	service.checkCookie = function () {
 	    var userId = this.getCookie();
 	    userId = userId.substring(3);
@@ -19,9 +21,6 @@ app.factory('cookiesService', function() {
 
 	// second param defines number of days until cookie expires
 	service.setCookie = function (rawText, expDate) {
-		// cleaning cookie value
-		// var cookieValue = rawText.slice(rawText.indexOf('facebook') + 9).split(' ')[0];
-
 		var cookieValue = rawText;
 
 	    var d = new Date();

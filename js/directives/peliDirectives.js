@@ -28,6 +28,13 @@ var pelicanApp = angular.module('pelicanApp')
 	}
 })
 
+.directive('bannerTemplate', function () {
+	return {
+		restrict: 'AE',
+		templateUrl: 'templates/bannerTemplate.html'
+	}
+})
+
 .directive('keepLoading', function () {
 	return {
 		restrict:'A',

@@ -37,8 +37,12 @@ body {
 	height: 100%;
 }
 
-#main-body {
+.main-body {
 	margin-bottom: 150px;
+}
+
+.body-top {
+	margin-top: 60px;	
 }
 
 .container h1 {

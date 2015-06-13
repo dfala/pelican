@@ -7,6 +7,7 @@ angular.module('pelicanApp')
 			// Set value of page (home page vs. user page)
 			$scope.homePage = function (value) {
 				// animate to the top
+				console.log('shouldn\' get hit')
 				$('html, body').animate({scrollTop : 0},0);
 
 				$scope.isHomePage = value;

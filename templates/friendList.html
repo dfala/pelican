@@ -1,12 +1,15 @@
 <clear-search ux-ui load-url-data>
 <nav-bar></nav-bar>
+<banner-template></banner-template>
 
-	<div class="container" id="main-body" ng-if="!isHomePage && friendList.length" ng-cloak>
+	<div class="container main-body" ng-if="!isHomePage && friendList.length" ng-cloak>
 		<div class="col-xs-6">
 
 			<div class="list" ng-repeat="list in friendList | filter: textSearch">
 				<div class="page-header">
-	  				<h2 ng-bind-html="highlight(list.listName, textSearch)">{{list.listName}}</h2>
+					<a class="override-a" ng-href="/profile/{{list.userId}}/{{list.listId}}">
+	  					<h2 ng-bind-html="highlight(list.listName, textSearch)"></h2>
+  					</a>
 	  				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
 				</div>
 

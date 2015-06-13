@@ -188,8 +188,6 @@ var app = angular.module('pelicanApp')
 		} else {
 			$scope.friendList = passedList;
 		}
-
-		// console.log('combineData completed');
 	}
 
 
@@ -206,7 +204,7 @@ var app = angular.module('pelicanApp')
 			$scope.getUserData(cookieUserId);
 		}
 	}
-	checkForCookies();
+	// checkForCookies();
 
 
 
@@ -379,8 +377,7 @@ var app = angular.module('pelicanApp')
 	}
 
 	var checkForPassedUserId = function () {
-		return console.warn(passedUserId);
-		$scope.seeProfile(passedUserId, false);
+		$scope.seeProfile(passedUserId.userId, passedUserId.isUser);
 	}
 	
 	// detecting passed user id
