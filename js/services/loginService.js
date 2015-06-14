@@ -61,7 +61,7 @@ app.factory('loginService', function ($q, cookiesService) {
 			id: id,
 			name: data.facebook.displayName
 		}
-
+		
 		return user;
 	}
 

@@ -1,7 +1,7 @@
 var app = angular.module('pelicanApp')
 
-.controller('mainController', ['$scope', '$timeout', 'cookiesService', 'homeFeedService', 'loginService', 'contentService', 'passedUserId',
-	function ($scope, $timeout, cookiesService, homeFeedService, loginService, contentService, passedUserId) {
+.controller('MainController', 
+	function ($scope, $rootScope, $timeout, $location, cookiesService, homeFeedService, loginService, contentService, passedUserId, userInfoService) {
 	
 	////////////////////////////////////////////////
 	//////////////// INITIATING APP ////////////////
@@ -82,7 +82,6 @@ var app = angular.module('pelicanApp')
 
 
 
-
 	////////////////////////////////////////////////
 	//////////////// LOGIN PURPOSES ////////////////
 	////////////////////////////////////////////////
@@ -94,7 +93,6 @@ var app = angular.module('pelicanApp')
 	$scope.lists = [];
 	$scope.posts = [];
 	$scope.friendList = [];
-
 
 
 
@@ -153,6 +151,10 @@ var app = angular.module('pelicanApp')
 				name: userData.name,
 				picUrl: userData.picUrl
 			}
+
+			// save user data on service to reference later
+			userInfoService.saveUser($scope.activeUser);
+
 		} else {
 			$scope.isNotUserData = true;
 		}
@@ -184,7 +186,9 @@ var app = angular.module('pelicanApp')
 		})
 
 		if (isUser) {
+			userInfoService.storeLists(passedList);
 			$scope.lists = passedList;
+			$location.path('/');
 		} else {
 			$scope.friendList = passedList;
 		}
@@ -365,11 +369,15 @@ var app = angular.module('pelicanApp')
 
 	$scope.seeProfile = function (posteeId, isUser) {
 		if (!isUser)
-			isUser === false;
-		console.log(posteeId);
+			isUser = false;
+		
 		var posteeRef = new Firebase('https://pelican.firebaseio.com/users/' + posteeId);
 
 		posteeRef.once('value', function (data) {
+			// save user in service for later ref
+			if (isUser)
+				userInfoService.saveUser(data.val())
+
 			cleanUserData(data.val(), isUser);
 			$scope.isHomePage = false;
 			$scope.$digest();
@@ -381,6 +389,11 @@ var app = angular.module('pelicanApp')
 	}
 	
 	// detecting passed user id
-	if (passedUserId) checkForPassedUserId();
+	if (passedUserId) {
+		checkForPassedUserId();
+	} else if ($rootScope.rootUserId) {
+		$scope.activeUser = userInfoService.serveUser().user;
+		$scope.lists = userInfoService.serveUser().lists;
+	}
 
-}]);
+});

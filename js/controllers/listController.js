@@ -1,7 +1,12 @@
 angular.module('pelicanApp')
 
-.controller('listController', function ($scope, passedListInfo, listService) {
+.controller('ListController', function ($scope, passedListInfo, listService, userInfoService) {
+	// Check for user logged in
+	$scope.activeUser = userInfoService.serveUser().user;
+	$scope.lists = userInfoService.serveUser().lists;
+
 	$scope.lists = [];
+
 	var getListData = function () {
 		listService.getListData(passedListInfo)
 			.then(function (listData) {

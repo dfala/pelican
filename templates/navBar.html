@@ -7,7 +7,7 @@
 
     		<!-- <a class="navbar-brand slash" ng-class="{'active-nav-title': !isHomePage && !friendList.length}" ng-click="homePage(false)">profile</a> -->
 
-    		<a class="navbar-brand slash" ng-class="{'active-nav-title': !isHomePage && !friendList.length}" href="/profile">profile</a>
+    		<a class="navbar-brand slash" ng-class="{'active-nav-title': !isHomePage && !friendList.length}" href="/profile" ng-if="activeUser">profile</a>
 
     		<a class="navbar-brand slash" href="/search">search</a>
 		</div>
@@ -22,7 +22,7 @@
 					<p ng-click="logOut()" style="margin-right: 20px;">Logout</p>
       			</a>
   				<div class="img-container">
-  					<img ng-click="homePage(false)" src="{{activeUser.picUrl}}">
+  					<img ng-click="homePage(false)" src="{{activeUser.picUrl}}" style="cursor: auto;">
   				</div>
 			</span>
 

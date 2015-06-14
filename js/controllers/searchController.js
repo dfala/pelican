@@ -1,10 +1,14 @@
 angular.module('pelicanApp')
 
-.controller('searchController', function ($scope, searchPelican, $sce) {
+.controller('SearchController', function ($scope, searchPelican, $sce, userInfoService) {
 	$scope.postsResult;
 	
 	// Load all data
 	searchPelican.loadAllData();
+
+	// Check for user logged in
+	$scope.activeUser = userInfoService.serveUser().user;
+	$scope.lists = userInfoService.serveUser().lists;
 
 	// Query the data
 	$scope.searchAPelican = function () {
