@@ -85,12 +85,31 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 		}
 	})
 
+	.when('/bookmark', {
+		templateUrl: 'bookmark/extension.html',
+		controller: 'ExtensionController',
+		resolve: {
+			passedUserId: function ($rootScope, $location) {
+				var userId = document.cookie;
+				userId = userId.substring(3);
+				if (userId) {
+					return {
+						userId: userId
+					}
+				} else {
+					$location.path('/home');
+					return null;
+				}
+			}
+		}
+	})
+
 	.when('/404', {
 		templateUrl: 'templates/404.html'
 	})
 
 	.otherwise({
-		redirectTo: '/'
+		redirectTo: '/404'
 	});
 
 }]);

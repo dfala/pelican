@@ -1,0 +1,65 @@
+.container {
+	margin-top: 20px;
+	margin-bottom: 0;
+}
+
+.form-control {
+	font-size: 14px;
+
+	box-shadow: none;
+	border: 1px solid #CCC;
+	border-radius: 2px;
+	padding: 20px 10px;
+}
+
+.form-control:focus {
+	border: 0;
+	border: 1px solid #0093FF;
+	box-shadow: none;
+}
+
+.bookmark-list {
+	cursor: pointer;
+	padding: 20px;
+	margin-bottom: 20px;
+	/*border: 1px solid #eee;*/
+	border: 1px solid #DCDCDC;
+	border-radius: 2px;
+}
+
+	.bookmark-list:hover {
+		background-color: #eee;
+	}
+
+	.bookmark-list h2 {
+		margin: 0;
+		font-size: 20px;
+	}
+
+#addPostModal .modal-lg {
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	height: 100%;
+}
+
+#addPostModal .modal-content {
+	min-height: 100%;
+	border: 0;
+	border-radius: 0;
+}
+
+#success-post {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	right: 0;
+
+	background-color: #E3E6F2;
+	z-index: 99999;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

@@ -1,0 +1,30 @@
+body {
+	margin: 0;
+	font-family: 'Lato', sans-serif;
+	font-weight: 100;
+}
+
+.background-error {
+	background: url('/styles/images/404.png') 50% 50% no-repeat scroll;
+	background-size: cover;
+	height: 100vh;
+
+	color: #fff;
+}
+
+	.error-container {
+		/*margin: 80px;*/
+		padding-top: 15vh;
+		padding-left: 10%;
+	}
+
+	.error-container h1 {
+		/*font-family: 'Open Sans', sans-serif;*/
+		font-family: 'Lato', sans-serif;
+		font-weight: 100;
+		font-size: 50px;
+	}
+
+	.error-container p {
+		font-size: 30px;
+	}

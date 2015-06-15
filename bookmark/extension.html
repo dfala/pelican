@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="bookmark/bookmark.css">
+
+<div class="container main-body" ng-if="lists.length" ng-cloak>
+	<h2>Choose a list:</h2>
+	<br><br>
+	<div class="list" ng-repeat="list in lists" data-toggle="modal" data-target="#addPostModal" ng-click="chooseList(list)">
+		<div class="bookmark-list">
+			<h2>{{list.listName}}</h2>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!-- ADD NEW POST MODAL -->
+<div class="modal" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span style="font-size: 50px;" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h2>{{modalTitle}}</h2>
+			</div>
+
+
+			<div class="modal-body">
+				{{alertMessage}}
+				<div ng-if="alertMessage" style="margin-bottom: 10px"></div>
+
+				<form>
+					<div class="form-group">
+						<input class="form-control" ng-model="postTitle" placeholder="Title" id="add-title">
+					</div>
+					<div class="form-group">
+						<input class="form-control" ng-model="postLink" placeholder="Link" id="add-link">
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" placeholder="Thoughts" id="add-description" ng-model="addDescription" elastic>
+						</textarea>
+					</div>
+					<button class="btn btn-primary" ng-click="createPost()" ng-if="!editingPost">Post it!</button>
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div id="success-post" ng-show="successPost">
+	<h2>Awesome success sauce!</h2>
+</div>
+<!-- END ADD NEW POST MODAL -->

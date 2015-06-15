@@ -264,7 +264,8 @@ li:hover {
 }
 
 .pelican-banner {
-	background-image: url(images/clouds.jpg);
+	/*background-image: url(images/clouds.jpg);*/
+	background-color: #DBDEF4;
 }
 
 

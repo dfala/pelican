@@ -255,6 +255,8 @@ var app = angular.module('pelicanApp')
 	}
 
 
+	// TODO: NEED TO MOVE THIS (createPost) TO UX/UI?
+	// CAN YOU POST SOMETHING FROM OTHER CONTROLLERS?
 
 	// Create a new post
 	$scope.createPost = function () {
