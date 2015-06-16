@@ -249,7 +249,7 @@ var app = angular.module('pelicanApp')
 			})
 			/// get the key here and add to listToAdd
 
-		$('#add-list').val('');
+		$scope.postList = '';
 		$scope.selectList(listToAdd);
 	}
 

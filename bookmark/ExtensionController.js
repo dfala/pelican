@@ -1,6 +1,6 @@
 angular.module('pelicanApp')
 
-.controller('ExtensionController', function ($scope, $timeout, passedUserId, listsExtensionService) {
+.controller('ExtensionController', function ($scope, $timeout, passedUserId, listsExtensionService, contentService) {
 	// validating for user id	
 	if (!passedUserId) return console.error('No user defined');
 	
@@ -45,6 +45,27 @@ angular.module('pelicanApp')
 		$scope.modalTitle = 'Adding to: ' + list.listName;
 
 		//focus on title input field
+		$timeout(function () {
+			$('#add-title').focus();
+		})
+	}
+
+
+	// Creating a new list
+	$scope.createList = function(listName) {
+		if (!$scope.activeUser) return console.log('user not defined');
+
+		var userRef = userRef = new Firebase('https://pelican.firebaseio.com/users/' + passedUserId.userId);
+
+		contentService.createList(listName, userRef, passedUserId.userId)
+			.then(function (listKey) {
+				listToAdd = listKey;
+			})
+
+		$scope.postList = '';
+
+		// open modal and focus on title input
+		$('#addPostModal').modal('show');
 		$timeout(function () {
 			$('#add-title').focus();
 		})
