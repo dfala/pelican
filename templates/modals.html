@@ -86,15 +86,16 @@
 
 					<div class="list-wrapper" ng-show="chooseList">
 						<div>
+							<div class="form-inline new-list">
+								<form>
+									<input class="form-control" ng-model="postList" placeholder="New list name" id="add-list">
+									<button class="btn btn-default" ng-click="createList(postList)">Create a new list</button>
+								</form>
+							</div>
+
 							<ul ng-repeat="list in lists">
 								<li class="available-list" ng-click="selectList(list.listId)">{{list.listName}}</li>
 							</ul>
-						<div class="form-inline">
-							<form>
-								<input class="form-control" ng-model="postList" placeholder="New list name" id="add-list">
-								<button class="btn btn-default" ng-click="createList(postList)">Create a new list</button>
-							</form>
-						</div>
 						</div>
 					</div>
 
