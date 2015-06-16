@@ -394,10 +394,12 @@ var app = angular.module('pelicanApp')
 	
 	// detecting passed user id
 	if (passedUserId) {
+		userRef = new Firebase('https://pelican.firebaseio.com/users/' + passedUserId.userId);
 		checkForPassedUserId();
 	} else if ($rootScope.rootUserId) {
 		$scope.activeUser = userInfoService.serveUser().user;
 		$scope.lists = userInfoService.serveUser().lists;
+		userRef = new Firebase('https://pelican.firebaseio.com/users/' + $rootScope.rootUserId);
 	}
 
 });
