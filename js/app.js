@@ -1,22 +1,5 @@
 var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 
-// .constant('loggedInUser', {
-// 	userId: (function () {
-// 				var appRef = new Firebase("https://pelican.firebaseio.com/");
-
-// 				appRef.authWithOAuthPopup("facebook", function(error, authData) {
-// 					if (error) {
-// 						console.error("Login Failed!", error);
-// 					} else {
-// 						console.log(authData);
-// 						return authData;
-// 					}
-// 				},{
-// 					scope: 'email,user_likes'
-// 				});
-// 			})()
-// })
-
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 	
 	$locationProvider.html5Mode({

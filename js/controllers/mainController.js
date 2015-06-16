@@ -10,7 +10,6 @@ var app = angular.module('pelicanApp')
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
 	var allLists = firebase.child("list");
 
-	$('#add-description').html('');
 	$scope.bannerTitle = 'The Pelican Blog';
 	$scope.activeTitle = "No title :(";
 	$scope.postComments = [];
@@ -297,6 +296,9 @@ var app = angular.module('pelicanApp')
 		var postText = $scope.addDescription;
 
 		if (postText) {
+			// encoding < and >
+			postText = postText.replace(/</g, "&#60;");
+			postText = postText.replace(/>/g, "&#62;");
 			newPost.description = postText;
 		}
 
