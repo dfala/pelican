@@ -22,6 +22,8 @@ var app = angular.module('pelicanApp')
 	$scope.posteePicUrl;
 	$scope.posteeName;
 
+	$scope.passedUserId = passedUserId.userId;
+
 	$scope.modalTitle = "Pick a list";
 	$scope.isHomePage = true;
 	var listToAdd;

@@ -32,11 +32,11 @@ angular.module('pelicanApp')
 
 			// Creating a new list
 			scope.createList = function(listName) {
-				if (!scope.activeUser) return console.log('user not defined');
+				if (!scope.activeUser) return console.error('user not defined');
 				// passedUserId defined on the parent controller
-				var userRef = new Firebase('https://pelican.firebaseio.com/users/' + passedUserId);
+				var userRef = new Firebase('https://pelican.firebaseio.com/users/' + scope.passedUserId);
 
-				contentService.createList(listName, userRef, passedUserId)
+				contentService.createList(listName, userRef, scope.passedUserId)
 					.then(function (listKey) {
 						listToAdd = listKey;
 					})

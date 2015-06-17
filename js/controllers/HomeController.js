@@ -9,6 +9,8 @@ angular.module('pelicanApp')
 	$scope.modalTitle = "Add details";
 	$scope.bannerTitle = 'The Pelican Blog';
 
+	$scope.passedUserId = passedUserId;
+
 	// get the active user info
 	var getUserData = function () {
 		loginService.getUserData(passedUserId)
