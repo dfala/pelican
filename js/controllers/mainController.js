@@ -38,9 +38,6 @@ var app = angular.module('pelicanApp')
 
 
 
-
-
-
 	////////////////////////////////////////////////
 	//////////////// LOGIN PURPOSES ////////////////
 	////////////////////////////////////////////////
@@ -54,104 +51,6 @@ var app = angular.module('pelicanApp')
 	$scope.friendList = [];
 
 
-
-	// initial facebook request
-	$scope.login = function () {
-		loginService.login()
-			.then(function (authData) {
-				checkUser(authData);
-			})
-	}
-
-	// log user out
-	$scope.logOut = function () {
-		cookiesService.deleteCookie(function () {
-			location.reload();
-		})
-	}
-
-	// checking if user exists
-	var checkUser = function (data) {
-		loginService.checkUser(data)
-			.then(function (id) {
-				$scope.getUserData(id);
-			}, function (id) {
-				createNewUser(id);
-			})
-	}
-
-	// creating a new user
-	var createNewUser = function (data) {
-		var response = loginService.createNewUser(data);
-		$scope.activeUser = response;
-		$scope.getUserData(response.id);
-	}
-
-	// getting data for logged-in user
-	$scope.getUserData = function (id) {
-		userRef = new Firebase('https://pelican.firebaseio.com/users/' + id);
-
-		loginService.getUserData(id)
-			.then(function (response) {
-				cleanUserData(response, true);
-				$scope.isHomePage = false;
-			})
-	}
-
-	var cleanUserData = function (userData, isUser) {
-		if (!userData) return console.warn("No user data");
-
-		if (isUser) {
-			$scope.isNotUserData = false;
-			$scope.lists = [];
-			$scope.posts = [];
-			$scope.activeUser = {
-				id: userData.id,
-				name: userData.name,
-				picUrl: userData.picUrl
-			}
-
-			// save user data on service to reference later
-			userInfoService.saveUser($scope.activeUser);
-
-		} else {
-			$scope.isNotUserData = true;
-		}
-
-		var firstName = userData.name.split(" ");
-		$scope.bannerTitle = firstName[0] + "'s Pelican";
-		$scope.friendList = [];
-
-
-		if (userData.lists === 'lists') return userFirstLogin();
-
-		loginService.cleanUserData(userData)
-			.then(function (response) {
-				$scope.posts = response[1];
-				combineData(response[0], isUser)
-				window.scrollTo(0, 0);
-			})
-	}
-
-
-	var combineData = function (passedList, isUser) {
-		passedList.forEach(function (list, index) {
-			list.posts = [];
-			$scope.posts.forEach(function (post, index) {
-				if (post.listId === list.listId) {
-					list.posts.push(post);
-				}
-			})
-		})
-
-		if (isUser) {
-			userInfoService.storeLists(passedList);
-			$scope.lists = passedList;
-			$location.path('/');
-		} else {
-			$scope.friendList = passedList;
-		}
-	}
 
 
 	var userFirstLogin = function () {
@@ -342,7 +241,7 @@ var app = angular.module('pelicanApp')
 			if (isUser)
 				userInfoService.saveUser(data.val())
 
-			cleanUserData(data.val(), isUser);
+			$scope.cleanUserData(data.val(), isUser);
 			$scope.isHomePage = false;
 			$scope.$digest();
 		})

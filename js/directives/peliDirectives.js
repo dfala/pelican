@@ -14,13 +14,6 @@ var pelicanApp = angular.module('pelicanApp')
 	};
 })
 
-.directive('navBar', function () {
-	return {
-		restrict: 'AE',
-		templateUrl: 'templates/navBar.html'
-	}
-})
-
 .directive('modalsTemplate', function () {
 	return {
 		restrict: 'AE',

@@ -1,6 +1,6 @@
 var app = angular.module('pelicanApp');
 
-app.factory('cookiesService', function() {
+app.factory('cookiesService', function () {
 	var service = {};
 
 	// DEPRECATED (loading cookie on resolve ng-routes)

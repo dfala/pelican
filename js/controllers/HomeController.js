@@ -1,10 +1,12 @@
 angular.module('pelicanApp')
 
-.controller('HomeController', function ($scope, homeFeedService, passedUserId, loadListData, loginService) {
+.controller('HomeController', function ($scope, $timeout, homeFeedService, passedUserId, loadListData, loginService) {
 	$scope.lists = [];
 	$scope.activeUser;
-	$scope.autoLoad;
+	$scope.isHomePage = true;
+	$scope.autoLoad = false;
 	$scope.modalTitle = "Add details";
+	$scope.bannerTitle = 'The Pelican Blog';
 
 	// get the active user info
 	var getUserData = function () {
@@ -23,23 +25,13 @@ angular.module('pelicanApp')
 		loadListData.loadLists(passedUserId)
 			.then(function (response) {
 				$scope.lists = response;
-				// console.log($scope.lists);
 			})
 	}
 
-
-
-	if(passedUserId) {
+	if (passedUserId) {
 		getListData();
 		getUserData();
 	}
-
-
-	$scope.bannerTitle = 'The Pelican Blog';
-
-	////////////////////////////////////////////////
-	//////////////// HOME FEED DATA ////////////////
-	////////////////////////////////////////////////
 
 	var getPublicPosts = function () {
 		homeFeedService.getPulicPosts()
@@ -50,16 +42,18 @@ angular.module('pelicanApp')
 	getPublicPosts();
 
 	$scope.getMorePosts = function () {
-		//turn on loading gif
 		$scope.autoLoad = true;
 
 		homeFeedService.getMorePosts()
 			.then(function (response) {
 				$scope.publicPosts = response;
-				$scope.autoLoad = false;
+				$timeout(function () {
+					$scope.autoLoad = false;
+				}, 1000);
 			})
 	}
 
+	// TODO: this needs testing
 	$scope.pinPublicPost = function (title, link, description) {
 		//open modal
 		$('#addPostModal').modal('show');
