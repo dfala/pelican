@@ -16,6 +16,8 @@ app.factory('cookiesService', function() {
 
 	    if (userId) {
 	        return userId;
+	    } else {
+	    	return undefined;
 	    }
 	}
 

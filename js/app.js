@@ -12,18 +12,16 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 		templateUrl: 'templates/userLists.html',
 		controller: 'MainController',
 		resolve: {
-			passedUserId: function ($rootScope, $location) {
-				var userId = document.cookie;
-				userId = userId.substring(3);
-				if (userId) {
-					$rootScope.rootUserId = userId;
+			passedUserId: function ($rootScope, $location, cookiesService) {
+				// 	$rootScope.rootUserId = userId;
+				var cookieId = cookiesService.checkCookie();
+				if (cookieId) {
 					return {
-						userId: userId,
+						userId: cookieId,
 						isUser: true
 					}
 				} else {
-					$location.path('/home');
-					return null;
+					return undefined;
 				}
 			}
 		}
@@ -31,10 +29,15 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 
 	.when('/home', {
 		templateUrl: 'templates/homeLists.html',
-		controller: 'MainController',
+		controller: 'HomeController',
 		resolve: {
-			passedUserId: function () {
-				return null;
+			passedUserId: function ($rootScope, $location, cookiesService) {
+				var cookieId = cookiesService.checkCookie();
+				if (cookieId) {
+					return cookieId;
+				} else {
+					return undefined;
+				}
 			}
 		}
 	})
@@ -49,7 +52,6 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 		controller: 'MainController',
 		resolve: {
 			passedUserId: function ($route) {
-				//$location.path('/')
 				return {
 					userId: $route.current.params.userId,
 					isUser: false

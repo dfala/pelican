@@ -40,46 +40,6 @@ var app = angular.module('pelicanApp')
 
 
 
-	////////////////////////////////////////////////
-	//////////////// HOME FEED DATA ////////////////
-	////////////////////////////////////////////////
-
-	var getPublicPosts = function () {
-		homeFeedService.getPulicPosts()
-			.then(function (response) {
-				$scope.publicPosts = response;
-			})
-	}
-	getPublicPosts();
-
-	$scope.getMorePosts = function () {
-		if (!$scope.isHomePage) return;
-		//turn on loading gif
-		$scope.autoLoad = true;
-
-		homeFeedService.getMorePosts()
-			.then(function (response) {
-				$scope.publicPosts = response;
-				$scope.autoLoad = false;
-			})
-	}
-
-	$scope.pinPublicPost = function (title, link, description) {
-		//open modal
-		$('#addPostModal').modal('show');
-
-		//populate values
-		$scope.postTitle = title;
-		$scope.postLink = link;
-		$scope.addDescription = description;
-
-		//load modal data
-		$scope.openBigModal();
-	}
-
-
-
-
 
 	////////////////////////////////////////////////
 	//////////////// LOGIN PURPOSES ////////////////
