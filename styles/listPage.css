@@ -1,0 +1,11 @@
+.delete-list {
+	position: absolute;
+	right: 20px;
+	top: 120px;
+	cursor: pointer;
+	color: #C8C8C8;
+}
+
+	.delete-list:hover {
+		color: #000;
+	}

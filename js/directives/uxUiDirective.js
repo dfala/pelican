@@ -118,7 +118,7 @@ angular.module('pelicanApp')
 				if (deletePost) {
 					firebase.child(postRef).remove();
 
-					//TODO: removing the post from lists/posts does not work
+					//TODO: does this work?
 					postInListRef.orderByValue().equalTo($scope.postId).once('value', function (snapshot) {
 						var object = snapshot.val();
 

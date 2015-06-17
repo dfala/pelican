@@ -1,5 +1,9 @@
+<link rel="stylesheet" href="styles/listPage.css">
+
 <clear-search ux-ui load-url-data>
 <nav-bar></nav-bar>
+
+	<span class="delete-list" ng-click="deleteList()">delete list</span>
 
 	<div class="container main-body body-top" ng-if="!isHomePage && !friendList.length" ng-cloak>
 		<div class="col-xs-6">
