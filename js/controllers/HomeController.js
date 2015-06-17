@@ -1,7 +1,7 @@
 angular.module('pelicanApp')
 
 .controller('HomeController',
-  function ($scope, $timeout, homeFeedService, passedUserId, loadListData, loginService, userInfoService) {
+  function ($scope, $timeout, homeFeedService, passedUserId, loadListData, loginService, userInfoService, contentService) {
 	$scope.lists = [];
 	$scope.activeUser;
 	$scope.isHomePage = true;
