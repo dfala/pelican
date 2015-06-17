@@ -4,12 +4,10 @@ angular.module('pelicanApp')
 	var service = {};
 
 
-	var user;
+	var user = {};
 
 	service.saveUser = function (userData) {
-		if (!user) {
-			user = userData;
-		}
+		user = userData;
 	}
 
 	service.storeLists = function (lists) {

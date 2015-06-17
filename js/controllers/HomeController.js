@@ -1,6 +1,7 @@
 angular.module('pelicanApp')
 
-.controller('HomeController', function ($scope, $timeout, homeFeedService, passedUserId, loadListData, loginService) {
+.controller('HomeController',
+  function ($scope, $timeout, homeFeedService, passedUserId, loadListData, loginService, userInfoService) {
 	$scope.lists = [];
 	$scope.activeUser;
 	$scope.isHomePage = true;
@@ -13,7 +14,7 @@ angular.module('pelicanApp')
 		loginService.getUserData(passedUserId)
 			.then(function (userData) {
 				$scope.activeUser = userData;
-				console.log($scope.activeUser);
+				userInfoService.saveUser(userData);
 			})
 			.catch(function (err) {
 				throw new Error(err);
@@ -25,6 +26,7 @@ angular.module('pelicanApp')
 		loadListData.loadLists(passedUserId)
 			.then(function (response) {
 				$scope.lists = response;
+				userInfoService.storeLists(response);
 			})
 	}
 

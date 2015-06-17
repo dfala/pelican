@@ -64,14 +64,7 @@ angular.module('pelicanApp')
 					scope.lists = [];
 					scope.posts = [];
 					scope.activeUser = userData;
-
-					// DEPRECATED
-					// scope.activeUser = {
-					// 	id: userData.id,
-					// 	name: userData.name,
-					// 	picUrl: userData.picUrl
-					// }
-
+					
 					// save user data on service to reference later
 					userInfoService.saveUser(scope.activeUser);
 

@@ -7,6 +7,10 @@ var app = angular.module('pelicanApp')
 	//////////////// INITIATING APP ////////////////
 	////////////////////////////////////////////////
 
+	$scope.activeUser = userInfoService.serveUser().user;
+	$scope.lists = userInfoService.serveUser().lists;
+	console.log($scope.activeUser, $scope.lists);
+
 	var firebase = new Firebase("https://pelican.firebaseio.com/");
 	var allLists = firebase.child("list");
 
