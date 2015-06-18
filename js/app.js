@@ -21,6 +21,7 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 						isUser: true
 					}
 				} else {
+					$location.path('/home');
 					return undefined;
 				}
 			}
