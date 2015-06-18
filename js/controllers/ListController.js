@@ -23,7 +23,6 @@ angular.module('pelicanApp')
 
 	$scope.deleteList = function () {
 		// only if user is user
-
 		listService.removeList(passedListInfo)
 			.then(function (success) {
 				closeListWindow();

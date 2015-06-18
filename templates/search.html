@@ -36,7 +36,7 @@
 							 ng-click="seeProfile(post.posteeId);$event.stopPropagation()">
 
 							<div class="img-container rounded-img">
-								<img ng-if="post.posteePicUrl" src="{{post.posteePicUrl}}">
+								<img ng-if="post.posteePicUrl" ng-src="{{post.posteePicUrl}}">
 							</div>
 							<p>{{post.posteeName}}</p>
 						</div>

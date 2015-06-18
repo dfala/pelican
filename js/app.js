@@ -12,7 +12,7 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 		templateUrl: 'templates/userLists.html',
 		controller: 'MainController',
 		resolve: {
-			passedUserId: function ($rootScope, $location, cookiesService) {
+			passedUserId: function ($location, cookiesService) {
 				// 	$rootScope.rootUserId = userId;
 				var cookieId = cookiesService.checkCookie();
 				if (cookieId) {
@@ -32,7 +32,7 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 		templateUrl: 'templates/homeLists.html',
 		controller: 'HomeController',
 		resolve: {
-			passedUserId: function ($rootScope, $location, cookiesService) {
+			passedUserId: function ($location, cookiesService) {
 				var cookieId = cookiesService.checkCookie();
 				if (cookieId) {
 					return cookieId;
@@ -52,10 +52,14 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 		templateUrl: 'templates/friendList.html',
 		controller: 'MainController',
 		resolve: {
-			passedUserId: function ($route) {
-				return {
-					userId: $route.current.params.userId,
-					isUser: false
+			passedUserId: function ($route, $location, cookiesService) {
+				if ($route.current.params.userId === cookiesService.checkCookie()) {
+					$location.path('/');
+				} else {
+					return {
+						userId: $route.current.params.userId,
+						isUser: false
+					}
 				}
 			}
 		}
