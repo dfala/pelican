@@ -82,7 +82,7 @@ angular.module('pelicanApp')
 				loginService.cleanUserData(userData)
 					.then(function (response) {
 						scope.posts = response[1];
-						combineData(response[0], isUser)
+						combineData(response[0], isUser);
 						window.scrollTo(0, 0);
 					})
 			}
@@ -100,7 +100,7 @@ angular.module('pelicanApp')
 				if (isUser) {
 					userInfoService.storeLists(passedList);
 					scope.lists = passedList;
-					$location.path('/');
+					// $location.path('/');
 				} else {
 					scope.friendList = passedList;
 				}

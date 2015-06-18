@@ -53,8 +53,6 @@ angular.module('pelicanApp')
 
 			// Cloding add-new-post modal
 			$scope.closeBigModal = function () {
-				console.log('closing');
-
 				// Reset the process
 				listToAdd = '';
 				$scope.addPost = false;
@@ -194,6 +192,21 @@ angular.module('pelicanApp')
 
 			$scope.cleanSearchQuery = function () {
 				$scope.textSearch = '';
+			}
+
+
+			// TODO: this needs testing
+			$scope.pinPublicPost = function (title, link, description) {
+				//open modal
+				$('#addPostModal').modal('show');
+
+				//populate values
+				$scope.postTitle = title;
+				$scope.postLink = link;
+				$scope.addDescription = description;
+
+				//load modal data
+				$scope.openBigModal();
 			}
 
 		}

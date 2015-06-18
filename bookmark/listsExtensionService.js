@@ -33,9 +33,5 @@ angular.module('pelicanApp')
 		return all;
 	}
 
-	service.storePost = function (data) {
-
-	}
-
 	return service;
 })

@@ -18,10 +18,8 @@ angular.module('pelicanApp')
 			deferred.resolve(tempList);
 
 		}, function (err) {
-			
 			throw new Error(err);
 			deferred.reject(err);
-			
 		})
 
 		return deferred.promise;

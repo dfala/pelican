@@ -1,7 +1,7 @@
 var app = angular.module('pelicanApp')
 
 .controller('MainController',
-  function ($scope, $rootScope, $timeout, $location, cookiesService, homeFeedService, loginService, contentService, passedUserId, userInfoService) {
+  function ($scope, $timeout, $location, cookiesService, homeFeedService, loginService, contentService, passedUserId, userInfoService) {
 	
 	////////////////////////////////////////////////
 	//////////////// INITIATING APP ////////////////
@@ -109,7 +109,7 @@ var app = angular.module('pelicanApp')
 	/////////////// SETING PROFILES ////////////////
 	////////////////////////////////////////////////
 
-	$scope.seeProfile = function (posteeId, isUser) {
+	var seeProfile = function (posteeId, isUser) {
 		if (!isUser)
 			isUser = false;
 		
@@ -122,22 +122,18 @@ var app = angular.module('pelicanApp')
 
 			$scope.cleanUserData(data.val(), isUser);
 			$scope.isHomePage = false;
-			$scope.$digest();
+			// $scope.$digest();
 		})
 	}
 
 	var checkForPassedUserId = function () {
-		$scope.seeProfile(passedUserId.userId, passedUserId.isUser);
+		seeProfile(passedUserId.userId, passedUserId.isUser);
 	}
 	
 	// detecting passed user id
 	if (passedUserId) {
 		userRef = new Firebase('https://pelican.firebaseio.com/users/' + passedUserId.userId);
 		checkForPassedUserId();
-	} else if ($rootScope.rootUserId) {
-		$scope.activeUser = userInfoService.serveUser().user;
-		$scope.lists = userInfoService.serveUser().lists;
-		userRef = new Firebase('https://pelican.firebaseio.com/users/' + $rootScope.rootUserId);
 	}
 
 });

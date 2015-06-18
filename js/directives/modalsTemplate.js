@@ -1,6 +1,6 @@
 angular.module('pelicanApp')
 
-.directive('modalsTemplate', function ($timeout, contentService) {
+.directive('modalsTemplate', function ($timeout, contentService, $location) {
 	return {
 		restrict: 'AE',
 		templateUrl: 'templates/modals.html',
@@ -45,7 +45,6 @@ angular.module('pelicanApp')
 				scope.postList = '';
 				scope.selectList(listToAdd);
 			}
-
 
 			// Create a new post
 			scope.createPost = function () {
@@ -109,8 +108,12 @@ angular.module('pelicanApp')
 				$('#addPostModal').modal('hide');
 
 				// TODO: this is a hack -- only need to reload the lists (or posts in list)
-				scope.lists = [];
-				scope.getUserData(scope.activeUser.id);
+				if (!scope.friendList && window.location.pathname !== '/home') {
+					scope.lists = [];
+					$location.path('/');
+				} else {
+					// TODO: tell the user the post was successful
+				}
 			}
 		}
 	}
