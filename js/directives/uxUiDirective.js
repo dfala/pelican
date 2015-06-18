@@ -4,6 +4,8 @@ angular.module('pelicanApp')
 	return {
 		link: function ($scope, elem, attrs) {
 			var firebase = new Firebase("https://pelican.firebaseio.com/");
+			$scope.postComments = [];
+
 			// Set value of page (home page vs. user page)
 			$scope.homePage = function (value) {
 				// animate to the top
@@ -59,7 +61,7 @@ angular.module('pelicanApp')
 				$scope.editingPost = false;
 				$scope.alertMessage = '';
 				$scope.modalTitle = "Pick a list";
-
+				$scope.postList = '';
 
 				$scope.postTitle = '';
 				$scope.postLink = '';
@@ -68,22 +70,24 @@ angular.module('pelicanApp')
 				$('body').css('overflow', 'auto');
 			}
 
-			// TODO: this part is not working
-			// on boostrap close modal trigger closeBigModal();
-			$('#addPostModal').on('hidden.bs.modal', function () {
-		    	$scope.closeBigModal();
-			})
 
-			// TODO: check if this part is working
-			$('#postModal').on('hidden.bs.modal', function () {
-		    	$scope.postComments = [];
-		    	$scope.postTitle = '';
-				$scope.postLink = '';
-				$scope.addDescription = '';
-				$scope.newComment = '';
-				$scope.clearUrl();
 
-			})
+			$timeout(function () {
+				// when big modal closes
+				$('#addPostModal').on('hidden.bs.modal', function () {
+			    	$scope.closeBigModal();
+				})
+
+				// when post modal closes
+				$('#postModal').on('hidden.bs.modal', function () {
+			    	$scope.postComments = [];
+			    	$scope.postTitle = '';
+					$scope.postLink = '';
+					$scope.addDescription = '';
+					$scope.newComment = '';
+					// $scope.clearUrl();
+				})
+			}, 100)
 
 
 

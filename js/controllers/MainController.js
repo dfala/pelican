@@ -68,41 +68,6 @@ var app = angular.module('pelicanApp')
 
 
 
-	////////////////////////////////////////////////
-	////////////// POSTING COMMENTS ////////////////
-	////////////////////////////////////////////////
-
-
-	$scope.addComment = function (comment) {
-		if (!comment || !$scope.postId) return;
-
-		var newComment = {
-			content: comment,
-			commenteeName: $scope.activeUser.name,
-			commenteeId: $scope.activeUser.id,
-			commenteePicUrl: $scope.activeUser.picUrl,
-			timestamp: Firebase.ServerValue.TIMESTAMP
-		}
-
-		var commentRef = new Firebase('https://pelican.firebaseio.com/posts/' + $scope.postId + '/comments');
-		
-		// save comment
-		var newRef = commentRef.push(newComment);
-		newRef = newRef.key();
-
-		// pushing id
-		commentRef.child(newRef).update({commentId: newRef});
-		
-		// reflecting front-end changes
-		location.reload();
-
-		newComment.timestamp = 'just now';
-		$scope.postComments.unshift(newComment);
-	}
-
-
-
-
 
 
 	////////////////////////////////////////////////
