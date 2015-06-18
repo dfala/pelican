@@ -85,7 +85,7 @@ angular.module('pelicanApp')
 					$scope.newComment = '';
 					// $scope.clearUrl();
 				})
-			}, 100)
+			}, 150)
 
 
 
