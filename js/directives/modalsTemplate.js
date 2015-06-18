@@ -147,21 +147,36 @@ angular.module('pelicanApp')
 				newComment.timestamp = 'just now';
 				scope.postComments.unshift(newComment);
 
-				for (var i = 0; i < scope.lists.length; i ++) {
-					if (scope.lists[i].listId === scope.activePost.listId) {
-						// we got our list!
-						for (var m = 0; m < scope.lists[i].posts.length; m++) {
-							if (scope.lists[i].posts[m].postId === scope.activePost.postId) {
-								// we got our post!
-								if (!scope.lists[i].posts[m].comments)
-									scope.lists[i].posts[m].comments = {};
+				if (scope.isHomePage) {
+					for (var m = 0; m < scope.publicPosts.length; m++) {
+						if (scope.publicPosts[m].postId === scope.activePost.postId) {
+							// we got our post!
+							if (!scope.publicPosts[m].comments)
+								scope.publicPosts[m].comments = {};
 
-								scope.lists[i].posts[m].comments[newComment.commentId] = newComment;
-								break;
+							scope.publicPosts[m].comments[newComment.commentId] = newComment;
+							break;
+						}
+					}
+				} else {
+					for (var i = 0; i < scope.lists.length; i ++) {
+						if (scope.lists[i].listId === scope.activePost.listId) {
+							// we got our list!
+							for (var m = 0; m < scope.lists[i].posts.length; m++) {
+								if (scope.lists[i].posts[m].postId === scope.activePost.postId) {
+									// we got our post!
+									if (!scope.lists[i].posts[m].comments)
+										scope.lists[i].posts[m].comments = {};
+
+									scope.lists[i].posts[m].comments[newComment.commentId] = newComment;
+									break;
+								}
 							}
 						}
 					}
 				}
+
+
 			}
 
 			scope.removeComment = function (commentData) {
@@ -179,22 +194,36 @@ angular.module('pelicanApp')
 				})
 
 				// more permanent front end changes
-				for (var i = 0; i < scope.lists.length; i ++) {
-					if (scope.lists[i].listId === scope.activePost.listId) {
-						// we got our list!
-
-						for (var m = 0; m < scope.lists[i].posts.length; m++) {
-							if (scope.lists[i].posts[m].postId === scope.activePost.postId) {
-								// we got our post!
-
-								for (var key in scope.lists[i].posts[m].comments) {
-									if (scope.lists[i].posts[m].comments[key].commentId === commentData.commentId) {
-										// we got our comment!
-										delete scope.lists[i].posts[m].comments[key];
+				if (scope.isHomePage) {
+					for (var m = 0; m < scope.publicPosts.length; m++) {
+						if (scope.publicPosts[m].postId === scope.activePost.postId) {
+							// we got our post!
+							for (var key in scope.publicPosts[m].comments) {
+								if (scope.publicPosts[m].comments[key].commentId === commentData.commentId) {
+									// we got our comment!
+									delete scope.publicPosts[m].comments[key];
+								}
+								break;
+							}
+							break;
+						}
+					}
+				} else {
+					for (var i = 0; i < scope.lists.length; i ++) {
+						if (scope.lists[i].listId === scope.activePost.listId) {
+							// we got our list!
+							for (var m = 0; m < scope.lists[i].posts.length; m++) {
+								if (scope.lists[i].posts[m].postId === scope.activePost.postId) {
+									// we got our post!
+									for (var key in scope.lists[i].posts[m].comments) {
+										if (scope.lists[i].posts[m].comments[key].commentId === commentData.commentId) {
+											// we got our comment!
+											delete scope.lists[i].posts[m].comments[key];
+										}
+										break;
 									}
 									break;
 								}
-								break;
 							}
 						}
 					}
