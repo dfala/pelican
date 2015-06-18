@@ -118,7 +118,7 @@ angular.module('pelicanApp')
 
 
 			////////////////////////////////////////////////
-			////////////// POSTING COMMENTS ////////////////
+			////////////////// COMMENTS ////////////////////
 			////////////////////////////////////////////////
 
 
@@ -146,6 +146,21 @@ angular.module('pelicanApp')
 				// TODO: this goes away once modal closes
 				newComment.timestamp = 'just now';
 				scope.postComments.unshift(newComment);
+			}
+
+			scope.removeComment = function (commentData) {
+				// remove comment from Firebase
+				var commentRef = new Firebase('https://pelican.firebaseio.com/posts/' + scope.postId + '/comments/' + commentData.commentId);
+				commentRef.remove();
+
+				// reflect front end changes
+				scope.postComments = scope.postComments.filter(function (comment) {
+					if (comment.commentId === commentData.commentId) {
+						return false;
+					} else {
+						return true;
+					}
+				})
 			}
 
 		}

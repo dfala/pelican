@@ -71,3 +71,14 @@
 			top: 0;
 			right: 0;
 		}
+
+		.comment-info .glyphicon-trash {
+			float: right;
+			color: #C5C5C5;
+			cursor: pointer;
+			font-size: 12px;
+		}
+
+		.comment-info .glyphicon-trash:hover {
+			color: #979797;
+		}

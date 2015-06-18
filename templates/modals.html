@@ -53,6 +53,7 @@
 		  				<div class="comment-info">
 			  				<p class="comment-author">{{comment.commenteeName}}</p>
 			  				<p class="comment comment-timestamp">{{comment.timestamp | date:'mediumDate'}}</p>
+			  				<span class="glyphicon glyphicon-trash" ng-click="removeComment(comment)"></span>
 			  				<div class="comment">
 		  						{{comment.content}}
 		  					</div>
