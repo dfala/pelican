@@ -6,6 +6,7 @@ angular.module('pelicanApp')
 	$scope.activeUser;
 	$scope.isHomePage = true;
 	$scope.autoLoad = false;
+	$scope.isNotUserData = true;
 	$scope.modalTitle = "Add details";
 	$scope.bannerTitle = 'The Pelican Blog';
 

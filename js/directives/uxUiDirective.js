@@ -24,13 +24,15 @@ angular.module('pelicanApp')
 
 			// Set-content-on-post modal
 			$scope.changeModal = function (post) {
-				$scope.activeTitle = post.title;
-				$scope.activeLink = post.link;
-				$scope.activeDescription = post.description;
-				$scope.posteePicUrl = post.posteePicUrl;
-				$scope.posteeName = post.posteeName;
-				$scope.listId = post.listId;
-				$scope.postId = post.postId;
+				$scope.activePost = post;
+
+				// $scope.activeTitle = post.title;
+				// $scope.activeLink = post.link;
+				// $scope.activeDescription = post.description;
+				// $scope.posteePicUrl = post.posteePicUrl;
+				// $scope.posteeName = post.posteeName;
+				// $scope.listId = post.listId;
+				// $scope.postId = post.postId;
 
 				if (post.comments) {
 					for (var key in post.comments) {
@@ -38,10 +40,6 @@ angular.module('pelicanApp')
 					}
 				}
 
-				// DEPRECATED
-				// changeHash(post.postId);
-				
-				// $scope.appendToUrl(post.postId);
 			}
 
 			// Add-new-post modal
@@ -114,14 +112,14 @@ angular.module('pelicanApp')
 
 
 			$scope.updatePostModal = function (deletePost) {
-				var postRef = 'posts/' + $scope.postId;
-				var postInListRef = new Firebase('https://pelican.firebaseio.com/lists/' + $scope.listId + '/posts');
+				var postRef = 'posts/' + $scope.activePost.postId;
+				var postInListRef = new Firebase('https://pelican.firebaseio.com/lists/' + $scope.activePost.listId + '/posts');
 
 				if (deletePost) {
 					firebase.child(postRef).remove();
 
 					//TODO: does this work?
-					postInListRef.orderByValue().equalTo($scope.postId).once('value', function (snapshot) {
+					postInListRef.orderByValue().equalTo($scope.activePost.postId).once('value', function (snapshot) {
 						var object = snapshot.val();
 
 						for (var key in object) {

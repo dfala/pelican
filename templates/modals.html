@@ -7,29 +7,30 @@
 
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h2 class="modal-title" id="myModalLabel">{{activeTitle}}</h2>
-				<a class="modal-link" href="link" target="_blank" ng-href="{{activeLink}}" ng-if="activeLink">{{activeLink}}</a>
+
+				<h2 class="modal-title" id="myModalLabel">{{activePost.title}}</h2>
+				<a class="modal-link" href="link" target="_blank" ng-href="{{activePost.link}}" ng-if="activePost.link">{{activePost.link}}</a>
 
 				<p class="edit-post"
-					ng-click="editPostModal(activeTitle, activeLink, activeDescription);"
+					ng-click="editPostModal(activePost.title, activePost.link, activePost.description);"
 					ng-if="activeUser"
 					data-toggle="modal"
 					data-target="#addPostModal"
 					ng-show="isHomePage === false && !isNotUserData">
-					
+
 					edit post
 				</p>
 
-				<div class="postee-info spacing-top" ng-if="posteeName && isNotUserData">
+				<div class="postee-info spacing-top" ng-if="activePost.posteeName && isNotUserData">
 					<div class="img-container rounded-img">
-						<img ng-if="posteePicUrl" ng-src="{{posteePicUrl}}">
+						<img ng-if="activePost.posteePicUrl" ng-src="{{activePost.posteePicUrl}}">
 					</div>
-					<p>{{posteeName}}</p>
+					<p>{{activePost.posteeName}}</p>
 				</div>
 			</div>
 
-			<div class="modal-body" ng-if="activeDescription">
-				<p class="read-br" style="color: #595959" ng-bind-html="activeDescription | to_trusted"></p>
+			<div class="modal-body" ng-if="activePost.description">
+				<p class="read-br" style="color: #595959" ng-bind-html="activePost.description | to_trusted"></p>
 			</div>
 
 			<div class="modal-footer">

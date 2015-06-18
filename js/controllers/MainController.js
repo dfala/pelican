@@ -15,12 +15,7 @@ var app = angular.module('pelicanApp')
 
 	$scope.bannerTitle = 'The Pelican Blog';
 	$scope.activeTitle = "No title :(";
-	$scope.postComments = [];
-	$scope.activeLink;
-	$scope.activeDescription;
 	$scope.editingPost = false;
-	$scope.posteePicUrl;
-	$scope.posteeName;
 
 	$scope.passedUserId = passedUserId.userId;
 

@@ -123,7 +123,7 @@ angular.module('pelicanApp')
 
 
 			scope.addComment = function (comment) {
-				if (!comment || !scope.postId) return;
+				if (!comment || !scope.activePost.postId) return;
 
 				var newComment = {
 					content: comment,
@@ -133,7 +133,7 @@ angular.module('pelicanApp')
 					timestamp: Firebase.ServerValue.TIMESTAMP
 				}
 
-				var commentRef = new Firebase('https://pelican.firebaseio.com/posts/' + scope.postId + '/comments');
+				var commentRef = new Firebase('https://pelican.firebaseio.com/posts/' + scope.activePost.postId + '/comments');
 				
 				// save comment
 				var newRef = commentRef.push(newComment);
@@ -141,16 +141,32 @@ angular.module('pelicanApp')
 
 				// pushing id
 				commentRef.child(newRef).update({commentId: newRef});
+				newComment.commentId = newRef;
 				
 				// reflecting front-end changes
-				// TODO: this goes away once modal closes
 				newComment.timestamp = 'just now';
 				scope.postComments.unshift(newComment);
+
+				for (var i = 0; i < scope.lists.length; i ++) {
+					if (scope.lists[i].listId === scope.activePost.listId) {
+						// we got our list!
+						for (var m = 0; m < scope.lists[i].posts.length; m++) {
+							if (scope.lists[i].posts[m].postId === scope.activePost.postId) {
+								// we got our post!
+								if (!scope.lists[i].posts[m].comments)
+									scope.lists[i].posts[m].comments = {};
+
+								scope.lists[i].posts[m].comments[newComment.commentId] = newComment;
+								break;
+							}
+						}
+					}
+				}
 			}
 
 			scope.removeComment = function (commentData) {
 				// remove comment from Firebase
-				var commentRef = new Firebase('https://pelican.firebaseio.com/posts/' + scope.postId + '/comments/' + commentData.commentId);
+				var commentRef = new Firebase('https://pelican.firebaseio.com/posts/' + scope.activePost.postId + '/comments/' + commentData.commentId);
 				commentRef.remove();
 
 				// reflect front end changes
@@ -161,6 +177,30 @@ angular.module('pelicanApp')
 						return true;
 					}
 				})
+
+				// more permanent front end changes
+				for (var i = 0; i < scope.lists.length; i ++) {
+					if (scope.lists[i].listId === scope.activePost.listId) {
+						// we got our list!
+
+						for (var m = 0; m < scope.lists[i].posts.length; m++) {
+							if (scope.lists[i].posts[m].postId === scope.activePost.postId) {
+								// we got our post!
+
+								for (var key in scope.lists[i].posts[m].comments) {
+									if (scope.lists[i].posts[m].comments[key].commentId === commentData.commentId) {
+										// we got our comment!
+										delete scope.lists[i].posts[m].comments[key];
+									}
+									break;
+								}
+								break;
+							}
+						}
+					}
+				}
+
+
 			}
 
 		}
