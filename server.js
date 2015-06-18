@@ -28,7 +28,7 @@ app.use(function(req, res) {
  res.render(__dirname + '/templates/404', {title: '404: File not Found'});
 });
 
-var portNum = 3000;
+var portNum = 80;
 app.listen(portNum, function () {
 	console.log('Now rendering you honors in port: ' + portNum)
 });
