@@ -12,7 +12,7 @@
 			<div class="list">
 				<div class="page-header">
 	  				<h2 ng-bind-html="highlight(list.listName, textSearch)">{{list.listName}}</h2>
-	  				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
+	  				<div class="add-one-post" ng-if="list.userId === activeUser.id" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>
 				</div>
 
 				<ul class="post-data">
