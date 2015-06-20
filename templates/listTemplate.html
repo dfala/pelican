@@ -3,13 +3,13 @@
 <clear-search ux-ui load-url-data>
 <nav-bar></nav-bar>
 
-	<span class="delete-list" ng-click="deleteList()">delete list</span>
+	<span class="delete-list" ng-if="list.userId === activeUser.id" ng-click="deleteList()">delete list</span>
 
 	<div class="container main-body body-top" ng-if="!isHomePage && !friendList.length" ng-cloak>
 		<div class="col-xs-6">
 
 			<!-- WE ARE ONLY HAVING ONE LIST... KEEPING NG-REPEAT FOR FILTER PURPOSES -->
-			<div class="list" ng-repeat="list in lists | filter: textSearch">
+			<div class="list">
 				<div class="page-header">
 	  				<h2 ng-bind-html="highlight(list.listName, textSearch)">{{list.listName}}</h2>
 	  				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>

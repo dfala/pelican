@@ -76,7 +76,7 @@ app.factory('loginService', function ($q, cookiesService) {
 		userRef = new Firebase('https://pelican.firebaseio.com/users/' + id);
 
 		userRef.once('value', function (data) {
-			cookiesService.setCookie(id, 1);
+			cookiesService.setCookie(id, 20);
 			deferred.resolve(data.val());
 		});
 
