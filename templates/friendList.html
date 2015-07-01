@@ -5,6 +5,21 @@
 	<div class="container main-body" ng-if="!isHomePage && friendList.length" ng-cloak>
 		<div class="col-xs-6">
 
+
+			<div class="list">
+				<div class="page-header">
+					<h2>Most Recent</h2>
+				</div>
+				<ul class="post-data">
+					<li ng-repeat="post in posts | limitTo:5 | orderBy: '-timestamp'" data-toggle="modal" data-target="#postModal" ng-click="changeModal(post)" style="position: relative">
+						<p class="post-title" ng-bind-html="highlight(post.title, textSearch)"></p>
+						<a class="post-link" ng-href="{{post.link}}" ng-if="post.link" target="_blank" ng-modal="selectedLink" ng-bind-html="highlight(post.link, textSearch)"></a>
+						<p class="post-description read-br" ng-bind-html="highlight(post.description, textSearch)"></p>
+					</li>
+				</ul>
+			</div>
+
+
 			<div class="list" ng-repeat="list in friendList | filter: textSearch">
 				<div class="page-header">
 					<a class="override-a" ng-href="/profile/{{list.userId}}/{{list.listId}}">
