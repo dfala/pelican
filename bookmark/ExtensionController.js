@@ -1,9 +1,9 @@
 angular.module('pelicanApp')
 
 .controller('ExtensionController', function ($scope, $timeout, passedUserId, listsExtensionService, contentService) {
-	// validating for user id	
+	// validating for user id
 	if (!passedUserId) return console.error('No user defined');
-	
+
 	var listToAdd; // completed later on
 	var postsRef = new Firebase('https://pelican.firebaseio.com/posts/');
 	var listsRef = new Firebase('https://pelican.firebaseio.com/lists/');
@@ -26,6 +26,7 @@ angular.module('pelicanApp')
 		url = url.slice(url.indexOf('?='));
 		url = url.slice(2, url.length);
 		url = url.replace(/%2F/g, "/");
+		console.info(url);
 
 		return url;
 	}

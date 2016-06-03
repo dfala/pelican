@@ -1,11 +1,6 @@
 var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-	
-	$locationProvider.html5Mode({
-		enabled: true,
-		requiredBase: false
-	});
 
 	$routeProvider
 	.when('/', {
