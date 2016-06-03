@@ -1,6 +1,6 @@
 var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 
-.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+.config(['$routeProvider', function ($routeProvider) {
 
 	$routeProvider
 	.when('/', {

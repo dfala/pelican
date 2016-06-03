@@ -19,10 +19,10 @@ angular.module('pelicanApp')
 					console.info('logged out');
 				})
 				$timeout(function () {
-					if(window.location.pathname === '/home') {
+					if(window.location.pathname === '/#/home') {
 						location.reload();
 					} else {
-						$location.path('/home');
+						$location.path('/#/home');
 					}
 				}, 50);
 			}
@@ -64,7 +64,7 @@ angular.module('pelicanApp')
 					scope.lists = [];
 					scope.posts = [];
 					scope.activeUser = userData;
-					
+
 					// save user data on service to reference later
 					userInfoService.saveUser(scope.activeUser);
 
