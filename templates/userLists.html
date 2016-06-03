@@ -20,7 +20,7 @@
 
 			<div class="list" ng-repeat="list in lists | filter: textSearch">
 				<div class="page-header">
-					<a class="override-a" ng-href="/profile/{{list.userId}}/{{list.listId}}">
+					<a class="override-a" ng-href="/#/profile/{{list.userId}}/{{list.listId}}">
 	  					<h2 ng-bind-html="highlight(list.listName, textSearch)"></h2>
 	  				</a>
 	  				<div class="add-one-post" ng-if="!isNotUserData" ng-click="openBigModal(list.listId)" data-toggle="modal" data-target="#addPostModal">+</div>

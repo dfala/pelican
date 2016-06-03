@@ -17,6 +17,7 @@ angular.module('pelicanApp')
 		loginService.getUserData(passedUserId)
 			.then(function (userData) {
 				$scope.activeUser = userData;
+        $scope.activeUser.gravatar = gravatar($scope.activeUser.email);
 				userInfoService.saveUser(userData);
 			})
 			.catch(function (err) {
