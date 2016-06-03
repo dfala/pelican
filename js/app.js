@@ -93,7 +93,7 @@ var app = angular.module('pelicanApp', ['ngRoute', 'firebase'])
 	})
 
 	.otherwise({
-		redirectTo: '/404'
+		redirectTo: '/'
 	});
 
 }]);

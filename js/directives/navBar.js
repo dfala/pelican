@@ -45,6 +45,7 @@ angular.module('pelicanApp')
 					.then(function (response) {
 						scope.cleanUserData(response, true);
 						scope.isHomePage = false;
+						$location.path('/');
 					})
 			}
 
