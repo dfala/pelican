@@ -5,6 +5,8 @@ angular.module('pelicanApp')
 	if (!passedUserId) return console.error('No user defined');
 
 	var listToAdd; // completed later on
+	var titleToAdd;
+	var urlToAdd;
 	var postsRef = new Firebase('https://pelican.firebaseio.com/posts/');
 	var listsRef = new Firebase('https://pelican.firebaseio.com/lists/');
 	$scope.successPost = false;
@@ -26,15 +28,22 @@ angular.module('pelicanApp')
 		url = url.slice(url.indexOf('?='));
 		url = url.slice(2, url.length);
 		url = url.replace(/%2F/g, "/");
-		console.info(url);
 
 		return url;
 	}
 
+	var urlParams = cleanUrl();
+	var urlArr = urlParams.split('peli-title');
+
+	if (urlArr && urlArr[0]) urlToAdd = urlArr[0];
+	if (urlArr && urlArr[1]) titleToAdd = decodeURIComponent(urlArr[1]);
+
 
 	// get url to add to post
-	var urlToAdd = cleanUrl();
+	// var urlToAdd = cleanUrl();
+	$scope.postTitle = titleToAdd;
 	$scope.postLink = urlToAdd;
+	console.log($scope.postTitle, $scope.postLink);
 
 
 	// defining list id
